@@ -22,7 +22,8 @@
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
-		"docker": "npm run build && cd .. && docker build -t nature-shop . && docker run -d -p 8080:8080 nature-shop"
+		"docker": "npm run build && cd .. && docker build -t nature-shop .",
+		"docker:deploy": "npm run docker && cd .. && heroku container:push web -a matildamared-nature-shop && heroku container:release web -a matildamared-nature-shop"
 	},
 	"eslintConfig": {
 		"extends": [
