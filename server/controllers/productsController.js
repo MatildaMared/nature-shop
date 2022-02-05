@@ -77,9 +77,60 @@ async function getProductById(req, res, next) {
 	}
 }
 
-async function updateProduct(req, res, next) {}
+async function updateProduct (req, res, next) {
+  try {
+    const id = req.params.id;
 
-async function deleteProduct(req, res, next) {}
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return next(new ErrorResponse(`Product not found`, 404));
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      {
+        title: req.body.title,
+        description: req.body.description,
+        imageUrl: req.body.imageUrl,
+        price: req.body.price,
+        inStock: req.body.inStock,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      product: updatedProduct,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function deleteProduct (req, res, next) {
+  try {
+    const id = req.params.id;
+
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return next(new ErrorResponse(`Product not found`, 404));
+    }
+
+    await Product.findByIdAndDelete(id);
+
+    res.status(200).json({
+      success: true,
+      message: "Product deleted",
+    });
+  } catch (err) {
+    next(err);
+  }
+}
 
 module.exports = {
 	createProduct,

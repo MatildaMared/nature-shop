@@ -25,7 +25,7 @@ describe("Products API", () => {
 			await Product.deleteMany({});
 		});
 
-		it("succeeds provided all necessary data", async () => {
+		it("creates a new product in the database and returns it", async () => {
 			const res = await api
 				.post("/api/products")
 				.send(dummyProduct)
@@ -306,7 +306,7 @@ describe("Products API", () => {
 			expect(res.body.product).toHaveProperty("inStock");
 		});
 
-		it("returns 404 if product does not exist", async () => {
+		it("fails with status code 404 if product does not exist", async () => {
 			const incorrectId = new mongoose.Types.ObjectId();
 
 			const res = await api
@@ -314,9 +314,132 @@ describe("Products API", () => {
 				.expect(404)
 				.expect("Content-Type", /application\/json/);
 
-			console.log(res.body);
+			expect(res.body.error).toBe("Product not found");
+		});
+
+		it("fails with status code 400 if ID is invalid", async () => {
+			invalidId = "wrong123";
+
+			const res = await api
+				.get(`/api/products/${invalidId}`)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Invalid ID");
+		});
+	});
+
+	// ###
+	// ### Update product ###
+	// ###
+
+	describe("Update product", () => {
+		let id;
+
+		beforeAll(async () => {
+			await Product.deleteMany({});
+			await Product.create(dummyProduct);
+			const product = await Product.findOne({ title: dummyProduct.title });
+			id = product._id;
+		});
+
+		it("updates a product matching the provided id", async () => {
+			const updates = {
+				title: "Updated product",
+				description: "Updated description",
+			};
+
+			const res = await api
+				.put(`/api/products/${id}`)
+				.send(updates)
+				.expect(200)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.product.title).toBe(updates.title);
+			expect(res.body.product.description).toBe(updates.description);
+			expect(res.body.product.imageUrl).toBe(dummyProduct.imageUrl);
+			expect(res.body.product.price).toBe(dummyProduct.price);
+			expect(res.body.product.inStock).toBe(dummyProduct.inStock);
+		});
+
+		it("fails with status code 404 if product does not exist", async () => {
+			const incorrectId = new mongoose.Types.ObjectId();
+
+			const updates = {
+				title: "Updated",
+			};
+
+			const res = await api
+				.put(`/api/products/${incorrectId}`)
+				.send(updates)
+				.expect(404)
+				.expect("Content-Type", /application\/json/);
 
 			expect(res.body.error).toBe("Product not found");
+		});
+
+		it("fails with status code 400 if ID is invalid", async () => {
+			const incorrectId = "abc";
+
+			const updates = {
+				title: "Updated",
+			};
+
+			const res = await api
+				.put(`/api/products/${incorrectId}`)
+				.send(updates)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Invalid ID");
+		});
+	});
+
+	// ###
+	// ### Delete product ###
+	// ###
+
+	describe("Delete product", () => {
+		let id;
+
+		beforeEach(async () => {
+			await Product.deleteMany({});
+			await Product.create(dummyProduct);
+			const product = await Product.findOne({ title: dummyProduct.title });
+			id = product._id;
+		});
+
+		it("deletes a product matching the provided id", async () => {
+			const res = await api
+				.delete(`/api/products/${id}`)
+				.expect(200)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.message).toBe("Product deleted");
+			const deletedProduct = await Product.findOne({ _id: id });
+			expect(deletedProduct).toBeNull();
+		});
+
+		it("fails with status code 404 if product does not exist", async () => {
+			const incorrectId = new mongoose.Types.ObjectId();
+
+			const res = await api
+				.delete(`/api/products/${incorrectId}`)
+				.expect(404)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Product not found");
+		});
+
+		it("fails with status code 400 if ID is invalid", async () => {
+			const incorrectId = "abc";
+
+			const res = await api
+				.delete(`/api/products/${incorrectId}`)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Invalid ID");
 		});
 	});
 });
