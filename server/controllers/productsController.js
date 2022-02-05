@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const ErrorResponse = require("../utilities/errorResponse");
-const Product = require("../models/productsModel");
-const { rawListeners } = require("../models/productsModel");
+const Product = require("../models/productModel");
 
 async function createProduct(req, res, next) {
 	try {

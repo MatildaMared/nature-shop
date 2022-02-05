@@ -11,11 +11,13 @@
 	"author": "Matilda Mared",
 	"license": "ISC",
 	"dependencies": {
+		"bcrypt": "^5.0.1",
 		"cors": "^2.8.5",
 		"cross-env": "^7.0.3",
 		"dotenv": "^16.0.0",
 		"express": "^4.17.2",
 		"jest": "^27.4.7",
+		"jsonwebtoken": "^8.5.1",
 		"mongodb-memory-server": "^8.2.0",
 		"mongoose": "^6.2.0",
 		"supertest": "^6.2.2"

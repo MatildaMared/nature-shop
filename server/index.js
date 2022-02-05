@@ -5,6 +5,7 @@ const path = require("path");
 const cors = require("cors");
 const errorHandler = require("./middleware/errorHandler");
 const productsRoutes = require("./routes/productsRoutes");
+const usersRoutes = require("./routes/usersRoutes");
 const PORT = process.env.PORT || 8080;
 const { connectToDB } = require("./database");
 
@@ -21,6 +22,7 @@ app.get("/api/test", (req, res) => {
 });
 
 app.use("/api/products", productsRoutes);
+app.use("/api/users", usersRoutes);
 
 // Serve static files from client build
 app.use(express.static(path.join(__dirname, "../client/build")));

@@ -30,4 +30,15 @@ const dummyProduct = {
 	inStock: 15,
 };
 
-module.exports = { dummyProduct, dummyProducts };
+dummyUser = {
+	name: "Test user",
+	email: "test@test.com",
+	password: "test123",
+	address: {
+		street: "Street 1",
+		city: "City",
+		postalCode: "12345",
+	},
+};
+
+module.exports = { dummyProduct, dummyProducts, dummyUser };

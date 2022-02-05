@@ -4,7 +4,7 @@ const { app, server } = require("../index");
 const api = supertest(app);
 const { dummyProduct, dummyProducts } = require("./dummyData");
 const { connectToDB, disconnectFromDB } = require("../database");
-const Product = require("../models/productsModel");
+const Product = require("../models/productModel");
 
 describe("Products API", () => {
 	beforeAll(() => {
