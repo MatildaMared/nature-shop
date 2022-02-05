@@ -280,7 +280,6 @@ describe("Users API", () => {
 				.expect("Content-Type", /application\/json/);
 
 			expect(res.body.error).toBe("Please enter a password");
-    });
-  });
-  
+		});
+	});
 });
