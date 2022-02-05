@@ -200,4 +200,87 @@ describe("Users API", () => {
 			expect(res.body.error).toBe("Please enter a city");
 		});
 	});
+
+	describe("User login", () => {
+		beforeAll(async () => {
+			await User.deleteMany({});
+			await User.create(dummyUser);
+		});
+
+		it("succeeds when provided correct credentials", async () => {
+			const credentials = {
+				email: dummyUser.email,
+				password: dummyUser.password,
+			};
+
+			const res = await api
+				.post("/api/users/login")
+				.send(credentials)
+				.expect(200)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.token).toBeDefined();
+			expect(res.body.user.name).toBe(dummyUser.name);
+			expect(res.body.user.email).toBe(dummyUser.email);
+		});
+
+		it("fails with status code 401 when email is not registered", async () => {
+			const credentials = {
+				email: "notRegisteredEmail",
+				password: dummyUser,
+			};
+
+			const res = await api
+				.post("/api/users/login")
+				.send(credentials)
+				.expect(401)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Invalid credentials");
+		});
+
+		it("fails with status code 401 when password is incorrect", async () => {
+			const credentials = {
+				email: dummyUser.email,
+				password: "wrongPassword",
+			};
+
+			const res = await api
+				.post("/api/users/login")
+				.send(credentials)
+				.expect(401)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Invalid credentials");
+		});
+
+		it("fails with status code 400 when email is missing", async () => {
+			const credentials = {
+				password: dummyUser.password,
+			};
+
+			const res = await api
+				.post("/api/users/login")
+				.send(credentials)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Please enter an email");
+		});
+
+		it("fails with status code 400 when password is missing", async () => {
+			const credentials = {
+				email: dummyUser.email,
+			};
+
+			const res = await api
+				.post("/api/users/login")
+				.send(credentials)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Please enter a password");
+    });
+  });
+  
 });
