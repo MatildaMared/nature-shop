@@ -17,6 +17,10 @@ const productSchema = new mongoose.Schema({
 		type: Number,
 		required: [true, "Please provide a price"],
 	},
+	inStock: {
+		type: Number,
+		required: [true, "Please provide a quantity"],
+	},
 });
 
 productSchema.set("toJSON", {
