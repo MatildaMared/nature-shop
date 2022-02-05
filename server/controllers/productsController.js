@@ -58,7 +58,24 @@ async function getProducts(req, res, next) {
 	}
 }
 
-async function getProductById(req, res, next) {}
+async function getProductById(req, res, next) {
+	try {
+		const id = req.params.id;
+
+		const product = await Product.findById(id);
+
+		if (!product) {
+			return next(new ErrorResponse(`Product not found`, 404));
+		}
+
+		res.status(200).json({
+			success: true,
+			product,
+		});
+	} catch (err) {
+		next(err);
+	}
+}
 
 async function updateProduct(req, res, next) {}
 

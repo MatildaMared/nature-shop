@@ -1,4 +1,5 @@
 const supertest = require("supertest");
+const mongoose = require("mongoose");
 const { app, server } = require("../index");
 const api = supertest(app);
 const { dummyProduct, dummyProducts } = require("./dummyData");
@@ -269,6 +270,53 @@ describe("Products API", () => {
 			expect(res.body.products[0]).toHaveProperty("imageUrl");
 			expect(res.body.products[0]).toHaveProperty("price");
 			expect(res.body.products[0]).toHaveProperty("inStock");
+		});
+	});
+
+	describe("Get single product by id", () => {
+		let id;
+
+		beforeAll(async () => {
+			await Product.deleteMany({});
+			await Product.create(dummyProduct);
+			const product = await Product.findOne({ title: dummyProduct.title });
+			id = product._id;
+		});
+
+		it("returns a single product matching the provided id", async () => {
+			const res = await api
+				.get(`/api/products/${id}`)
+				.expect(200)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.product.title).toBe(dummyProducts[0].title);
+		});
+
+		it("returns a single product with all correct fields", async () => {
+			const res = await api
+				.get(`/api/products/${id}`)
+				.expect(200)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.product).toHaveProperty("id");
+			expect(res.body.product).toHaveProperty("title");
+			expect(res.body.product).toHaveProperty("description");
+			expect(res.body.product).toHaveProperty("imageUrl");
+			expect(res.body.product).toHaveProperty("price");
+			expect(res.body.product).toHaveProperty("inStock");
+		});
+
+		it("returns 404 if product does not exist", async () => {
+			const incorrectId = new mongoose.Types.ObjectId();
+
+			const res = await api
+				.get(`/api/products/${incorrectId}`)
+				.expect(404)
+				.expect("Content-Type", /application\/json/);
+
+			console.log(res.body);
+
+			expect(res.body.error).toBe("Product not found");
 		});
 	});
 });

@@ -18,7 +18,7 @@ const errorHandler = (err, req, res, next) => {
 		error = new ErrorResponse(message, 400);
 	}
 
-	if (err.message === "jwt malformed") {
+	if (err.message === "JWT malformed") {
 		error = new ErrorResponse("Invalid token", 401);
 	}
 
