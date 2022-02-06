@@ -32,9 +32,11 @@ app.get("/*", function (req, res) {
 });
 
 // Start server
-const server = app.listen(PORT, () => {
-	console.log(`Server up and running on PORT ${PORT}! 🦄`);
-});
+if (process.env.NODE_ENV !== "test") {
+	const server = app.listen(PORT, () => {
+		console.log(`Server up and running on PORT ${PORT}! 🦄`);
+	});
+}
 
 // Error middleware
 app.use(errorHandler);
@@ -44,4 +46,4 @@ if (process.env.NODE_ENV !== "test") {
 	connectToDB();
 }
 
-module.exports = { app, server };
+module.exports = { app };

@@ -1,6 +1,6 @@
 const supertest = require("supertest");
 const mongoose = require("mongoose");
-const { app, server } = require("../index");
+const { app } = require("../index");
 const api = supertest(app);
 const { dummyUser } = require("./dummyData");
 const { connectToDB, disconnectFromDB } = require("../database");
@@ -9,11 +9,6 @@ const User = require("../models/userModel");
 describe("Users API", () => {
 	beforeAll(() => {
 		connectToDB();
-	});
-
-	afterAll(() => {
-		disconnectFromDB();
-		server.close();
 	});
 
 	// ###
@@ -201,6 +196,10 @@ describe("Users API", () => {
 		});
 	});
 
+	// ###
+	// ### User login
+	// ###
+
 	describe("User login", () => {
 		beforeAll(async () => {
 			await User.deleteMany({});
@@ -281,5 +280,57 @@ describe("Users API", () => {
 
 			expect(res.body.error).toBe("Please enter a password");
 		});
+	});
+
+	// ###
+	// ### Get user by ID
+	// ###
+
+	describe("Get user by ID", () => {
+		let token;
+		let id;
+
+		beforeAll(async () => {
+			await User.deleteMany({});
+			const user = await User.create(dummyUser);
+			token = user.getToken();
+			id = user._id;
+		});
+
+		it("succeeds provided a valid token", async () => {
+			const res = await api
+				.get(`/api/users/${id}`)
+				.set("Authorization", `Bearer ${token}`)
+				.expect(200)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.user.name).toBe(dummyUser.name);
+			expect(res.body.user.email).toBe(dummyUser.email);
+		});
+
+		it("fails with status code 401 when token is missing", async () => {
+			const res = await api
+				.get(`/api/users/${id}`)
+				.expect(401)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Please provide a token");
+		});
+
+		it("fails with status code 401 when token is invalid", async () => {
+			const invalidToken = "bad493";
+
+			const res = await api
+				.get(`/api/users/${id}`)
+				.set("Authorization", `Bearer ${invalidToken}`)
+				.expect(401)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Invalid token");
+    });
+	});
+
+	afterAll(() => {
+		disconnectFromDB();
 	});
 });

@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const router = new Router();
 const usersController = require("../controllers/usersController");
+const tokenHandler = require("../middleware/tokenHandler");
 
 // Create new user
 router.post("/", usersController.createUser);
@@ -9,12 +10,12 @@ router.post("/", usersController.createUser);
 router.post("/login", usersController.loginUser);
 
 // Get user by id
-router.get("/:id", usersController.getUserById);
+router.get("/:id", tokenHandler, usersController.getUserById);
 
 // Update user
-router.put("/:id", usersController.updateUser);
+router.put("/:id", tokenHandler, usersController.updateUser);
 
 // Delete user
-router.delete("/:id", usersController.deleteUser);
+router.delete("/:id", tokenHandler, usersController.deleteUser);
 
 module.exports = router;

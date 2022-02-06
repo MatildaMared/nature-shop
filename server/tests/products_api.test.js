@@ -1,19 +1,29 @@
 const supertest = require("supertest");
 const mongoose = require("mongoose");
-const { app, server } = require("../index");
+const { app } = require("../index");
 const api = supertest(app);
-const { dummyProduct, dummyProducts } = require("./dummyData");
+const {
+	dummyProduct,
+	dummyProducts,
+	dummyAdmin,
+	dummyUser,
+} = require("./dummyData");
 const { connectToDB, disconnectFromDB } = require("../database");
 const Product = require("../models/productModel");
+const User = require("../models/userModel");
 
 describe("Products API", () => {
-	beforeAll(() => {
-		connectToDB();
-	});
+	let token;
+	let nonAdminToken;
 
-	afterAll(() => {
-		disconnectFromDB();
-		server.close();
+	beforeAll(async () => {
+		connectToDB();
+
+		// Creating dummy users and tokens
+		const user = await User.create(dummyAdmin);
+		token = user.getToken();
+		const nonAdminUser = await User.create(dummyUser);
+		nonAdminToken = nonAdminUser.getToken();
 	});
 
 	// ###
@@ -29,9 +39,41 @@ describe("Products API", () => {
 			const res = await api
 				.post("/api/products")
 				.send(dummyProduct)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(201);
 
 			expect(res.body.product.title).toBe(dummyProduct.title);
+		});
+
+		it("fails with status code 401 if token is missing", async () => {
+			const res = await api
+				.post("/api/products")
+				.send(dummyProduct)
+				.expect(401);
+
+			expect(res.body.error).toBe("Please provide a token");
+		});
+
+		it("fails with status code 401 if token is invalid", async () => {
+			const invalidToken = "invalid123";
+
+			const res = await api
+				.post("/api/products")
+				.send(dummyProduct)
+				.set("Authorization", `Bearer ${invalidToken}`)
+				.expect(401);
+
+			expect(res.body.error).toBe("Invalid token");
+		});
+
+		it("fails with status code 401 if user role is not admin", async () => {
+			const res = await api
+				.post("/api/products")
+				.send(dummyProduct)
+				.set("Authorization", `Bearer ${nonAdminToken}`)
+				.expect(401);
+
+			expect(res.body.error).toBe("Unauthorized");
 		});
 
 		it("fails with status code 400 if title is missing", async () => {
@@ -44,6 +86,7 @@ describe("Products API", () => {
 			const res = await api
 				.post("/api/products")
 				.send(product)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(400)
 				.expect("Content-Type", /application\/json/);
 
@@ -61,6 +104,7 @@ describe("Products API", () => {
 			const res = await api
 				.post("/api/products")
 				.send(product)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(400)
 				.expect("Content-Type", /application\/json/);
 
@@ -77,6 +121,7 @@ describe("Products API", () => {
 			const res = await api
 				.post("/api/products")
 				.send(product)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(400)
 				.expect("Content-Type", /application\/json/);
 
@@ -95,6 +140,7 @@ describe("Products API", () => {
 			const res = await api
 				.post("/api/products")
 				.send(product)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(400)
 				.expect("Content-Type", /application\/json/);
 
@@ -111,6 +157,7 @@ describe("Products API", () => {
 			const res = await api
 				.post("/api/products")
 				.send(product)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(400)
 				.expect("Content-Type", /application\/json/);
 
@@ -128,6 +175,7 @@ describe("Products API", () => {
 			const res = await api
 				.post("/api/products")
 				.send(product)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(400)
 				.expect("Content-Type", /application\/json/);
 
@@ -144,6 +192,7 @@ describe("Products API", () => {
 			const res = await api
 				.post("/api/products")
 				.send(product)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(400)
 				.expect("Content-Type", /application\/json/);
 
@@ -161,6 +210,7 @@ describe("Products API", () => {
 			const res = await api
 				.post("/api/products")
 				.send(product)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(400)
 				.expect("Content-Type", /application\/json/);
 
@@ -178,6 +228,7 @@ describe("Products API", () => {
 			const res = await api
 				.post("/api/products")
 				.send(product)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(400)
 				.expect("Content-Type", /application\/json/);
 
@@ -194,6 +245,7 @@ describe("Products API", () => {
 			const res = await api
 				.post("/api/products")
 				.send(product)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(400)
 				.expect("Content-Type", /application\/json/);
 
@@ -211,6 +263,7 @@ describe("Products API", () => {
 			const res = await api
 				.post("/api/products")
 				.send(product)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(400)
 				.expect("Content-Type", /application\/json/);
 
@@ -228,6 +281,7 @@ describe("Products API", () => {
 			const res = await api
 				.post("/api/products")
 				.send(product)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(400)
 				.expect("Content-Type", /application\/json/);
 
@@ -255,10 +309,14 @@ describe("Products API", () => {
 				.expect("Content-Type", /application\/json/);
 
 			expect(res.body.products.length).toBe(dummyProducts.length);
-			expect(res.body.products[1].title).toBe(dummyProducts[1].title);
+
+			const titles = res.body.products.map((product) => product.title);
+			dummyProducts.forEach((product) => {
+				expect(titles).toContain(product.title);
+			});
 		});
 
-		it("returns an array of all products with correct fields", async () => {
+		it("returns an array of all products with the correct fields", async () => {
 			const res = await api
 				.get("/api/products")
 				.expect(200)
@@ -352,6 +410,7 @@ describe("Products API", () => {
 			const res = await api
 				.put(`/api/products/${id}`)
 				.send(updates)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(200)
 				.expect("Content-Type", /application\/json/);
 
@@ -372,6 +431,7 @@ describe("Products API", () => {
 			const res = await api
 				.put(`/api/products/${incorrectId}`)
 				.send(updates)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(404)
 				.expect("Content-Type", /application\/json/);
 
@@ -388,10 +448,56 @@ describe("Products API", () => {
 			const res = await api
 				.put(`/api/products/${incorrectId}`)
 				.send(updates)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(400)
 				.expect("Content-Type", /application\/json/);
 
 			expect(res.body.error).toBe("Invalid ID");
+		});
+
+		it("fails with status code 401 if token is missing", async () => {
+			const updates = {
+				title: "Updated",
+			};
+
+			const res = await api
+				.put(`/api/products/${id}`)
+				.send(updates)
+				.expect(401)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Please provide a token");
+		});
+
+		it("fails with status code 401 if token is invalid", async () => {
+			const updates = {
+				title: "Updated",
+			};
+
+			const invalidToken = "wrong456";
+
+			const res = await api
+				.put(`/api/products/${id}`)
+				.send(updates)
+				.set("Authorization", `Bearer ${invalidToken}`)
+				.expect(401)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Invalid token");
+		});
+
+		it("fails with status code 401 if user is not admin", async () => {
+			const updates = {
+				title: "Updated",
+			};
+
+			const res = await api
+				.put(`/api/products/${id}`)
+				.send(updates)
+				.set("Authorization", `Bearer ${nonAdminToken}`)
+				.expect(401);
+
+			expect(res.body.error).toBe("Unauthorized");
 		});
 	});
 
@@ -412,6 +518,7 @@ describe("Products API", () => {
 		it("deletes a product matching the provided id", async () => {
 			const res = await api
 				.delete(`/api/products/${id}`)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(200)
 				.expect("Content-Type", /application\/json/);
 
@@ -425,6 +532,7 @@ describe("Products API", () => {
 
 			const res = await api
 				.delete(`/api/products/${incorrectId}`)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(404)
 				.expect("Content-Type", /application\/json/);
 
@@ -436,10 +544,45 @@ describe("Products API", () => {
 
 			const res = await api
 				.delete(`/api/products/${incorrectId}`)
+				.set("Authorization", `Bearer ${token}`)
 				.expect(400)
 				.expect("Content-Type", /application\/json/);
 
 			expect(res.body.error).toBe("Invalid ID");
 		});
+
+		it("fails with status code 401 if token is missing", async () => {
+			const res = await api
+				.delete(`/api/products/${id}`)
+				.expect(401)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Please provide a token");
+		});
+
+		it("fails with status code 401 if token is invalid", async () => {
+			const invalidToken = "badToken987";
+
+			const res = await api
+				.delete(`/api/products/${id}`)
+				.set("Authorization", `Bearer ${invalidToken}`)
+				.expect(401)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Invalid token");
+		});
+
+		it("fails with status code 401 if user is not admin", async () => {
+			const res = await api
+				.delete(`/api/products/${id}`)
+				.set("Authorization", `Bearer ${nonAdminToken}`)
+				.expect(401);
+
+			expect(res.body.error).toBe("Unauthorized");
+		});
+	});
+
+	afterAll(() => {
+		disconnectFromDB();
 	});
 });

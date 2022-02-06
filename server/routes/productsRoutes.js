@@ -1,9 +1,11 @@
 const { Router } = require("express");
 const router = new Router();
 const productsController = require("../controllers/productsController");
+const tokenHandler = require("../middleware/tokenHandler");
+const validateAdmin = require("../middleware/validateAdmin");
 
 // Create new product
-router.post("/", productsController.createProduct);
+router.post("/", tokenHandler, validateAdmin, productsController.createProduct);
 
 // Get all products
 router.get("/", productsController.getProducts);
@@ -12,9 +14,9 @@ router.get("/", productsController.getProducts);
 router.get("/:id", productsController.getProductById);
 
 // Update product
-router.put("/:id", productsController.updateProduct);
+router.put("/:id", tokenHandler, validateAdmin, productsController.updateProduct);
 
 // Delete product
-router.delete("/:id", productsController.deleteProduct);
+router.delete("/:id", tokenHandler, validateAdmin, productsController.deleteProduct);
 
 module.exports = router;

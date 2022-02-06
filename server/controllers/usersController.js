@@ -59,7 +59,28 @@ async function loginUser(req, res, next) {
 	}
 }
 
-async function getUserById(req, res, next) {}
+async function getUserById(req, res, next) {
+	try {
+		const id = req.params.id;
+
+		if (id.toString() !== req.userId.toString()) {
+			return next(new ErrorResponse("Unauthorized", 401));
+		}
+
+		const user = await User.findById(id);
+
+		if (!user) {
+			return next(new ErrorResponse("User not found", 404));
+		}
+
+		res.status(200).json({
+			success: true,
+			user,
+		});
+	} catch (err) {
+		next(err);
+	}
+}
 
 async function updateUser(req, res, next) {}
 

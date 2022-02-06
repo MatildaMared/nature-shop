@@ -42,6 +42,11 @@ const userSchema = new mongoose.Schema({
 	orders: {
 		type: Array,
 	},
+	role: {
+		type: String,
+		enum: ["user", "admin"],
+		default: "user",
+	},
 });
 
 userSchema.pre("save", async function (next) {

@@ -1,36 +1,30 @@
 const mongoose = require("mongoose");
 const ErrorResponse = require("../utilities/errorResponse");
 const Product = require("../models/productModel");
+const User = require("../models/userModel");
 
 async function createProduct(req, res, next) {
 	try {
-		if (
-			req.body.price &&
-			(typeof req.body.price !== "number" || req.body.price < 0)
-		) {
+		const { title, description, imageUrl, price, inStock } = req.body;
+
+		if (price && (typeof price !== "number" || price < 0)) {
 			return next(new ErrorResponse("Please provide a valid price", 400));
-		} else if (
-			req.body.inStock &&
-			(typeof req.body.inStock !== "number" || req.body.inStock < 0)
-		) {
+		} else if (inStock && (typeof inStock !== "number" || inStock < 0)) {
 			return next(new ErrorResponse("Please provide a valid quantity", 400));
-		} else if (req.body.title && typeof req.body.title !== "string") {
+		} else if (title && typeof title !== "string") {
 			return next(new ErrorResponse("Please provide a valid title", 400));
-		} else if (
-			req.body.description &&
-			typeof req.body.description !== "string"
-		) {
+		} else if (description && typeof description !== "string") {
 			return next(new ErrorResponse("Please provide a valid description", 400));
-		} else if (req.body.imageUrl && typeof req.body.imageUrl !== "string") {
+		} else if (imageUrl && typeof imageUrl !== "string") {
 			return next(new ErrorResponse("Please provide a valid image URL", 400));
 		}
 
 		const product = {
-			title: req.body.title,
-			description: req.body.description,
-			imageUrl: req.body.imageUrl,
-			price: req.body.price,
-			inStock: req.body.inStock,
+			title,
+			description,
+			imageUrl,
+			price,
+			inStock,
 		};
 
 		const newProduct = await Product.create(product);
@@ -76,59 +70,59 @@ async function getProductById(req, res, next) {
 	}
 }
 
-async function updateProduct (req, res, next) {
-  try {
-    const id = req.params.id;
+async function updateProduct(req, res, next) {
+	try {
+		const id = req.params.id;
 
-    const product = await Product.findById(id);
+		const product = await Product.findById(id);
 
-    if (!product) {
-      return next(new ErrorResponse(`Product not found`, 404));
-    }
+		if (!product) {
+			return next(new ErrorResponse(`Product not found`, 404));
+		}
 
-    const updatedProduct = await Product.findByIdAndUpdate(
-      id,
-      {
-        title: req.body.title,
-        description: req.body.description,
-        imageUrl: req.body.imageUrl,
-        price: req.body.price,
-        inStock: req.body.inStock,
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+		const updatedProduct = await Product.findByIdAndUpdate(
+			id,
+			{
+				title: req.body.title,
+				description: req.body.description,
+				imageUrl: req.body.imageUrl,
+				price: req.body.price,
+				inStock: req.body.inStock,
+			},
+			{
+				new: true,
+				runValidators: true,
+			}
+		);
 
-    res.status(200).json({
-      success: true,
-      product: updatedProduct,
-    });
-  } catch (err) {
-    next(err);
-  }
+		res.status(200).json({
+			success: true,
+			product: updatedProduct,
+		});
+	} catch (err) {
+		next(err);
+	}
 }
 
-async function deleteProduct (req, res, next) {
-  try {
-    const id = req.params.id;
+async function deleteProduct(req, res, next) {
+	try {
+		const id = req.params.id;
 
-    const product = await Product.findById(id);
+		const product = await Product.findById(id);
 
-    if (!product) {
-      return next(new ErrorResponse(`Product not found`, 404));
-    }
+		if (!product) {
+			return next(new ErrorResponse(`Product not found`, 404));
+		}
 
-    await Product.findByIdAndDelete(id);
+		await Product.findByIdAndDelete(id);
 
-    res.status(200).json({
-      success: true,
-      message: "Product deleted",
-    });
-  } catch (err) {
-    next(err);
-  }
+		res.status(200).json({
+			success: true,
+			message: "Product deleted",
+		});
+	} catch (err) {
+		next(err);
+	}
 }
 
 module.exports = {
