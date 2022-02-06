@@ -3,10 +3,14 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { UserProvider } from "./context/UserContext";
+import { CssReset } from "./components/styles/cssReset";
+import { CssVariables } from "./components/styles/cssVariables";
 
 ReactDOM.render(
 	<React.StrictMode>
 		<UserProvider>
+			<CssReset />
+			<CssVariables />
 			<App />
 		</UserProvider>
 	</React.StrictMode>,

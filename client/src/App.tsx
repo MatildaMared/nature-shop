@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import Header from "./components/Header/Header";
 import { UserContext } from "./context/UserContext";
 
 interface Product {
@@ -26,6 +27,7 @@ function App() {
 
 	return (
 		<div className="App">
+			<Header />
 			<h1>Hello {context.name}!! 🐳 🦄</h1>
 			{products &&
 				products.map((product) => (
