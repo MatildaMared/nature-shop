@@ -1,14 +1,23 @@
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "./context/UserContext";
 
+interface Product {
+	id: number;
+	title: string;
+	description: string;
+	imageUrl: string;
+	price: number;
+	inStock: number;
+}
+
 function App() {
-	const [data, setData] = useState("hopp");
+	const [products, setProducts] = useState<Product[] | null>(null);
 	const [context, updateContext] = useContext(UserContext);
 
 	const fetchData = async () => {
-		const result = await fetch("/api/test");
-		const data = await result.json();
-		setData(data.message);
+		const response = await fetch("/api/products");
+		const data = await response.json();
+		setProducts(data.products);
 	};
 
 	useEffect(() => {
@@ -18,7 +27,16 @@ function App() {
 	return (
 		<div className="App">
 			<h1>Hello {context.name}!! 🐳 🦄</h1>
-			<h1>{data}</h1>
+			{products &&
+				products.map((product) => (
+					<div key={product.id}>
+						<h2>{product.title}</h2>
+						<img src={product.imageUrl} alt={product.title} />
+						<p>{product.description}</p>
+						<p>{product.price}</p>
+						<p>{product.inStock}</p>
+					</div>
+				))}
 		</div>
 	);
 }
