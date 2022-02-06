@@ -82,8 +82,66 @@ async function getUserById(req, res, next) {
 	}
 }
 
-async function updateUser(req, res, next) {}
+async function updateUser(req, res, next) {
+	try {
+		const id = req.params.id;
 
-async function deleteUser(req, res, next) {}
+		if (id.toString() !== req.userId.toString()) {
+			return next(new ErrorResponse("Unauthorized", 401));
+		}
+
+		const user = await User.findById(id);
+
+		if (!user) {
+			return next(new ErrorResponse("User not found", 404));
+		}
+
+		user.name = req.body.name || user.name;
+		user.email = req.body.email || user.email;
+		user.password = req.body.password || user.password;
+		user.cart = req.body.cart || user.cart;
+
+		if (req.body.address) {
+			user.address = { ...user.address, ...req.body.address };
+		}
+		if (req.body.orders) {
+			user.orders = [...user.orders, ...req.body.orders];
+		}
+
+		const updatedUser = await user.save();
+
+		res.status(200).json({
+			success: true,
+			user: updatedUser,
+		});
+	} catch (err) {
+		next(err);
+	}
+}
+
+async function deleteUser(req, res, next) {
+	try {
+		const id = req.params.id;
+
+		if (id.toString() !== req.userId.toString()) {
+			return next(new ErrorResponse("Unauthorized", 401));
+		}
+
+		const user = await User.findById(id);
+
+		if (!user) {
+			return next(new ErrorResponse("User not found", 404));
+		}
+
+		await User.findByIdAndRemove(id);
+
+		res.status(200).json({
+			success: true,
+			message: "User deleted",
+		});
+	} catch (err) {
+		next(err);
+	}
+}
 
 module.exports = { createUser, getUserById, updateUser, deleteUser, loginUser };

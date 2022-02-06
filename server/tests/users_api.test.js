@@ -327,7 +327,147 @@ describe("Users API", () => {
 				.expect("Content-Type", /application\/json/);
 
 			expect(res.body.error).toBe("Invalid token");
-    });
+		});
+	});
+
+	// ###
+	// ### Updating a user
+	// ###
+
+	describe("Updating a user", () => {
+		let token;
+		let id;
+
+		beforeAll(async () => {
+			await User.deleteMany({});
+			const user = await User.create(dummyUser);
+			token = user.getToken();
+			id = user._id;
+		});
+
+		it("succeeds provided a valid token", async () => {
+			const updates = {
+				name: "Updated name",
+				address: {
+					city: "Another city",
+				},
+			};
+
+			const res = await api
+				.put(`/api/users/${id}`)
+				.set("Authorization", `Bearer ${token}`)
+				.send(updates)
+				.expect(200)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.user.name).toBe(updates.name);
+		});
+
+		it("fails with status code 401 when token is missing", async () => {
+			const updates = {
+				name: "Updated name",
+			};
+
+			const res = await api
+				.put(`/api/users/${id}`)
+				.send(updates)
+				.expect(401)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Please provide a token");
+		});
+
+		it("fails with status code 401 when token is invalid", async () => {
+			const updates = {
+				name: "Updated name",
+			};
+
+			const invalidToken = "verybad983";
+
+			const res = await api
+				.put(`/api/users/${id}`)
+				.set("Authorization", `Bearer ${invalidToken}`)
+				.send(updates)
+				.expect(401)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Invalid token");
+		});
+
+		it("fails if you try to update the password to one with less than 5 characters", async () => {
+			const updates = {
+				password: "test",
+			};
+
+			const res = await api
+				.put(`/api/users/${id}`)
+				.set("Authorization", `Bearer ${token}`)
+				.send(updates)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Password must be at least 5 characters");
+		});
+	});
+
+	// ###
+	// ### Deleting a user
+	// ###
+
+	describe("Deleting a user", () => {
+		let id;
+		let token;
+
+		beforeEach(async () => {
+			await User.deleteMany({});
+			const user = await User.create(dummyUser);
+			token = user.getToken();
+			id = user._id;
+		});
+
+		it("succeeds provided a valid token and id", async () => {
+			const res = await api
+				.delete(`/api/users/${id}`)
+				.set("Authorization", `Bearer ${token}`)
+				.expect(200)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.message).toBe("User deleted");
+			const user = await User.findById(id);
+			expect(user).toBe(null);
+		});
+
+		it("fails with status code 401 when token is missing", async () => {
+			const res = await api
+				.delete(`/api/users/${id}`)
+				.expect(401)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Please provide a token");
+		});
+
+		it("fails with status code 401 when token is invalid", async () => {
+			const invalidToken = "notValid236";
+
+			const res = await api
+				.delete(`/api/users/${id}`)
+				.set("Authorization", `Bearer ${invalidToken}`)
+				.expect(401)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Invalid token");
+		});
+
+		it("fails with status 404 if user is already deleted", async () => {
+			await User.findByIdAndDelete(id);
+			const res = await api
+				.delete(`/api/users/${id}`)
+				.set("Authorization", `Bearer ${token}`)
+				.expect(404)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("User not found");
+		});
 	});
 
 	afterAll(() => {
