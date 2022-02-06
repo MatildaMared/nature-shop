@@ -42,6 +42,9 @@ const userSchema = new mongoose.Schema({
 	orders: {
 		type: Array,
 	},
+	favorites: {
+		type: Array,
+	},
 	role: {
 		type: String,
 		enum: ["user", "admin"],

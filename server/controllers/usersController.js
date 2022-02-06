@@ -107,6 +107,9 @@ async function updateUser(req, res, next) {
 		if (req.body.orders) {
 			user.orders = [...user.orders, ...req.body.orders];
 		}
+		if (req.body.favorites) {
+			user.favorites = [...user.favorites, ...req.body.favorites];
+		}
 
 		const updatedUser = await user.save();
 
