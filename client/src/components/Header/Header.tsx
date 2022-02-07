@@ -30,17 +30,17 @@ const HeadingWrapper = styled.div`
 `;
 
 const Heading = styled.h1`
-	padding-top: 125px;
-	font-family: "Cinzel Decorative", sans-serif;
+	padding-top: 150px;
+	font-family: var(--font-decorative);
 	color: var(--color-primary-light-transparent);
 	font-size: 5rem;
-	text-shadow: 0 0 10px hsla(0, 0%, 0%, 0.6);
+	text-shadow: 0 0 1rem hsla(0, 0%, 0%, 0.7);
 	user-select: none;
 `;
 
 const SubHeading = styled.h2`
 	margin-top: -55px;
-	font-family: "Seaweed Script", script;
+	font-family: var(--font-script);
 	color: hsla(0, 0%, 100%, 0.8);
 	text-shadow: 0 0 10px hsla(0, 0%, 0%, 0.6);
 	font-size: 3rem;

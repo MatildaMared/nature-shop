@@ -3,6 +3,8 @@ import { createGlobalStyle } from "styled-components";
 export const CssReset = createGlobalStyle`
 body {
   background-color: var(--color-primary-dark);
+  font-family: var(--font-primary);
+  color: var(--color-black);
 }
 
 *, *::before, *::after {

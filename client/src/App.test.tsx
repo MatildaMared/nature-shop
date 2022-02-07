@@ -19,13 +19,4 @@ describe("App component", () => {
 			</UserContext.Provider>
 		);
 	});
-
-	it("shows the correct name", () => {
-		render(
-			<UserContext.Provider value={dummyContext}>
-				<App />
-			</UserContext.Provider>
-		);
-		expect(screen.getByText(/Matilda/i)).toBeInTheDocument();
-	});
 });
