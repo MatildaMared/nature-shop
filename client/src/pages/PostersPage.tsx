@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import { Product } from "../models/Product";
+import styled from "styled-components";
+import PostersList from "../components/PostersList/PostersList";
 
 function PostersPage() {
 	const [products, setProducts] = useState<Product[] | null>(null);
@@ -17,19 +19,18 @@ function PostersPage() {
 	}, []);
 
 	return (
-		<div>
-			{products &&
-				products.map((product) => (
-					<div key={product.id}>
-						<h2>{product.title}</h2>
-						<img src={product.imageUrl} alt={product.title} />
-						<p>{product.description}</p>
-						<p>{product.price}</p>
-						<p>{product.inStock}</p>
-					</div>
-				))}
-		</div>
+		<Wrapper>
+			<PostersList />
+		</Wrapper>
 	);
 }
+
+const Wrapper = styled.main`
+	max-width: var(--max-width);
+	margin: 0 auto;
+	background-color: var(--color-white);
+	height: 100%;
+	padding: 4rem 2rem;
+`;
 
 export default PostersPage;

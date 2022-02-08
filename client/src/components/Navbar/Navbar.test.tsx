@@ -8,7 +8,7 @@ describe("Navbar component", () => {
 	it("should render", () => {
 		render(
 			<MemoryRouter>
-				<Navbar isLoggedIn={false} />
+				<Navbar isLoggedIn={false} isAdmin={false} />
 			</MemoryRouter>
 		);
 	});
@@ -16,7 +16,7 @@ describe("Navbar component", () => {
 	it("displays a decorative logo", () => {
 		render(
 			<MemoryRouter>
-				<Navbar isLoggedIn={false} />
+				<Navbar isLoggedIn={false} isAdmin={false} />
 			</MemoryRouter>
 		);
 
@@ -30,7 +30,7 @@ describe("Navbar component", () => {
 
 		render(
 			<Router location={history.location} navigator={history}>
-				<Navbar isLoggedIn={false} />
+				<Navbar isLoggedIn={false} isAdmin={false} />
 			</Router>
 		);
 
@@ -46,7 +46,7 @@ describe("Navbar component", () => {
 
 		render(
 			<Router location={history.location} navigator={history}>
-				<Navbar isLoggedIn={false} />
+				<Navbar isLoggedIn={false} isAdmin={false} />
 			</Router>
 		);
 
@@ -64,7 +64,7 @@ describe("Navbar component", () => {
 
 		render(
 			<Router location={history.location} navigator={history}>
-				<Navbar isLoggedIn={false} />
+				<Navbar isLoggedIn={false} isAdmin={false} />
 			</Router>
 		);
 
@@ -80,7 +80,7 @@ describe("Navbar component", () => {
 	it("does not display a 'Login' link when user is logged in", () => {
 		render(
 			<MemoryRouter>
-				<Navbar isLoggedIn={true} />
+				<Navbar isLoggedIn={true} isAdmin={false} />
 			</MemoryRouter>
 		);
 

@@ -5,21 +5,23 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import PostersPage from "./pages/PostersPage";
 import LoginPage from "./pages/LoginPage";
+import Footer from "./components/Footer/Footer";
 
 function App() {
 	const isLoggedIn = false;
+	const isAdmin = false;
+
 	return (
-		<div className="App">
-			<Router>
-				<Navbar isLoggedIn={isLoggedIn} />
-				<Header />
-				<Routes>
-					<Route path="/" element={<HomePage />} />
-					<Route path="/posters" element={<PostersPage />} />
-					<Route path="/login" element={<LoginPage />} />
-				</Routes>
-			</Router>
-		</div>
+		<Router>
+			<Navbar isLoggedIn={isLoggedIn} isAdmin={isAdmin} />
+			<Header />
+			<Routes>
+				<Route path="/" element={<HomePage />} />
+				<Route path="/posters" element={<PostersPage />} />
+				<Route path="/login" element={<LoginPage />} />
+			</Routes>
+			<Footer />
+		</Router>
 	);
 }
 

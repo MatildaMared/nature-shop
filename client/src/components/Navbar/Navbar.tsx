@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 interface Props {
-	isLoggedIn: boolean;
+  isLoggedIn: boolean;
+  isAdmin: boolean;
 }
 
 function Navbar(props: Props) {
@@ -36,7 +37,7 @@ const Nav = styled.nav`
 	top: 0;
 	left: 0;
 	width: 100%;
-	padding: 1rem 0;
+	padding: 0.5rem 0;
 	border-bottom: 1px solid hsla(90, 9%, 65%, 0.2);
 	backdrop-filter: blur(3px);
 `;
