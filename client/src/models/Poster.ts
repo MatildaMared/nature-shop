@@ -1,4 +1,4 @@
-export interface Product {
+export interface Poster {
 	id: number;
 	title: string;
 	description: string;

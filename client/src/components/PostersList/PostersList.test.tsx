@@ -3,6 +3,6 @@ import PostersList from "./PostersList";
 
 describe("PostersList component", () => {
 	it("should render", () => {
-		render(<PostersList />);
+		render(<PostersList posters={null} />);
 	});
 });

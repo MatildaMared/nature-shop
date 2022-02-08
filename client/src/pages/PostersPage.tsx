@@ -1,17 +1,17 @@
 import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
-import { Product } from "../models/Product";
+import { Poster } from "../models/Poster";
 import styled from "styled-components";
 import PostersList from "../components/PostersList/PostersList";
 
 function PostersPage() {
-	const [products, setProducts] = useState<Product[] | null>(null);
+	const [posters, setPosters] = useState<Poster[] | null>(null);
 	const [context, updateContext] = useContext(UserContext);
 
 	const fetchData = async () => {
 		const response = await fetch("/api/products");
 		const data = await response.json();
-		setProducts(data.products);
+		setPosters(data.products);
 	};
 
 	useEffect(() => {
@@ -20,7 +20,7 @@ function PostersPage() {
 
 	return (
 		<Wrapper>
-			<PostersList />
+			<PostersList posters={posters} />
 		</Wrapper>
 	);
 }
