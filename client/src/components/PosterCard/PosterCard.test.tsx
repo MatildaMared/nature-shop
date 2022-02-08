@@ -1,6 +1,15 @@
 import { render, screen } from "@testing-library/react";
 import PosterCard from "./PosterCard";
+import userEvent from "@testing-library/user-event";
 
+// Mocks for react-router-dom
+const mockedNavigator = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+	useNavigate: () => mockedNavigator,
+}));
+
+// Dummy data
 const dummyPoster = {
 	id: "1",
 	title: "Poster 1",
@@ -10,6 +19,7 @@ const dummyPoster = {
 	inStock: 10,
 };
 
+// Actual tests
 describe("PosterCard component", () => {
 	it("renders properly", () => {
 		render(<PosterCard poster={dummyPoster} />);
@@ -38,5 +48,15 @@ describe("PosterCard component", () => {
 		const price = screen.getByText(`${dummyPoster.price}:-`);
 
 		expect(price).toBeInTheDocument();
+	});
+
+	it("redirects user to the correct page if clicking the card", () => {
+		render(<PosterCard poster={dummyPoster} />);
+
+		const card = screen.getByTestId("poster-card");
+
+		userEvent.click(card);
+
+		expect(mockedNavigator).toHaveBeenCalledWith(`/posters/${dummyPoster.id}`);
 	});
 });

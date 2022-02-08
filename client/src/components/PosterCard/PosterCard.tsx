@@ -2,6 +2,7 @@ import React from "react";
 import { Poster } from "../../models/Poster";
 import styled from "styled-components";
 import { Heart } from "react-feather";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
 	poster: Poster;
@@ -9,10 +10,15 @@ interface Props {
 
 function PosterCard(props: Props) {
 	const { poster } = props;
+	const navigate = useNavigate();
+
+	function redirectToPosterPage() {
+		navigate(`/posters/${poster.id}`);
+	}
 
 	return (
 		<Wrapper key={poster.id}>
-			<Content>
+			<Content onClick={redirectToPosterPage} data-testid="poster-card">
 				<LinkText>Click for details</LinkText>
 				<Title>{poster.title}</Title>
 				<ImageWrapper>

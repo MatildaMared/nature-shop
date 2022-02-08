@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import PostersPage from "./pages/PostersPage";
 import LoginPage from "./pages/LoginPage";
+import SinglePosterPage from "./pages/SinglePosterPage";
 import Footer from "./components/Footer/Footer";
 import { Poster } from "./models/Poster";
 
@@ -32,6 +33,7 @@ function App() {
 				<Route path="/" element={<HomePage />} />
 				<Route path="/posters" element={<PostersPage posters={posters} />} />
 				<Route path="/login" element={<LoginPage />} />
+				<Route path="/posters/:id" element={<SinglePosterPage />} />
 			</Routes>
 			<Footer />
 		</Router>
