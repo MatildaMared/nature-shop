@@ -16,6 +16,7 @@ function PostersList(props: Props) {
 				posters.map((poster) => (
 					<PosterCard key={poster.id}>
 						<PosterContent>
+							<LinkText>Click for details</LinkText>
 							<PosterTitle>{poster.title}</PosterTitle>
 							<PosterImageWrapper>
 								<PosterImage src={poster.imageUrl} alt={poster.title} />
@@ -50,15 +51,32 @@ const PosterImageWrapper = styled.div`
 	height: 100%;
 	max-height: 450px;
 	transition: all 0.25s;
+	position: relative;
+`;
+
+const LinkText = styled.p`
+	position: absolute;
+	top: 25%;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 2;
+	background-color: var(--color-black);
+	color: var(--color-white);
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+	padding: 0.25rem 0.5rem;
+  display: none;
+  width: fit-content;
 `;
 
 const PosterContent = styled.div`
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.1);
 	width: fit-content;
 	max-width: 320px;
 	width: 100%;
 	margin: 0 auto;
+	position: relative;
 
 	cursor: pointer;
 	transition: all 0.3s;
@@ -67,12 +85,26 @@ const PosterContent = styled.div`
 		& ${PosterImageWrapper} {
 			padding: 0;
 		}
+
+		& ${PosterImageWrapper}:before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			text-align: center;
+			background-color: rgba(0, 0, 0, 0.3);
+		}
+
+		& ${LinkText} {
+			display: block;
+		}
 	}
 `;
 
 const PosterCard = styled.article`
 	padding: 1rem;
-	background-color: rgba(0, 0, 0, 0.1);
 	height: 100%;
 `;
 
