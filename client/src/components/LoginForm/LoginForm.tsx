@@ -25,6 +25,11 @@ function LoginForm(props: Props) {
 		emailInput.current?.blur();
 	}
 
+	function emailValidator(email: string) {
+		console.log("Will validate");
+		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+	}
+
 	return (
 		<Form onSubmit={onFormSubmit}>
 			<TextInput
@@ -34,6 +39,7 @@ function LoginForm(props: Props) {
 				value={email}
 				setValue={setEmail}
 				label="Email"
+				validate={emailValidator}
 			/>
 			<TextInput
 				ref={passwordInput}

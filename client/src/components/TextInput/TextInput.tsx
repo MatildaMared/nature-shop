@@ -6,13 +6,15 @@ interface Props {
 	name: string;
 	value: string;
 	setValue: (value: string) => void;
+	validate?: (value: string) => boolean;
 	label: string;
 }
 
 const TextInput = React.forwardRef(
 	(props: Props, ref: React.Ref<HTMLInputElement>) => {
-		const { type, name, value, setValue, label } = props;
+		const { type, name, value, setValue, label, validate } = props;
 		const [isEmpty, setIsEmpty] = useState(true);
+		const [isValid, setIsValid] = useState(true);
 
 		useEffect(() => {
 			if (value.length > 0) {
@@ -22,6 +24,15 @@ const TextInput = React.forwardRef(
 			}
 		}, [value]);
 
+		const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+			setValue(e.target.value);
+			if (validate) {
+				const validatedValue = validate(e.target.value);
+				console.log(validatedValue);
+				setIsValid(validatedValue);
+			}
+		};
+
 		return (
 			<Wrapper>
 				<Input
@@ -30,8 +41,13 @@ const TextInput = React.forwardRef(
 					name={name}
 					id={name}
 					value={value}
-					onChange={(e) => setValue(e.target.value)}
-					className={!isEmpty ? "non-empty" : ""}
+					onChange={onChangeHandler}
+					className={
+						(!isEmpty ? "non-empty" : "") +
+						(validate && !isValid && !isEmpty
+							? " invalid"
+							: validate && !isEmpty && " valid")
+					}
 				/>
 				<Label htmlFor={name}>{label}</Label>
 			</Wrapper>
@@ -57,6 +73,7 @@ const Input = styled.input`
 	background: transparent;
 	transition: border-color 0.3s;
 	outline: none;
+
 	&:hover,
 	&:focus {
 		border-color: var(--color-primary);
@@ -75,6 +92,14 @@ const Input = styled.input`
 			letter-spacing: 1px;
 		}
 	}
+
+	&.invalid {
+		border-color: var(--color-error);
+	}
+
+	&:focus.valid {
+		border-color: var(--color-success);
+	}
 `;
 
 const Label = styled.label`
@@ -84,7 +109,7 @@ const Label = styled.label`
 	background-color: var(--color-white);
 	padding: 0 6px;
 	transition: transform 0.3s, color 0.3s;
-  cursor: text;
+	cursor: text;
 `;
 
 export default TextInput;

@@ -14,6 +14,9 @@ export const CssVariables = createGlobalStyle`
     --color-secondary: hsla(24, 80%, 45%, 1.0);
     --color-secondary-dark: hsla(24, 68%, 30%, 1.0);
 
+    --color-error: hsla(0, 70%, 60%, 1.0);
+    --color-success: hsla(90, 40%, 60%, 1.0);
+
     --color-white: hsla(90, 20%, 98%, 1.0);
     --color-black: hsla(90, 4%, 10%, 1.0);
 
