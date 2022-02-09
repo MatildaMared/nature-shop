@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Props {
 	isLoggedIn: boolean;
@@ -10,6 +10,7 @@ interface Props {
 
 function Navbar(props: Props) {
 	const { isLoggedIn, isAdmin, updateContext } = props;
+	const navigate = useNavigate();
 
 	function logoutHandler() {
 		localStorage.removeItem("token");
@@ -18,7 +19,7 @@ function Navbar(props: Props) {
 			isLoggedIn: false,
 			isAdmin: false,
 		});
-		window.location.reload();
+		navigate("/");
 	}
 
 	return (
