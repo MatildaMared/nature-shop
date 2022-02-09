@@ -1,29 +1,36 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import LoginForm from "../components/LoginForm/LoginForm";
-
-async function login(email: string, password: string) {
-	const response = await fetch("/api/users/login", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({ email, password }),
-	});
-	const data = await response.json();
-	return data;
-}
+import { login } from "../services/userService";
+import { UserContext } from "../context/UserContext";
+import { saveToken } from "../services/localStorageService";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
+	const [errorMessage, setErrorMessage] = useState("");
+	const [context, updateContext] = useContext(UserContext);
+
+	const navigate = useNavigate();
+
 	async function onLoginHandler(email: string, password: string) {
+		setErrorMessage("");
 		const data = await login(email, password);
-		console.log(data);
+		if (data.success === false) {
+			setErrorMessage(data.error);
+			setTimeout(() => {
+				setErrorMessage("");
+			}, 5000);
+		} else {
+			updateContext(data.user);
+			saveToken(data.token);
+			navigate("/");
+		}
 	}
 
 	return (
 		<Wrapper>
 			<Heading>Login</Heading>
-			<LoginForm submitHandler={onLoginHandler} />
+			<LoginForm submitHandler={onLoginHandler} errorMessage={errorMessage} />
 		</Wrapper>
 	);
 }

@@ -8,15 +8,17 @@ interface UserContextType {
 }
 
 interface UserContextData {
+	id: string;
 	name: string;
-	age: number;
+	address: {};
+	email: string;
+	orders: [];
+	cart: [];
+	favorites: [];
 }
 
 export const UserProvider = ({ children }: any) => {
-	const [context, setContext] = useState({
-		name: "Matilda",
-		age: 31,
-	} as UserContextData);
+	const [context, setContext] = useState<UserContextData | {}>({});
 
 	function updateContext(updates: Object) {
 		setContext((prevState) => {

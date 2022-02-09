@@ -13,6 +13,8 @@ describe("TextInput component", () => {
 				value="Greta"
 				setValue={setValueMock}
 				label="Name"
+				isValid={true}
+				setIsValid={jest.fn()}
 			/>
 		);
 	});
@@ -25,6 +27,8 @@ describe("TextInput component", () => {
 				value="Sixten"
 				setValue={setValueMock}
 				label="Name"
+				isValid={true}
+				setIsValid={jest.fn()}
 			/>
 		);
 
@@ -39,6 +43,8 @@ describe("TextInput component", () => {
 				name="password"
 				value=""
 				setValue={setValueMock}
+				isValid={true}
+				setIsValid={jest.fn()}
 				label="Password"
 			/>
 		);
@@ -55,6 +61,8 @@ describe("TextInput component", () => {
 				value=""
 				setValue={setValueMock}
 				label="Name"
+				isValid={true}
+				setIsValid={jest.fn()}
 			/>
 		);
 
