@@ -21,7 +21,11 @@ function LoginPage() {
 				setErrorMessage("");
 			}, 5000);
 		} else {
-			updateContext(data.user);
+			updateContext({
+				user: data.user,
+				isLoggedIn: true,
+				isAdmin: data.user.role === "admin",
+			});
 			saveToken(data.token);
 			navigate("/");
 		}

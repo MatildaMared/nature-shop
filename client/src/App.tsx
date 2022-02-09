@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "./context/UserContext";
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -8,26 +9,52 @@ import LoginPage from "./pages/LoginPage";
 import SinglePosterPage from "./pages/SinglePosterPage";
 import Footer from "./components/Footer/Footer";
 import { Poster } from "./models/Poster";
+import { getAllPosters } from "./services/postersService";
+import { getUser } from "./services/userService";
+import { getToken } from "./services/localStorageService";
 
 function App() {
+	const [context, updateContext] = useContext(UserContext);
 	const [posters, setPosters] = useState<Poster[] | null>(null);
+	const token = getToken();
+	const { isLoggedIn, isAdmin, isLoading } = context;
 
-	const fetchData = async () => {
-		const response = await fetch("/api/products");
-		const data = await response.json();
-		setPosters(data.products);
+	const initializeData = async () => {
+		updateContext({ isLoading: true });
+
+		const postersResponse = await getAllPosters();
+		setPosters(postersResponse.products);
+
+		if (!isLoggedIn) {
+			if (token) {
+				const userResponse = await getUser(token);
+				if (userResponse.success === true) {
+					updateContext({
+						user: userResponse.user,
+						isLoggedIn: true,
+						isAdmin: userResponse.user.role === "admin",
+					});
+				}
+			}
+		}
+
+		updateContext({ isLoading: false });
 	};
 
 	useEffect(() => {
-		fetchData();
+		initializeData();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
-	const isLoggedIn = false;
-	const isAdmin = false;
 
 	return (
 		<Router>
-			<Navbar isLoggedIn={isLoggedIn} isAdmin={isAdmin} />
+			{!isLoading && (
+				<Navbar
+					isLoggedIn={isLoggedIn}
+					isAdmin={isAdmin}
+					updateContext={updateContext}
+				/>
+			)}
 			<Header />
 			<Routes>
 				<Route path="/" element={<HomePage />} />

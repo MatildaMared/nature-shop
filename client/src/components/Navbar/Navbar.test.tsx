@@ -4,11 +4,17 @@ import { MemoryRouter, Router } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { createMemoryHistory } from "history";
 
+const updateContextMock = jest.fn();
+
 describe("Navbar component", () => {
 	it("should render", () => {
 		render(
 			<MemoryRouter>
-				<Navbar isLoggedIn={false} isAdmin={false} />
+				<Navbar
+					isLoggedIn={false}
+					isAdmin={false}
+					updateContext={updateContextMock}
+				/>
 			</MemoryRouter>
 		);
 	});
@@ -16,7 +22,11 @@ describe("Navbar component", () => {
 	it("displays a decorative logo", () => {
 		render(
 			<MemoryRouter>
-				<Navbar isLoggedIn={false} isAdmin={false} />
+				<Navbar
+					isLoggedIn={false}
+					isAdmin={false}
+					updateContext={updateContextMock}
+				/>
 			</MemoryRouter>
 		);
 
@@ -30,7 +40,11 @@ describe("Navbar component", () => {
 
 		render(
 			<Router location={history.location} navigator={history}>
-				<Navbar isLoggedIn={false} isAdmin={false} />
+				<Navbar
+					isLoggedIn={false}
+					isAdmin={false}
+					updateContext={updateContextMock}
+				/>
 			</Router>
 		);
 
@@ -46,7 +60,11 @@ describe("Navbar component", () => {
 
 		render(
 			<Router location={history.location} navigator={history}>
-				<Navbar isLoggedIn={false} isAdmin={false} />
+				<Navbar
+					isLoggedIn={false}
+					isAdmin={false}
+					updateContext={updateContextMock}
+				/>
 			</Router>
 		);
 
@@ -64,7 +82,11 @@ describe("Navbar component", () => {
 
 		render(
 			<Router location={history.location} navigator={history}>
-				<Navbar isLoggedIn={false} isAdmin={false} />
+				<Navbar
+					isLoggedIn={false}
+					isAdmin={false}
+					updateContext={updateContextMock}
+				/>
 			</Router>
 		);
 
@@ -80,7 +102,11 @@ describe("Navbar component", () => {
 	it("does not display a 'Login' link when user is logged in", () => {
 		render(
 			<MemoryRouter>
-				<Navbar isLoggedIn={true} isAdmin={false} />
+				<Navbar
+					isLoggedIn={true}
+					isAdmin={false}
+					updateContext={updateContextMock}
+				/>
 			</MemoryRouter>
 		);
 

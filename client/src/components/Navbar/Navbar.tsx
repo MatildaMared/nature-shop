@@ -5,10 +5,22 @@ import { Link } from "react-router-dom";
 interface Props {
 	isLoggedIn: boolean;
 	isAdmin: boolean;
+	updateContext: (context: any) => void;
 }
 
 function Navbar(props: Props) {
-	const { isLoggedIn } = props;
+	const { isLoggedIn, isAdmin, updateContext } = props;
+
+	function logoutHandler() {
+		localStorage.removeItem("token");
+		updateContext({
+			user: {},
+			isLoggedIn: false,
+			isAdmin: false,
+		});
+		window.location.reload();
+	}
+
 	return (
 		<Nav>
 			<Content>
@@ -23,6 +35,13 @@ function Navbar(props: Props) {
 					{!isLoggedIn && (
 						<Item>
 							<Link to="/login">Log in</Link>
+						</Item>
+					)}
+					{isLoggedIn && (
+						<Item>
+							<Link to="" onClick={logoutHandler}>
+								Log out
+							</Link>
 						</Item>
 					)}
 				</List>

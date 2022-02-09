@@ -8,17 +8,28 @@ interface UserContextType {
 }
 
 interface UserContextData {
-	id: string;
-	name: string;
-	address: {};
-	email: string;
-	orders: [];
-	cart: [];
-	favorites: [];
+	user: {
+		id: string;
+		name: string;
+		address: {};
+		email: string;
+		orders: [];
+		cart: [];
+		favorites: [];
+		role: string;
+	};
+	isLoggedIn: boolean;
+	isAdmin: boolean;
+	isLoading: boolean;
 }
 
 export const UserProvider = ({ children }: any) => {
-	const [context, setContext] = useState<UserContextData | {}>({});
+	const [context, setContext] = useState<UserContextData | {}>({
+		user: {},
+		isLoggedIn: false,
+		isAdmin: false,
+		isLoading: true,
+	});
 
 	function updateContext(updates: Object) {
 		setContext((prevState) => {

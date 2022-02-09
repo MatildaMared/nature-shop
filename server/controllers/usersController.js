@@ -59,13 +59,9 @@ async function loginUser(req, res, next) {
 	}
 }
 
-async function getUserById(req, res, next) {
+async function getSingleUser(req, res, next) {
 	try {
-		const id = req.params.id;
-
-		if (id.toString() !== req.userId.toString()) {
-			return next(new ErrorResponse("Unauthorized", 401));
-		}
+		const id = req.userId;
 
 		const user = await User.findById(id);
 
@@ -147,4 +143,4 @@ async function deleteUser(req, res, next) {
 	}
 }
 
-module.exports = { createUser, getUserById, updateUser, deleteUser, loginUser };
+module.exports = { createUser, getSingleUser, updateUser, deleteUser, loginUser };
