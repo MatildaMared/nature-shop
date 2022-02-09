@@ -1,15 +1,15 @@
 import { render, screen } from "@testing-library/react";
 import LoginForm from "./LoginForm";
 
-const onLoginHandlerMock = jest.fn();
+const onSubmitHandlerMock = jest.fn();
 
 describe("LoginForm component", () => {
 	it("renders properly", () => {
-		render(<LoginForm onSubmit={onLoginHandlerMock} />);
+		render(<LoginForm submitHandler={onSubmitHandlerMock} />);
 	});
 
 	it("displays the correct input elements", () => {
-		render(<LoginForm onSubmit={onLoginHandlerMock} />);
+		render(<LoginForm submitHandler={onSubmitHandlerMock} />);
 
 		const emailInput = screen.getByLabelText("Email");
 		expect(emailInput).toBeInTheDocument();
@@ -18,7 +18,7 @@ describe("LoginForm component", () => {
 	});
 
 	it("displays a button", () => {
-		render(<LoginForm onSubmit={onLoginHandlerMock} />);
+		render(<LoginForm submitHandler={onSubmitHandlerMock} />);
 
 		const button = screen.getByRole("button");
 		expect(button).toBeInTheDocument();

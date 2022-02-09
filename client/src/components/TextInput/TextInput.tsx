@@ -9,32 +9,35 @@ interface Props {
 	label: string;
 }
 
-function TextInput(props: Props) {
-	const { type, name, value, setValue, label } = props;
-	const [isEmpty, setIsEmpty] = useState(true);
+const TextInput = React.forwardRef(
+	(props: Props, ref: React.Ref<HTMLInputElement>) => {
+		const { type, name, value, setValue, label } = props;
+		const [isEmpty, setIsEmpty] = useState(true);
 
-	useEffect(() => {
-		if (value.length > 0) {
-			setIsEmpty(false);
-		} else {
-			setIsEmpty(true);
-		}
-	}, [value]);
+		useEffect(() => {
+			if (value.length > 0) {
+				setIsEmpty(false);
+			} else {
+				setIsEmpty(true);
+			}
+		}, [value]);
 
-	return (
-		<Wrapper>
-			<Input
-				type={type}
-				name={name}
-				id={name}
-				value={value}
-				onChange={(e) => setValue(e.target.value)}
-				className={!isEmpty ? "non-empty" : ""}
-			/>
-			<Label htmlFor={name}>{label}</Label>
-		</Wrapper>
-	);
-}
+		return (
+			<Wrapper>
+				<Input
+					ref={ref}
+					type={type}
+					name={name}
+					id={name}
+					value={value}
+					onChange={(e) => setValue(e.target.value)}
+					className={!isEmpty ? "non-empty" : ""}
+				/>
+				<Label htmlFor={name}>{label}</Label>
+			</Wrapper>
+		);
+	}
+);
 
 const Wrapper = styled.div`
 	width: 100%;

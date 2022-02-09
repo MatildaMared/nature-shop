@@ -2,13 +2,28 @@ import React from "react";
 import styled from "styled-components";
 import LoginForm from "../components/LoginForm/LoginForm";
 
+async function login(email: string, password: string) {
+	const response = await fetch("/api/users/login", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ email, password }),
+	});
+	const data = await response.json();
+	return data;
+}
+
 function LoginPage() {
-	function onLoginHandler(email: string, password: string) {}
+	async function onLoginHandler(email: string, password: string) {
+		const data = await login(email, password);
+		console.log(data);
+	}
 
 	return (
 		<Wrapper>
 			<Heading>Login</Heading>
-			<LoginForm onSubmit={onLoginHandler} />
+			<LoginForm submitHandler={onLoginHandler} />
 		</Wrapper>
 	);
 }
