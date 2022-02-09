@@ -3,10 +3,12 @@ import styled from "styled-components";
 import LoginForm from "../components/LoginForm/LoginForm";
 
 function LoginPage() {
+	function onLoginHandler(email: string, password: string) {}
+
 	return (
 		<Wrapper>
 			<Heading>Login</Heading>
-			<LoginForm />
+			<LoginForm onSubmit={onLoginHandler} />
 		</Wrapper>
 	);
 }
@@ -15,7 +17,7 @@ const Wrapper = styled.main`
 	max-width: var(--max-width);
 	margin: 0 auto;
 	background-color: var(--color-white);
-	padding: 2rem 1rem;
+	padding: 4rem 1rem 8rem 1rem;
 `;
 
 const Heading = styled.h2`
@@ -23,6 +25,7 @@ const Heading = styled.h2`
 	font-family: var(--font-script);
 	text-align: center;
 	color: var(--color-primary-dark);
+	margin-bottom: 2rem;
 `;
 
 export default LoginPage;

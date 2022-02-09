@@ -1,30 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import TextInput from "../TextInput/TextInput";
+import Button from "../Button/Button";
 
-function LoginForm() {
+interface Props {
+	onSubmit: (email: string, password: string) => void;
+}
+
+function LoginForm(props: Props) {
+	const { onSubmit } = props;
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+
 	return (
 		<Form>
-			<InputWrapper>
-				<Label htmlFor="email">Email</Label>
-				<Input type="email" id="email" name="email" />
-			</InputWrapper>
-			<InputWrapper>
-				<Label htmlFor="password">Password</Label>
-				<Input type="password" id="password" name="password" />
-			</InputWrapper>
-			<SubmitButton type="submit">Login</SubmitButton>
+			<TextInput
+				type="email"
+				name="email"
+				value={email}
+				setValue={setEmail}
+				label="Email"
+			/>
+			<TextInput
+				type="password"
+				name="password"
+				value={password}
+				setValue={setPassword}
+				label="Password"
+			/>
+			<Button type="submit" onClick={onSubmit}>
+				Log in
+			</Button>
 		</Form>
 	);
 }
 
-const Form = styled.form``;
-
-const InputWrapper = styled.div``;
-
-const Label = styled.label``;
-
-const Input = styled.input``;
-
-const SubmitButton = styled.button``;
+const Form = styled.form`
+	width: 100%;
+	max-width: 400px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+`;
 
 export default LoginForm;
