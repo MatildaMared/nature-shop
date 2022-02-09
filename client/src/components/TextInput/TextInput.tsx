@@ -84,6 +84,7 @@ const Label = styled.label`
 	background-color: var(--color-white);
 	padding: 0 6px;
 	transition: transform 0.3s, color 0.3s;
+  cursor: text;
 `;
 
 export default TextInput;
