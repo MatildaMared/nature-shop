@@ -13,6 +13,7 @@ import { Poster } from "./models/Poster";
 import { getAllPosters } from "./services/postersService";
 import { getUser } from "./services/userService";
 import { getToken } from "./services/localStorageService";
+import AddPosterPage from "./pages/AddPosterPage";
 
 function App() {
 	const [context, updateContext] = useContext(UserContext);
@@ -66,6 +67,7 @@ function App() {
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/signup" element={<SignupPage />} />
 				<Route path="/posters/:id" element={<SinglePosterPage />} />
+				<Route path="/add" element={<AddPosterPage isAdmin={isAdmin} />} />
 			</Routes>
 			<Footer />
 		</Router>

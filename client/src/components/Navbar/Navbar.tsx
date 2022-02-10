@@ -43,6 +43,11 @@ function Navbar(props: Props) {
 							</Item>
 						</>
 					)}
+					{isAdmin && (
+						<Item>
+							<Link to="/add">Add poster</Link>
+						</Item>
+					)}
 					{isLoggedIn && (
 						<Item>
 							<Link to="" onClick={logoutHandler}>

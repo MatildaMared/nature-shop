@@ -74,3 +74,11 @@ export function streetValidator(street: string): [boolean, string] {
 
 	return [true, ""];
 }
+
+export function posterTitleValidator(title: string): [boolean, string] {
+	if (title.length < 3) {
+		return [false, "Please enter a title"];
+	}
+
+	return [true, ""];
+}
