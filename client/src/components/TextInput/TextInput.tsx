@@ -9,9 +9,10 @@ interface Props {
 	setValue: (value: string) => void;
 	isValid: boolean;
 	setIsValid: (isValid: boolean) => void;
-	validate?: (value: string) => [boolean, string];
+	validate?: (value: string, compareValue?: string) => [boolean, string];
 	label: string;
 	style?: React.CSSProperties;
+	compareValue?: string;
 }
 
 const TextInput = React.forwardRef(
@@ -26,6 +27,7 @@ const TextInput = React.forwardRef(
 			isValid,
 			setIsValid,
 			style,
+			compareValue,
 		} = props;
 		const [isEmpty, setIsEmpty] = useState(true);
 		const [isVisited, setIsVisited] = useState(false);
@@ -34,9 +36,15 @@ const TextInput = React.forwardRef(
 		const onBlurHandler = () => {
 			setIsVisited(true);
 			if (validate) {
-				const [isValid, errorMessage] = validate(value);
-				setIsValid(isValid);
-				setErrorMessage(errorMessage);
+				if (compareValue) {
+					const [isValid, errorMessage] = validate(value, compareValue);
+					setIsValid(isValid);
+					setErrorMessage(errorMessage);
+				} else {
+					const [isValid, errorMessage] = validate(value);
+					setIsValid(isValid);
+					setErrorMessage(errorMessage);
+				}
 			}
 		};
 

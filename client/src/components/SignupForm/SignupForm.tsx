@@ -1,11 +1,15 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
+import Button from "../Button/Button";
 import TextInput from "../TextInput/TextInput";
 import {
 	passwordValidator,
 	emailValidator,
 	nameValidator,
 	streetValidator,
+	passwordConfirmValidator,
+	postalCodeValidator,
+	cityValidator,
 } from "./../../utils/validators";
 
 interface Props {
@@ -16,23 +20,48 @@ interface Props {
 function SignupForm(props: Props) {
 	const { submitHandler, errorMessage } = props;
 
+	// Input values
 	const [name, setName] = useState<string>("");
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
+	const [passwordConfirm, setPasswordConfirm] = useState<string>("");
 	const [street, setStreet] = useState<string>("");
+	const [postalCode, setPostalCode] = useState<string>("");
+	const [city, setCity] = useState<string>("");
 
+	// Input validation
 	const [nameIsValid, setNameIsValid] = useState<boolean>(false);
 	const [emailIsValid, setEmailIsValid] = useState<boolean>(false);
 	const [passwordIsValid, setPasswordIsValid] = useState<boolean>(false);
+	const [passwordConfirmIsValid, setPasswordConfirmIsValid] =
+		useState<boolean>(false);
 	const [streetIsValid, setStreetIsValid] = useState<boolean>(false);
+	const [postalCodeIsValid, setPostalCodeIsValid] = useState<boolean>(false);
+	const [cityIsValid, setCityIsValid] = useState<boolean>(false);
 
+	// Input refs
 	const nameInput = useRef<HTMLInputElement>(null);
 	const emailInput = useRef<HTMLInputElement>(null);
 	const passwordInput = useRef<HTMLInputElement>(null);
+	const passwordConfirmInput = useRef<HTMLInputElement>(null);
 	const streetInput = useRef<HTMLInputElement>(null);
+	const postalCodeInput = useRef<HTMLInputElement>(null);
+	const cityInput = useRef<HTMLInputElement>(null);
+
+	// Submit handler
+	function onFormSubmit(e: React.FormEvent) {
+		e.preventDefault();
+		console.log(name);
+		console.log(email);
+		console.log(password);
+		console.log(passwordConfirm);
+		console.log(street);
+		console.log(postalCode);
+		console.log(city);
+	}
 
 	return (
-		<Form>
+		<Form onSubmit={onFormSubmit}>
 			<TextInput
 				style={{ width: "80%" }}
 				ref={nameInput}
@@ -69,6 +98,19 @@ function SignupForm(props: Props) {
 				label="Password"
 				validate={passwordValidator}
 			/>
+			<TextInput
+				ref={passwordConfirmInput}
+				style={{ width: "80%" }}
+				type="password"
+				name="password-confirm"
+				value={passwordConfirm}
+				setValue={setPasswordConfirm}
+				isValid={passwordConfirmIsValid}
+				setIsValid={setPasswordConfirmIsValid}
+				label="Confirm password"
+				validate={passwordConfirmValidator}
+				compareValue={password}
+			/>
 			<AddressWrapper>
 				<AddressTitle>Address</AddressTitle>
 				<TextInput
@@ -79,10 +121,49 @@ function SignupForm(props: Props) {
 					setValue={setStreet}
 					isValid={streetIsValid}
 					setIsValid={setStreetIsValid}
-					label="Email"
+					label="Street"
 					validate={streetValidator}
 				/>
+				<TextInput
+					ref={postalCodeInput}
+					style={{ minWidth: "300px", width: "60%" }}
+					type="text"
+					name="postal-code"
+					value={postalCode}
+					setValue={setPostalCode}
+					isValid={postalCodeIsValid}
+					setIsValid={setPostalCodeIsValid}
+					label="Postal code"
+					validate={postalCodeValidator}
+				/>
+				<TextInput
+					ref={cityInput}
+					type="text"
+					name="city"
+					value={city}
+					setValue={setCity}
+					isValid={cityIsValid}
+					setIsValid={setCityIsValid}
+					label="City"
+					validate={cityValidator}
+				/>
 			</AddressWrapper>
+			<ErrorMessage>{errorMessage}</ErrorMessage>
+			<Button
+				type="submit"
+				onClick={onFormSubmit}
+				disabled={
+					!emailIsValid ||
+					!passwordIsValid ||
+					!passwordConfirmIsValid ||
+					!nameIsValid ||
+					!streetIsValid ||
+					!postalCodeIsValid ||
+					!cityIsValid
+				}
+			>
+				Sign up
+			</Button>
 		</Form>
 	);
 }
@@ -101,7 +182,7 @@ const AddressWrapper = styled.div`
 	position: relative;
 	width: 100%;
 	border: 1px solid hsla(90, 9%, 70%, 0.5);
-	padding: 2rem 1rem 1rem 1rem;
+	padding: 2rem 1.5rem 0rem 1.5rem;
 `;
 
 const AddressTitle = styled.h3`
@@ -114,6 +195,14 @@ const AddressTitle = styled.h3`
 	font-size: 0.9rem;
 	background-color: var(--color-white);
 	padding: 4px;
+`;
+
+const ErrorMessage = styled.p`
+	margin-top: -1rem;
+	height: 16px;
+	font-size: 0.8rem;
+	color: var(--color-error);
+	margin-bottom: 0.5rem;
 `;
 
 export default SignupForm;

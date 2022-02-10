@@ -10,7 +10,7 @@ export function emailValidator(email: string): [boolean, string] {
 	}
 }
 
-export function postalCodeValidator(postalCode: string) {
+export function postalCodeValidator(postalCode: string): [boolean, string] {
 	if (postalCode.length === 0) {
 		return [false, "Please enter a postal code"];
 	}
@@ -18,10 +18,10 @@ export function postalCodeValidator(postalCode: string) {
 	if (isValid) {
 		return [true, ""];
 	}
-	return [false, 'Please enter a postal code in format "123 45"'];
+	return [false, 'Postal code must have format "123 45"'];
 }
 
-export function cityValidator(city: string) {
+export function cityValidator(city: string): [boolean, string] {
 	if (city.length === 0) {
 		return [false, "Please enter a city"];
 	} else if (city.length < 3) {
@@ -37,6 +37,23 @@ export function passwordValidator(password: string): [boolean, string] {
 	const isValid = password.length >= 5;
 	if (!isValid) {
 		return [false, "Password must be at least 5 characters"];
+	} else {
+		return [true, ""];
+	}
+}
+
+export function passwordConfirmValidator(
+	passwordConfirm: string,
+	password: string | undefined
+): [boolean, string] {
+	if (password?.length === 0) {
+		return [false, "Please confirm password"];
+	} else if (passwordConfirm.length < 5) {
+		return [false, "Password must be at least 5 characters"];
+	}
+	const isValid = password === passwordConfirm;
+	if (!isValid) {
+		return [false, "Please enter matching passwords"];
 	} else {
 		return [true, ""];
 	}
