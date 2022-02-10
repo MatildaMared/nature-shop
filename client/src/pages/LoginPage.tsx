@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import LoginForm from "../components/LoginForm/LoginForm";
+import Heading from "../components/Heading/Heading";
 import { login } from "../services/userService";
 import { UserContext } from "../context/UserContext";
 import { saveToken } from "../services/localStorageService";
@@ -44,14 +45,6 @@ const Wrapper = styled.main`
 	margin: 0 auto;
 	background-color: var(--color-white);
 	padding: 4rem 1rem 8rem 1rem;
-`;
-
-const Heading = styled.h2`
-	font-size: 2.5rem;
-	font-family: var(--font-script);
-	text-align: center;
-	color: var(--color-primary-dark);
-	margin-bottom: 2rem;
 `;
 
 export default LoginPage;

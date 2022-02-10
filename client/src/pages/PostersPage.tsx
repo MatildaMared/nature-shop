@@ -2,6 +2,7 @@ import React from "react";
 import { Poster } from "../models/Poster";
 import styled from "styled-components";
 import PostersList from "../components/PostersList/PostersList";
+import Heading from "../components/Heading/Heading";
 
 interface Props {
 	posters: Poster[] | null;
@@ -24,13 +25,6 @@ const Wrapper = styled.main`
 	background-color: var(--color-white);
 	height: 100%;
 	padding: 4rem 2rem;
-`;
-
-const Heading = styled.h2`
-	font-size: 2.5rem;
-	font-family: var(--font-script);
-	text-align: center;
-	color: var(--color-primary-dark);
 `;
 
 export default PostersPage;

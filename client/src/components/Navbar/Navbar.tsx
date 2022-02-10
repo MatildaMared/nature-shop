@@ -34,9 +34,14 @@ function Navbar(props: Props) {
 						<Link to="/posters">Posters</Link>
 					</Item>
 					{!isLoggedIn && (
-						<Item>
-							<Link to="/login">Log in</Link>
-						</Item>
+						<>
+							<Item>
+								<Link to="/login">Log in</Link>
+							</Item>
+							<Item>
+								<Link to="/signup">Sign up</Link>
+							</Item>
+						</>
 					)}
 					{isLoggedIn && (
 						<Item>
