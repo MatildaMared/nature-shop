@@ -3,6 +3,6 @@ import SignupForm from "./SignupForm";
 
 describe("SignupForm component", () => {
 	it("renders without crashing", () => {
-		render(<SignupForm />);
+		render(<SignupForm errorMessage="" submitHandler={jest.fn()} />);
 	});
 });

@@ -11,6 +11,7 @@ interface Props {
 	setIsValid: (isValid: boolean) => void;
 	validate?: (value: string) => [boolean, string];
 	label: string;
+	style?: React.CSSProperties;
 }
 
 const TextInput = React.forwardRef(
@@ -24,6 +25,7 @@ const TextInput = React.forwardRef(
 			validate,
 			isValid,
 			setIsValid,
+			style,
 		} = props;
 		const [isEmpty, setIsEmpty] = useState(true);
 		const [isVisited, setIsVisited] = useState(false);
@@ -36,16 +38,16 @@ const TextInput = React.forwardRef(
 				setIsValid(isValid);
 				setErrorMessage(errorMessage);
 			}
-    };
-    
-    const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setValue(e.target.value);
-      if (validate) {
-        const [validatedValue, message] = validate(e.target.value);
-        setIsValid(validatedValue);
-        setErrorMessage(message);
-      }
-    };
+		};
+
+		const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+			setValue(e.target.value);
+			if (validate) {
+				const [validatedValue, message] = validate(e.target.value);
+				setIsValid(validatedValue);
+				setErrorMessage(message);
+			}
+		};
 
 		useEffect(() => {
 			if (value.length > 0) {
@@ -56,14 +58,13 @@ const TextInput = React.forwardRef(
 			}
 		}, [value]);
 
-
 		const inputClassName = `${
 			(!isEmpty ? "non-empty" : "") +
 			(validate && isVisited && !isValid ? " invalid" : "")
 		}`;
 
 		return (
-			<Wrapper>
+			<Wrapper style={style}>
 				<Input
 					ref={ref}
 					type={type}
@@ -138,6 +139,7 @@ const Input = styled.input`
 `;
 
 const Label = styled.label`
+	color: #7a7a7a;
 	display: flex;
 	align-items: center;
 	position: absolute;

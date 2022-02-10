@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import TextInput from "../TextInput/TextInput";
 import Button from "../Button/Button";
+import { passwordValidator, emailValidator } from "./../../utils/validators";
 
 interface Props {
 	submitHandler: (email: string, password: string) => void;
@@ -25,30 +26,6 @@ function LoginForm(props: Props) {
 		submitHandler(email, password);
 		emailInput.current?.blur();
 		passwordInput.current?.blur();
-	}
-
-	function emailValidator(email: string): [boolean, string] {
-		if (email.length === 0) {
-			return [false, "Please enter an email"];
-		}
-		const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-		if (isValid) {
-			return [true, ""];
-		} else {
-			return [false, "Please enter a valid email"];
-		}
-	}
-
-	function passwordValidator(password: string): [boolean, string] {
-		if (password.length === 0) {
-			return [false, "Please enter a password"];
-		}
-		const isValid = password.length >= 5;
-		if (!isValid) {
-			return [false, "Password must be at least 5 characters"];
-		} else {
-			return [true, ""];
-		}
 	}
 
 	return (
