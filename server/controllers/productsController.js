@@ -5,7 +5,7 @@ const User = require("../models/userModel");
 
 async function createProduct(req, res, next) {
 	try {
-		const { title, description, imageUrl, price, inStock } = req.body;
+		const { title, description, category, imageUrl, price, inStock } = req.body;
 
 		if (price && (typeof price !== "number" || price < 0)) {
 			return next(new ErrorResponse("Please provide a valid price", 400));
@@ -17,11 +17,14 @@ async function createProduct(req, res, next) {
 			return next(new ErrorResponse("Please provide a valid description", 400));
 		} else if (imageUrl && typeof imageUrl !== "string") {
 			return next(new ErrorResponse("Please provide a valid image URL", 400));
+		} else if (category && typeof category !== "string") {
+			return next(new ErrorResponse("Please provide a valid category", 400));
 		}
 
 		const product = {
 			title,
 			description,
+			category,
 			imageUrl,
 			price,
 			inStock,
@@ -85,6 +88,7 @@ async function updateProduct(req, res, next) {
 			{
 				title: req.body.title,
 				description: req.body.description,
+				category: req.body.category,
 				imageUrl: req.body.imageUrl,
 				price: req.body.price,
 				inStock: req.body.inStock,

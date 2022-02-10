@@ -2,6 +2,7 @@ const dummyProducts = [
 	{
 		title: "Test product",
 		description: "Test description",
+		category: "test",
 		imageUrl: "https://test.com/test.jpg",
 		price: 139,
 		inStock: 15,
@@ -9,6 +10,7 @@ const dummyProducts = [
 	{
 		title: "Test product 2",
 		description: "Test description 2",
+		category: "test",
 		imageUrl: "https://test.com/test2.jpg",
 		price: 199,
 		inStock: 53,
@@ -16,6 +18,7 @@ const dummyProducts = [
 	{
 		title: "Test product 3",
 		description: "Test description 3",
+		category: "anotherCategory",
 		imageUrl: "https://test.com/test3.jpg",
 		price: 99,
 		inStock: 35,
@@ -25,6 +28,7 @@ const dummyProducts = [
 const dummyProduct = {
 	title: "Test product",
 	description: "Test description",
+	category: "test",
 	imageUrl: "https://test.com/test.jpg",
 	price: 139,
 	inStock: 15,

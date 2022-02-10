@@ -1,3 +1,5 @@
+import { NewUser } from "../models/User";
+
 export async function login(email: string, password: string) {
 	const response = await fetch("/api/users/login", {
 		method: "POST",
@@ -16,6 +18,18 @@ export async function getUser(token: string) {
 		headers: {
 			Authorization: `Bearer ${token}`,
 		},
+	});
+	const data = await response.json();
+	return data;
+}
+
+export async function signup(newUser: NewUser) {
+	const response = await fetch("/api/users", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(newUser),
 	});
 	const data = await response.json();
 	return data;

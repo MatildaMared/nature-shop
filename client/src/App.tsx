@@ -58,7 +58,10 @@ function App() {
 			)}
 			<Header />
 			<Routes>
-				<Route path="/" element={<HomePage />} />
+				<Route
+					path="/"
+					element={<HomePage user={context.user} isLoggedIn={isLoggedIn} />}
+				/>
 				<Route path="/posters" element={<PostersPage posters={posters} />} />
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/signup" element={<SignupPage />} />

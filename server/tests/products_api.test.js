@@ -80,6 +80,7 @@ describe("Products API", () => {
 			const product = {
 				description: "Test description",
 				imageUrl: "https://test.com/test.jpg",
+				category: "test",
 				price: 10,
 				inStock: 25,
 			};
@@ -97,6 +98,7 @@ describe("Products API", () => {
 			const product = {
 				title: 1,
 				description: "Test description",
+				category: "test",
 				imageUrl: "https://test.com/test.jpg",
 				price: 10,
 				inStock: 25,
@@ -114,6 +116,7 @@ describe("Products API", () => {
 		it("fails with status code 400 if description is missing", async () => {
 			const product = {
 				title: "Test product",
+				category: "test",
 				imageUrl: "https://test.com/test.jpg",
 				price: 154,
 				inStock: 15,
@@ -131,6 +134,7 @@ describe("Products API", () => {
 		it("fails with status code 400 if description is not of type string", async () => {
 			const product = {
 				title: "Test product",
+				category: "test",
 				description: 1,
 				imageUrl: "https://test.com/test.jpg",
 				price: 154,
@@ -150,6 +154,7 @@ describe("Products API", () => {
 		it("fails with status code 400 if imageUrl is missing", async () => {
 			const product = {
 				title: "Test product",
+				category: "test",
 				description: "Test description",
 				price: 199,
 				inStock: 49,
@@ -167,6 +172,7 @@ describe("Products API", () => {
 		it("fails with status code 400 if imageUrl is not of type string", async () => {
 			const product = {
 				title: "Test product",
+				category: "test",
 				description: "Test description",
 				imageUrl: 1,
 				price: 199,
@@ -185,6 +191,7 @@ describe("Products API", () => {
 		it("fails with status code 400 if price is missing", async () => {
 			const product = {
 				title: "Test product",
+				category: "test",
 				description: "Test description",
 				imageUrl: "https://test.com/test.jpg",
 				inStock: 19,
@@ -203,6 +210,7 @@ describe("Products API", () => {
 			const product = {
 				title: "Test product",
 				description: "Test description",
+				category: "test",
 				imageUrl: "https://test.com/test.jpg",
 				price: "abc",
 				inStock: 19,
@@ -221,6 +229,7 @@ describe("Products API", () => {
 			const product = {
 				title: "Test product",
 				description: "Test description",
+				category: "test",
 				imageUrl: "https://test.com/test.jpg",
 				price: -15,
 				inStock: 19,
@@ -238,6 +247,7 @@ describe("Products API", () => {
 		it("fails with status code 400 if inStock is missing", async () => {
 			const product = {
 				title: "Test product",
+				category: "test",
 				description: "Test description",
 				imageUrl: "https://test.com/test.jpg",
 				price: 199,
@@ -256,6 +266,7 @@ describe("Products API", () => {
 			const product = {
 				title: "Test product",
 				description: "Test description",
+				category: "test",
 				imageUrl: "https://test.com/test.jpg",
 				price: 199,
 				inStock: "abc",
@@ -274,6 +285,7 @@ describe("Products API", () => {
 			const product = {
 				title: "Test product",
 				description: "Test description",
+				category: "test",
 				imageUrl: "https://test.com/test.jpg",
 				price: 199,
 				inStock: -15,
@@ -286,6 +298,43 @@ describe("Products API", () => {
 				.expect("Content-Type", /application\/json/);
 
 			expect(res.body.error).toBe("Please provide a valid quantity");
+		});
+
+		it("fails with status code 400 if category is missing", async () => {
+			const product = {
+				title: "Test product",
+				description: "Test description",
+				imageUrl: "https://test.com/test.jpg",
+				price: 199,
+				inStock: 19,
+			};
+			const res = await api
+				.post("/api/products")
+				.send(product)
+				.set("Authorization", `Bearer ${token}`)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Please provide a category");
+		});
+
+		it("fails with status code 400 if category is not a string", async () => {
+			const product = {
+				title: "Test product",
+				description: "Test description",
+				imageUrl: "https://test.com/test.jpg",
+				price: 199,
+				inStock: 19,
+				category: 123,
+			};
+			const res = await api
+				.post("/api/products")
+				.send(product)
+				.set("Authorization", `Bearer ${token}`)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(res.body.error).toBe("Please provide a valid category");
 		});
 	});
 

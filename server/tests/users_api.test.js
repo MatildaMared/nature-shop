@@ -283,23 +283,21 @@ describe("Users API", () => {
 	});
 
 	// ###
-	// ### Get user by ID
+	// ### Get user by token
 	// ###
 
-	describe("Get user by ID", () => {
+	describe("Get user by token", () => {
 		let token;
-		let id;
 
 		beforeAll(async () => {
 			await User.deleteMany({});
 			const user = await User.create(dummyUser);
 			token = user.getToken();
-			id = user._id;
 		});
 
 		it("succeeds provided a valid token", async () => {
 			const res = await api
-				.get(`/api/users/${id}`)
+				.get("/api/users/getByToken")
 				.set("Authorization", `Bearer ${token}`)
 				.expect(200)
 				.expect("Content-Type", /application\/json/);
@@ -310,7 +308,7 @@ describe("Users API", () => {
 
 		it("fails with status code 401 when token is missing", async () => {
 			const res = await api
-				.get(`/api/users/${id}`)
+				.get("/api/users/getByToken")
 				.expect(401)
 				.expect("Content-Type", /application\/json/);
 
@@ -321,7 +319,7 @@ describe("Users API", () => {
 			const invalidToken = "bad493";
 
 			const res = await api
-				.get(`/api/users/${id}`)
+				.get("/api/users/getByToken")
 				.set("Authorization", `Bearer ${invalidToken}`)
 				.expect(401)
 				.expect("Content-Type", /application\/json/);

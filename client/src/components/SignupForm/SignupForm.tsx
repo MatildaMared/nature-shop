@@ -11,9 +11,10 @@ import {
 	postalCodeValidator,
 	cityValidator,
 } from "./../../utils/validators";
+import { NewUser } from "../../models/User";
 
 interface Props {
-	submitHandler: () => void;
+	submitHandler: (newUser: NewUser) => void;
 	errorMessage: string;
 }
 
@@ -51,13 +52,18 @@ function SignupForm(props: Props) {
 	// Submit handler
 	function onFormSubmit(e: React.FormEvent) {
 		e.preventDefault();
-		console.log(name);
-		console.log(email);
-		console.log(password);
-		console.log(passwordConfirm);
-		console.log(street);
-		console.log(postalCode);
-		console.log(city);
+		const newUser = {
+			name,
+			email,
+			password,
+			address: {
+				street,
+				postalCode,
+				city,
+			},
+		};
+
+		submitHandler(newUser);
 	}
 
 	return (
@@ -71,7 +77,7 @@ function SignupForm(props: Props) {
 				setValue={setName}
 				isValid={nameIsValid}
 				setIsValid={setNameIsValid}
-				label="Name"
+				label="Full name"
 				validate={nameValidator}
 			/>
 			<TextInput
@@ -126,7 +132,6 @@ function SignupForm(props: Props) {
 				/>
 				<TextInput
 					ref={postalCodeInput}
-					style={{ minWidth: "300px", width: "60%" }}
 					type="text"
 					name="postal-code"
 					value={postalCode}
@@ -198,7 +203,6 @@ const AddressTitle = styled.h3`
 `;
 
 const ErrorMessage = styled.p`
-	margin-top: -1rem;
 	height: 16px;
 	font-size: 0.8rem;
 	color: var(--color-error);
