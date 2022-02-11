@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "../Button/Button";
-import TextInput from "../TextInput/TextInput";
+import TextInput from "../Inputs/TextInput";
 import {
 	passwordValidator,
 	emailValidator,
@@ -10,7 +10,7 @@ import {
 	passwordConfirmValidator,
 	postalCodeValidator,
 	cityValidator,
-} from "./../../utils/validators";
+} from "../../utils/validators";
 import { NewUser } from "../../models/User";
 
 interface Props {
@@ -40,15 +40,6 @@ function SignupForm(props: Props) {
 	const [postalCodeIsValid, setPostalCodeIsValid] = useState<boolean>(false);
 	const [cityIsValid, setCityIsValid] = useState<boolean>(false);
 
-	// Input refs
-	const nameInput = useRef<HTMLInputElement>(null);
-	const emailInput = useRef<HTMLInputElement>(null);
-	const passwordInput = useRef<HTMLInputElement>(null);
-	const passwordConfirmInput = useRef<HTMLInputElement>(null);
-	const streetInput = useRef<HTMLInputElement>(null);
-	const postalCodeInput = useRef<HTMLInputElement>(null);
-	const cityInput = useRef<HTMLInputElement>(null);
-
 	// Submit handler
 	function onFormSubmit(e: React.FormEvent) {
 		e.preventDefault();
@@ -70,7 +61,6 @@ function SignupForm(props: Props) {
 		<Form onSubmit={onFormSubmit}>
 			<TextInput
 				style={{ width: "80%" }}
-				ref={nameInput}
 				type="text"
 				name="name"
 				value={name}
@@ -81,7 +71,6 @@ function SignupForm(props: Props) {
 				validate={nameValidator}
 			/>
 			<TextInput
-				ref={emailInput}
 				style={{ width: "80%" }}
 				type="email"
 				name="email"
@@ -93,7 +82,6 @@ function SignupForm(props: Props) {
 				validate={emailValidator}
 			/>
 			<TextInput
-				ref={passwordInput}
 				style={{ width: "80%" }}
 				type="password"
 				name="password"
@@ -105,7 +93,6 @@ function SignupForm(props: Props) {
 				validate={passwordValidator}
 			/>
 			<TextInput
-				ref={passwordConfirmInput}
 				style={{ width: "80%" }}
 				type="password"
 				name="password-confirm"
@@ -120,7 +107,6 @@ function SignupForm(props: Props) {
 			<AddressWrapper>
 				<AddressTitle>Address</AddressTitle>
 				<TextInput
-					ref={streetInput}
 					type="text"
 					name="street"
 					value={street}
@@ -131,7 +117,6 @@ function SignupForm(props: Props) {
 					validate={streetValidator}
 				/>
 				<TextInput
-					ref={postalCodeInput}
 					type="text"
 					name="postal-code"
 					value={postalCode}
@@ -142,7 +127,6 @@ function SignupForm(props: Props) {
 					validate={postalCodeValidator}
 				/>
 				<TextInput
-					ref={cityInput}
 					type="text"
 					name="city"
 					value={city}

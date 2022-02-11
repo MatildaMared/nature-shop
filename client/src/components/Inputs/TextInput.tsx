@@ -13,68 +13,68 @@ interface Props {
 	label: string;
 	style?: React.CSSProperties;
 	compareValue?: string;
+	textArea?: boolean;
 }
 
-const TextInput = React.forwardRef(
-	(props: Props, ref: React.Ref<HTMLInputElement>) => {
-		const {
-			type,
-			name,
-			value,
-			setValue,
-			label,
-			validate,
-			isValid,
-			setIsValid,
-			style,
-			compareValue,
-		} = props;
-		const [isEmpty, setIsEmpty] = useState(true);
-		const [isVisited, setIsVisited] = useState(false);
-		const [errorMessage, setErrorMessage] = useState("");
+const TextInput = (props: Props) => {
+	const {
+		type,
+		name,
+		value,
+		setValue,
+		label,
+		validate,
+		isValid,
+		setIsValid,
+		style,
+		compareValue,
+		textArea,
+	} = props;
+	const [isEmpty, setIsEmpty] = useState(true);
+	const [isVisited, setIsVisited] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
 
-		const onBlurHandler = () => {
-			setIsVisited(true);
-			if (validate) {
-				if (compareValue) {
-					const [isValid, errorMessage] = validate(value, compareValue);
-					setIsValid(isValid);
-					setErrorMessage(errorMessage);
-				} else {
-					const [isValid, errorMessage] = validate(value);
-					setIsValid(isValid);
-					setErrorMessage(errorMessage);
-				}
-			}
-		};
-
-		const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-			setValue(e.target.value);
-			if (validate) {
-				const [validatedValue, message] = validate(e.target.value);
-				setIsValid(validatedValue);
-				setErrorMessage(message);
-			}
-		};
-
-		useEffect(() => {
-			if (value.length > 0) {
-				setIsEmpty(false);
+	const onBlurHandler = () => {
+		setIsVisited(true);
+		if (validate) {
+			if (compareValue) {
+				const [isValid, errorMessage] = validate(value, compareValue);
+				setIsValid(isValid);
+				setErrorMessage(errorMessage);
 			} else {
-				setIsEmpty(true);
-				setErrorMessage("");
+				const [isValid, errorMessage] = validate(value);
+				setIsValid(isValid);
+				setErrorMessage(errorMessage);
 			}
-		}, [value]);
+		}
+	};
 
-		const inputClassName = `${
-			(!isEmpty ? "non-empty" : "") +
-			(validate && isVisited && !isValid ? " invalid" : "")
-		}`;
+	const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setValue(e.target.value);
+		if (validate) {
+			const [validatedValue, message] = validate(e.target.value);
+			setIsValid(validatedValue);
+			setErrorMessage(message);
+		}
+	};
 
-		return (
-			<Wrapper style={style}>
+	useEffect(() => {
+		if (value.length > 0) {
+			setIsEmpty(false);
+		} else {
+			setIsEmpty(true);
+			setErrorMessage("");
+		}
+	}, [value]);
+
+	const inputClassName = `${
+		(!isEmpty ? "non-empty" : "") +
+		(validate && isVisited && !isValid ? " invalid" : "")
+	}`;
+
+	return (
+		<Wrapper style={style}>
 				<Input
-					ref={ref}
 					type={type}
 					name={name}
 					id={name}
@@ -83,21 +83,20 @@ const TextInput = React.forwardRef(
 					onChange={onChangeHandler}
 					className={inputClassName}
 				/>
-				<Label htmlFor={name}>
-					{label}
-					{isVisited && !isEmpty && isValid && <CheckSquare size={12} />}
-				</Label>
-				<ErrorMessage>
-					{errorMessage && isVisited && (
-						<>
-							<AlertOctagon size={16} /> {errorMessage}
-						</>
-					)}
-				</ErrorMessage>
-			</Wrapper>
-		);
-	}
-);
+			<Label htmlFor={name}>
+				{label}
+				{isVisited && !isEmpty && isValid && <CheckSquare size={12} />}
+			</Label>
+			<ErrorMessage>
+				{errorMessage && isVisited && (
+					<>
+						<AlertOctagon size={16} /> {errorMessage}
+					</>
+				)}
+			</ErrorMessage>
+		</Wrapper>
+	);
+};
 
 const Wrapper = styled.div`
 	width: 100%;

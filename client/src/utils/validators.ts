@@ -82,3 +82,21 @@ export function posterTitleValidator(title: string): [boolean, string] {
 
 	return [true, ""];
 }
+
+export function posterDescriptionValidator(
+	description: string
+): [boolean, string] {
+	if (description.length < 3) {
+		return [false, "Please enter a description"];
+	}
+
+	return [true, ""];
+}
+
+export function posterCategoryValidator(category: string): [boolean, string] {
+	if (category.length < 3) {
+		return [false, "Please enter a category"];
+	}
+
+	return [true, ""];
+}

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import SignupForm from "../components/SignupForm/SignupForm";
+import SignupForm from "../components/Forms/SignupForm";
 import Heading from "../components/Heading/Heading";
 import { NewUser } from "../models/User";
 import { signup } from "../services/userService";

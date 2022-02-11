@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import LoginForm from "../components/LoginForm/LoginForm";
+import LoginForm from "../components/Forms/LoginForm";
 import Heading from "../components/Heading/Heading";
 import { login } from "../services/userService";
 import { UserContext } from "../context/UserContext";

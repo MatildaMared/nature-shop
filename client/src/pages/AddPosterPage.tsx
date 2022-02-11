@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Heading from "../components/Heading/Heading";
 import styled from "styled-components";
-import AddPosterForm from "../components/AddPosterForm/AddPosterForm";
+import AddPosterForm from "../components/Forms/AddPosterForm";
 
 interface Props {
 	isAdmin: boolean;
