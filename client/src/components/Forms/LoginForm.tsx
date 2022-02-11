@@ -48,7 +48,6 @@ function LoginForm(props: Props) {
 			<ErrorMessage>{errorMessage}</ErrorMessage>
 			<Button
 				type="submit"
-				onClick={onFormSubmit}
 				disabled={!emailIsValid || !passwordIsValid}
 			>
 				Log in

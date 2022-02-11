@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import Heading from "../components/Heading/Heading";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import AddPosterForm from "../components/Forms/AddPosterForm";
+import { NewPoster } from "../models/Poster";
+import { getToken } from "../services/localStorageService";
+import { createPoster } from "../services/postersService";
 
 interface Props {
 	isAdmin: boolean;
@@ -10,16 +14,39 @@ interface Props {
 function AddPosterPage(props: Props) {
 	const { isAdmin } = props;
 	const [errorMessage, setErrorMessage] = useState("");
+	const navigate = useNavigate();
 
-	function onSubmit() {
-		console.log("Submitted");
+	function displayErrorMessage(message: string): void {
+		setErrorMessage(message);
+		setTimeout(() => {
+			setErrorMessage("");
+		}, 5000);
+	}
+
+	async function onCreateNewPosterHandler(newPoster: NewPoster) {
+		setErrorMessage("");
+		const token = getToken();
+		if (!token) {
+			return displayErrorMessage(
+				"You must be logged in to create a new poster"
+			);
+		}
+		const data = await createPoster(newPoster, token);
+		if (data.success === false) {
+			displayErrorMessage(data.error);
+		} else {
+			navigate(`/posters/${data.product.id}`);
+		}
 	}
 
 	if (isAdmin) {
 		return (
 			<Wrapper>
 				<Heading>Add Poster</Heading>
-				<AddPosterForm submitHandler={onSubmit} errorMessage={errorMessage} />
+				<AddPosterForm
+					submitHandler={onCreateNewPosterHandler}
+					errorMessage={errorMessage}
+				/>
 			</Wrapper>
 		);
 	} else {

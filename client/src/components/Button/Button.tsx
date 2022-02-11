@@ -5,7 +5,7 @@ interface Props {
 	children: React.ReactNode;
 	type: "button" | "submit";
 	disabled?: boolean;
-	onClick: (...args: any) => void;
+	onClick?: (...args: any) => void;
 }
 
 function Button(props: Props) {

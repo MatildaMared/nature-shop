@@ -98,5 +98,47 @@ export function posterCategoryValidator(category: string): [boolean, string] {
 		return [false, "Please enter a category"];
 	}
 
+	const isValid = /^[a-zA-Z0-9_]+$/.test(category);
+
+	if (!isValid) {
+		return [
+			false,
+			"Please enter a single word without spaces or special characters",
+		];
+	}
+
+	return [true, ""];
+}
+
+export function posterImageUrlValidator(imageUrl: string): [boolean, string] {
+	if (imageUrl.length === 0) {
+		return [false, "Please enter an image url"];
+	}
+
+	const isValid =
+		/(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/.test(
+			imageUrl
+		);
+
+	if (!isValid) {
+		return [false, "Please enter a valid url"];
+	}
+
+	return [true, ""];
+}
+
+export function posterPriceValidator(price: number): [boolean, string] {
+	if (price <= 0) {
+		return [false, "Please enter a price greater than 0"];
+	}
+
+	return [true, ""];
+}
+
+export function posterInStockValidator(inStock: number): [boolean, string] {
+	if (inStock < 0) {
+		return [false, "In stock can't be a negative number"];
+	}
+
 	return [true, ""];
 }

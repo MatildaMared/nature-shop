@@ -3,21 +3,20 @@ import styled from "styled-components";
 import { AlertOctagon, CheckSquare } from "react-feather";
 
 interface Props {
-	type: string;
 	name: string;
-	value: string;
-	setValue: (value: string) => void;
+	value: number;
+	setValue: (value: number) => void;
 	isValid: boolean;
 	setIsValid: (isValid: boolean) => void;
-	validate?: (value: string, compareValue?: string) => [boolean, string];
+	validate?: (value: number) => [boolean, string];
 	label: string;
-	style?: React.CSSProperties;
-	compareValue?: string;
+  style?: React.CSSProperties;
+  min: string;
+  max: string;
 }
 
-const TextInput = (props: Props) => {
+const NumberInput = (props: Props) => {
 	const {
-		type,
 		name,
 		value,
 		setValue,
@@ -25,8 +24,9 @@ const TextInput = (props: Props) => {
 		validate,
 		isValid,
 		setIsValid,
-		style,
-		compareValue,
+    style,
+    min,
+    max
 	} = props;
 	const [isEmpty, setIsEmpty] = useState(true);
 	const [isVisited, setIsVisited] = useState(false);
@@ -35,35 +35,29 @@ const TextInput = (props: Props) => {
 	const onBlurHandler = () => {
 		setIsVisited(true);
 		if (validate) {
-			if (compareValue) {
-				const [isValid, errorMessage] = validate(value, compareValue);
-				setIsValid(isValid);
-				setErrorMessage(errorMessage);
-			} else {
 				const [isValid, errorMessage] = validate(value);
 				setIsValid(isValid);
 				setErrorMessage(errorMessage);
 			}
-		}
 	};
 
 	const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setValue(e.target.value);
+		setValue(Number(e.target.value));
 		if (validate) {
-			const [validatedValue, message] = validate(e.target.value);
+			const [validatedValue, message] = validate(Number(e.target.value));
 			setIsValid(validatedValue);
 			setErrorMessage(message);
 		}
 	};
 
 	useEffect(() => {
-		if (value.length > 0) {
+		if (isVisited && (value >= 0)) {
 			setIsEmpty(false);
 		} else {
 			setIsEmpty(true);
 			setErrorMessage("");
 		}
-	}, [value]);
+	}, [value, isVisited]);
 
 	const inputClassName = `${
 		(!isEmpty ? "non-empty" : "") +
@@ -72,15 +66,17 @@ const TextInput = (props: Props) => {
 
 	return (
 		<Wrapper style={style}>
-				<Input
-					type={type}
-					name={name}
-					id={name}
-					value={value}
-					onBlur={onBlurHandler}
-					onChange={onChangeHandler}
-					className={inputClassName}
-				/>
+			<Input
+        type="number"
+        min={min}
+        max={max}
+				name={name}
+				id={name}
+				value={value}
+				onBlur={onBlurHandler}
+				onChange={onChangeHandler}
+				className={inputClassName}
+			/>
 			<Label htmlFor={name}>
 				{label}
 				{isVisited && !isEmpty && isValid && <CheckSquare size={12} />}
@@ -175,4 +171,4 @@ const ErrorMessage = styled.p`
 	}
 `;
 
-export default TextInput;
+export default NumberInput;

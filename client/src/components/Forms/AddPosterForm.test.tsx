@@ -11,11 +11,11 @@ describe("AddPosterForm component", () => {
 	it("displays all necessary input fields", () => {
 		render(<AddPosterForm errorMessage="" submitHandler={submitHandlerMock} />);
 
-		expect(screen.getByLabelText("Title")).toBeInTheDocument();
-		expect(screen.getByLabelText("Category")).toBeInTheDocument();
-		expect(screen.getByLabelText("Description")).toBeInTheDocument();
-		expect(screen.getByLabelText("Image URL")).toBeInTheDocument();
-		expect(screen.getByLabelText("Price")).toBeInTheDocument();
-		expect(screen.getByLabelText("Amount in stock")).toBeInTheDocument();
+		expect(screen.getByLabelText(/Title/i)).toBeInTheDocument();
+		expect(screen.getByLabelText(/Category/i)).toBeInTheDocument();
+		expect(screen.getByLabelText(/Description/i)).toBeInTheDocument();
+		expect(screen.getByLabelText(/Image Url/i)).toBeInTheDocument();
+		expect(screen.getByLabelText(/Price/i)).toBeInTheDocument();
+		expect(screen.getByLabelText(/In stock/i)).toBeInTheDocument();
 	});
 });
