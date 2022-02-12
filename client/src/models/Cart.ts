@@ -1,14 +1,13 @@
-export interface NewCart {
+export interface NewCartItem {
 	posterId: string;
 	title: string;
 	frame: "black" | "white";
 	passerPartout: boolean;
 	amount: number;
 	price: number;
-	totalPrice: number;
 }
 
-export interface Cart {
+export interface CartItem {
 	id: string;
 	posterId: string;
 	title: string;
@@ -16,5 +15,4 @@ export interface Cart {
 	passerPartout: boolean;
 	amount: number;
 	price: number;
-	totalPrice: number;
 }

@@ -4,18 +4,19 @@ import styled from "styled-components";
 import { Poster as PosterInterface } from "../models/Poster";
 import { getPoster, deletePoster } from "../services/postersService";
 import Poster from "../components/Poster/Poster";
-import { NewCart } from "../models/Cart";
-import { getToken } from "../services/localStorageService";
+import { CartItem, NewCartItem } from "../models/Cart";
+import { getToken, addToCart, getCart } from "../services/localStorageService";
 
 interface Props {
 	isAdmin: boolean;
 	isLoggedIn: boolean;
 	setPosters: (posters: PosterInterface[]) => void;
+	updateContext: (context: any) => void;
 }
 
 function SinglePosterPage(props: Props) {
 	// Variables
-	const { isAdmin, isLoggedIn, setPosters } = props;
+	const { isAdmin, isLoggedIn, setPosters, updateContext } = props;
 	const { id } = useParams();
 	const [isLoading, setIsLoading] = useState(true);
 	const [loadingMessage, setLoadingMessage] = useState("Loading...");
@@ -58,9 +59,10 @@ function SinglePosterPage(props: Props) {
 		navigate(`/posters/${id}/edit`);
 	}
 
-	async function onAddToCart(cartObj: NewCart) {
-		console.log("Will add to cart");
-		console.log(cartObj);
+	async function onAddToCart(cartObj: NewCartItem) {
+		addToCart(cartObj);
+		const cart: CartItem[] | undefined = getCart();
+		updateContext({ cart });
 	}
 
 	// Effects

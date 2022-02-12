@@ -21,6 +21,7 @@ interface UserContextData {
 	isLoggedIn: boolean;
 	isAdmin: boolean;
 	isLoading: boolean;
+	cart: [];
 }
 
 export const UserProvider = ({ children }: any) => {

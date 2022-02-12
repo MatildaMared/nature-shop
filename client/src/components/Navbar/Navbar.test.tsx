@@ -11,6 +11,7 @@ describe("Navbar component", () => {
 		render(
 			<MemoryRouter>
 				<Navbar
+					cart={[]}
 					isLoggedIn={false}
 					isAdmin={false}
 					updateContext={updateContextMock}
@@ -23,6 +24,7 @@ describe("Navbar component", () => {
 		render(
 			<MemoryRouter>
 				<Navbar
+					cart={[]}
 					isLoggedIn={false}
 					isAdmin={false}
 					updateContext={updateContextMock}
@@ -41,6 +43,7 @@ describe("Navbar component", () => {
 		render(
 			<Router location={history.location} navigator={history}>
 				<Navbar
+					cart={[]}
 					isLoggedIn={false}
 					isAdmin={false}
 					updateContext={updateContextMock}
@@ -61,6 +64,7 @@ describe("Navbar component", () => {
 		render(
 			<Router location={history.location} navigator={history}>
 				<Navbar
+					cart={[]}
 					isLoggedIn={false}
 					isAdmin={false}
 					updateContext={updateContextMock}
@@ -83,6 +87,7 @@ describe("Navbar component", () => {
 		render(
 			<Router location={history.location} navigator={history}>
 				<Navbar
+					cart={[]}
 					isLoggedIn={false}
 					isAdmin={false}
 					updateContext={updateContextMock}
@@ -103,6 +108,7 @@ describe("Navbar component", () => {
 		render(
 			<MemoryRouter>
 				<Navbar
+					cart={[]}
 					isLoggedIn={true}
 					isAdmin={false}
 					updateContext={updateContextMock}

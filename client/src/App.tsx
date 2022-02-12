@@ -12,7 +12,7 @@ import Footer from "./components/Footer/Footer";
 import { Poster } from "./models/Poster";
 import { getAllPosters } from "./services/postersService";
 import { getUser } from "./services/userService";
-import { getToken } from "./services/localStorageService";
+import { getToken, getCart } from "./services/localStorageService";
 import AddPosterPage from "./pages/AddPosterPage";
 import EditPosterPage from "./pages/EditPosterPage";
 
@@ -41,6 +41,11 @@ function App() {
 			}
 		}
 
+		const cart = getCart();
+		if (cart) {
+			updateContext({ cart });
+		}
+
 		updateContext({ isLoading: false });
 	};
 
@@ -56,6 +61,7 @@ function App() {
 					isLoggedIn={isLoggedIn}
 					isAdmin={isAdmin}
 					updateContext={updateContext}
+					cart={context.cart}
 				/>
 			)}
 			<Header />
@@ -74,6 +80,7 @@ function App() {
 							isAdmin={isAdmin}
 							isLoggedIn={isLoggedIn}
 							setPosters={setPosters}
+							updateContext={updateContext}
 						/>
 					}
 				/>

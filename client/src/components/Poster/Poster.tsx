@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Heading from "../Heading/Heading";
 import Button from "../Button/Button";
 import { AlertOctagon, ShoppingCart, Edit, XSquare } from "react-feather";
-import { NewCart } from "../../models/Cart";
+import { NewCartItem } from "../../models/Cart";
 
 interface Props {
 	poster: PosterInterface;
@@ -12,7 +12,7 @@ interface Props {
 	isLoggedIn: boolean;
 	deletePosterHandler: (id: string) => void;
 	editPosterHandler: (id: string) => void;
-	addToCartHandler: (cartObj: NewCart) => void;
+	addToCartHandler: (cartObj: NewCartItem) => void;
 }
 
 function Poster(props: Props) {
@@ -38,7 +38,6 @@ function Poster(props: Props) {
 			passerPartout: passerPartout,
 			amount: amount,
 			price: price,
-			totalPrice: amount * price,
 		};
 
 		addToCartHandler(cartObj);
@@ -244,7 +243,7 @@ const Image = styled.img`
 `;
 
 const Content = styled.div`
-  margin-left: 1rem;
+	margin-left: 1rem;
 `;
 
 const ChoiceWrapper = styled.div`

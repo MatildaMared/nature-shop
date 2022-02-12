@@ -1,15 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
+import { CartItem } from "../../models/Cart";
+import Button from "../Button/Button";
+import { ShoppingCart } from "react-feather";
 
 interface Props {
 	isLoggedIn: boolean;
 	isAdmin: boolean;
 	updateContext: (context: any) => void;
+	cart: CartItem[] | [];
 }
 
 function Navbar(props: Props) {
-	const { isLoggedIn, isAdmin, updateContext } = props;
+	const { isLoggedIn, isAdmin, updateContext, cart } = props;
 	const navigate = useNavigate();
 
 	function logoutHandler() {
@@ -20,6 +24,10 @@ function Navbar(props: Props) {
 			isAdmin: false,
 		});
 		navigate("/");
+	}
+
+	function cartClickHandler() {
+		navigate("/cart");
 	}
 
 	return (
@@ -53,6 +61,15 @@ function Navbar(props: Props) {
 							<Link to="" onClick={logoutHandler}>
 								Log out
 							</Link>
+						</Item>
+					)}
+					{cart.length > 0 && (
+						<Item>
+							<Amount>{cart.length + 1}</Amount>
+							<Button onClick={cartClickHandler} type="button">
+								<ShoppingCart size={14} />
+								Cart
+							</Button>
 						</Item>
 					)}
 				</List>
@@ -96,6 +113,7 @@ const List = styled.ul`
 `;
 
 const Item = styled.li`
+	position: relative;
 	&:not(:last-child) {
 		margin-right: 1rem;
 	}
@@ -112,6 +130,23 @@ const Item = styled.li`
 			color: var(--color-primary-light);
 		}
 	}
+`;
+
+const Amount = styled.span`
+	line-height: 1;
+	padding: 2px;
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	border-radius: 50%;
+	background-color: #940000;
+	font-size: 0.8rem;
+	color: #fff;
+	min-width: 20px;
+	height: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `;
 
 export default Navbar;
