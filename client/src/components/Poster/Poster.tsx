@@ -3,13 +3,12 @@ import { Poster as PosterInterface } from "../../models/Poster";
 import styled from "styled-components";
 import Heading from "../Heading/Heading";
 import Button from "../Button/Button";
-import { AlertOctagon, ShoppingCart, Edit, XSquare } from "react-feather";
+import { ShoppingCart, Edit, XSquare } from "react-feather";
 import { NewCartItem } from "../../models/Cart";
 
 interface Props {
 	poster: PosterInterface;
 	isAdmin: boolean;
-	isLoggedIn: boolean;
 	deletePosterHandler: (id: string) => void;
 	editPosterHandler: (id: string) => void;
 	addToCartHandler: (cartObj: NewCartItem) => void;
@@ -20,7 +19,6 @@ function Poster(props: Props) {
 		props.poster;
 	const {
 		isAdmin,
-		isLoggedIn,
 		deletePosterHandler,
 		editPosterHandler,
 		addToCartHandler,
@@ -129,16 +127,10 @@ function Poster(props: Props) {
 					<Total>
 						Total: <span>{price * amount}:-</span>
 					</Total>
-					<Button type="button" disabled={!isLoggedIn} onClick={onAddToCart}>
+					<Button type="button" onClick={onAddToCart}>
 						<ShoppingCart size={14} />
 						Add to cart
 					</Button>
-					{!isLoggedIn && (
-						<Alert>
-							<AlertOctagon size={14} />
-							Please log in to add to cart
-						</Alert>
-					)}
 				</Content>
 			</ContentWrapper>
 			{isAdmin && (

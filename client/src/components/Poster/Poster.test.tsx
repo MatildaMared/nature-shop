@@ -19,7 +19,6 @@ describe("Poster component", () => {
 	it("renders without crashing", () => {
 		render(
 			<Poster
-				isLoggedIn={true}
 				isAdmin={false}
 				poster={dummyPoster}
 				deletePosterHandler={onDeletePosterMock}

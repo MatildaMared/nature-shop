@@ -77,7 +77,6 @@ function SinglePosterPage(props: Props) {
 				<Poster
 					poster={poster}
 					isAdmin={isAdmin}
-					isLoggedIn={isLoggedIn}
 					deletePosterHandler={onDeletePoster}
 					editPosterHandler={onEditPoster}
 					addToCartHandler={onAddToCart}
