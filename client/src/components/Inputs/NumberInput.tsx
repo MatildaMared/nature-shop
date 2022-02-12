@@ -6,7 +6,7 @@ interface Props {
 	name: string;
 	value: number;
 	setValue: (value: number) => void;
-	isValid: boolean;
+	isValid?: boolean;
 	setIsValid: (isValid: boolean) => void;
 	validate?: (value: number) => [boolean, string];
 	label: string;

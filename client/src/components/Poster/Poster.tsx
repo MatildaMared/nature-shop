@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Poster as PosterInterface } from "../../models/Poster";
 import styled from "styled-components";
 import Heading from "../Heading/Heading";
+import Button from "../Button/Button";
 
 interface Props {
 	poster: PosterInterface;
@@ -13,20 +14,94 @@ function Poster(props: Props) {
 
 	const [frameColor, setFrameColor] = useState<"black" | "white">("black");
 	const [passerPartout, setPasserPartout] = useState<boolean>(true);
+	const [amount, setAmount] = useState<number>(1);
 
 	return (
 		<Wrapper>
 			<Heading>{title}</Heading>
 			<ContentWrapper>
-				<FrameWrapper className={frameColor}>
-					<ImageWrapper
-						className={`${frameColor} ${passerPartout ? "passerpartout" : ""}`}
-					>
-						<Image src={imageUrl} alt={title} />
-					</ImageWrapper>
-				</FrameWrapper>
+				<ImageWrapper
+					className={`${frameColor} ${passerPartout ? "passerpartout" : ""}`}
+				>
+					<Image src={imageUrl} alt={title} />
+				</ImageWrapper>
 				<Content>
 					<Description>{description}</Description>
+					<InformationWrapper>
+						<div>
+							<InfoTitle>Category: </InfoTitle> <InfoText>{category}</InfoText>
+						</div>
+						<div>
+							<InfoTitle>Measurements: </InfoTitle>{" "}
+							<InfoText>70x100cm</InfoText>
+						</div>
+						<div>
+							<InfoTitle>Price: </InfoTitle> <InfoText>{price}:-</InfoText>
+						</div>
+						<div>
+							<InfoTitle>Left in stock: </InfoTitle>{" "}
+							<InfoText>{inStock}</InfoText>
+						</div>
+					</InformationWrapper>
+					<Choices>
+						<ChoiceWrapper>
+							<Title>Frame color</Title>
+							<label onClick={() => setFrameColor("black")}>
+								<input
+									type="radio"
+									value="black"
+									name="frame-color"
+									checked={frameColor === "black"}
+								/>{" "}
+								Black
+							</label>
+							<label onClick={() => setFrameColor("white")}>
+								<input
+									type="radio"
+									value="black"
+									name="frame-color"
+									checked={frameColor === "white"}
+								/>{" "}
+								White
+							</label>
+						</ChoiceWrapper>
+						<ChoiceWrapper>
+							<Title>Passerpartout</Title>
+							<label onClick={() => setPasserPartout(true)}>
+								<input
+									type="radio"
+									value="yes"
+									name="passerpartout"
+									checked={passerPartout}
+								/>{" "}
+								Yes
+							</label>
+							<label onClick={() => setPasserPartout(false)}>
+								<input
+									type="radio"
+									value="no"
+									name="passerpartout"
+									checked={!passerPartout}
+								/>{" "}
+								No
+							</label>
+						</ChoiceWrapper>
+					</Choices>
+					<AmountWrapper>
+						<Label htmlFor="amount">Amount</Label>
+						<Input
+							type="number"
+							value={amount}
+							onChange={(e) => setAmount(parseInt(e.target.value))}
+							name="amount"
+							min="1"
+							max={inStock.toString()}
+						/>
+					</AmountWrapper>
+					<Total>
+						Total: <span>{price * amount}:-</span>
+					</Total>
+					<Button type="button">Add to cart</Button>
 				</Content>
 			</ContentWrapper>
 		</Wrapper>
@@ -41,30 +116,31 @@ const Wrapper = styled.section`
 
 const ContentWrapper = styled.div`
 	display: flex;
-`;
 
-const FrameWrapper = styled.div`
-	width: 100%;
-	max-width: 400px;
-	height: 550px;
-	margin-right: 1rem;
-	&.white {
-		border: 1px solid #ddd;
-	}
-
-	@media (max-width: 768px) {
-		max-width: 300px;
-		height: 425px;
+	@media (max-width: 900px) {
+		flex-direction: column;
 	}
 `;
 
 const ImageWrapper = styled.div`
-	width: 400px;
-	height: 100%;
+	width: 100%;
+	min-width: 400px;
+	max-width: 400px;
+	height: 550px;
+	margin-right: 2rem;
+	align-self: center;
+	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
 	border: 6px solid;
 
+	@media (max-width: 900px) {
+		margin-bottom: 2rem;
+	}
+
 	@media (max-width: 768px) {
-		width: 300px;
+		min-width: 300px;
+		max-width: 300px;
+		height: 100%;
+		height: 425px;
 	}
 
 	&.black {
@@ -87,6 +163,119 @@ const Image = styled.img`
 
 const Content = styled.div``;
 
-const Description = styled.p``;
+const ChoiceWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 2rem;
+	position: relative;
+	padding: 1rem;
+	border: 1px solid var(--color-primary-lightest);
+	width: 50%;
+	max-width: 200px;
+`;
+
+const Title = styled.h3`
+	font-weight: 400;
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	position: absolute;
+	top: -11px;
+	background-color: var(--color-white);
+	padding: 2px;
+	color: #7a7a7a;
+  letter-spacing: 1px;
+`;
+
+const Description = styled.p`
+	margin-bottom: 2rem;
+`;
+
+const InformationWrapper = styled.div`
+	margin-bottom: 2rem;
+
+	& > div {
+		display: flex;
+		align-items: center;
+		margin-bottom: 0.5rem;
+	}
+`;
+
+const Choices = styled.div`
+	display: flex;
+	align-items: center;
+	width: 100%;
+
+	& :not(:last-child) {
+		margin-right: 1rem;
+	}
+`;
+
+const InfoTitle = styled.h4`
+	text-transform: uppercase;
+	font-size: 0.9rem;
+	margin-right: 0.5rem;
+	letter-spacing: 1px;
+	font-weight: 500;
+`;
+
+const InfoText = styled.span`
+	font-size: 0.9rem;
+`;
+
+const AmountWrapper = styled.div`
+	position: relative;
+  margin-bottom: 1rem;
+`;
+
+const Input = styled.input`
+	width: 100px;
+	padding: 12px 16px;
+	border: none;
+	border: 1px solid var(--color-primary-lightest);
+	font-size: 1rem;
+	color: inherit;
+	background: transparent;
+	transition: border-color 0.3s;
+	outline: none;
+
+	&:hover,
+	&:focus {
+		border-color: var(--color-primary);
+		border: 2px solid var(--color-primary);
+		padding: 11px 15px;
+		& ~ label {
+			color: var(--color-primary);
+		}
+	}
+`;
+
+const Label = styled.label`
+	color: #7a7a7a;
+	display: flex;
+	align-items: center;
+	position: absolute;
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+	left: 8px;
+	top: -8px;
+	background-color: var(--color-white);
+	padding: 0 6px;
+	transition: transform 0.3s, color 0.3s;
+	cursor: text;
+`;
+
+const Total = styled.p`
+	font-size: 1.2rem;
+	margin-bottom: 1rem;
+	text-transform: uppercase;
+	font-weight: 500;
+	letter-spacing: 1px;
+
+	& span {
+		font-weight: 300;
+	}
+`;
 
 export default Poster;
