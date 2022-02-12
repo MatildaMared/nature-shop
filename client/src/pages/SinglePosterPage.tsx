@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Poster as PosterInterface } from "../models/Poster";
-import { getPoster } from "../services/postersService";
+import { getPoster, deletePoster } from "../services/postersService";
 import Poster from "../components/Poster/Poster";
+import { NewCart } from "../models/Cart";
+import { getToken } from "../services/localStorageService";
 
 interface Props {
 	isAdmin: boolean;
 	isLoggedIn: boolean;
+	setPosters: (posters: PosterInterface[]) => void;
 }
 
 function SinglePosterPage(props: Props) {
 	// Variables
-	const { isAdmin, isLoggedIn } = props;
+	const { isAdmin, isLoggedIn, setPosters } = props;
 	const { id } = useParams();
 	const [isLoading, setIsLoading] = useState(true);
 	const [loadingMessage, setLoadingMessage] = useState("Loading...");
 	const [poster, setPoster] = useState<PosterInterface | null>(null);
+	const navigate = useNavigate();
 
 	// Functions
 	async function getData() {
@@ -34,15 +38,29 @@ function SinglePosterPage(props: Props) {
 	}
 
 	async function onDeletePoster(id: string) {
-		console.log("Will delete poster with id: " + id);
+		if (
+			window.confirm(
+				"Would you really like to delete this poster? This decision cannot be undone."
+			)
+		) {
+			const token = getToken();
+			if (token) {
+				const response = await deletePoster(id, token);
+				if (response.success) {
+					setPosters(response.products);
+					navigate("/");
+				}
+			}
+		}
 	}
 
 	async function onEditPoster(id: string) {
 		console.log("Will edit poster with id: " + id);
 	}
 
-	async function onAddToCart(id: string) {
+	async function onAddToCart(cartObj: NewCart) {
 		console.log("Will add to cart");
+		console.log(cartObj);
 	}
 
 	// Effects
@@ -58,9 +76,9 @@ function SinglePosterPage(props: Props) {
 					poster={poster}
 					isAdmin={isAdmin}
 					isLoggedIn={isLoggedIn}
-					onDeletePoster={onDeletePoster}
-					onEditPoster={onEditPoster}
-					onAddToCart={onAddToCart}
+					deletePosterHandler={onDeletePoster}
+					editPosterHandler={onEditPoster}
+					addToCartHandler={onAddToCart}
 				/>
 			)}
 		</Wrapper>

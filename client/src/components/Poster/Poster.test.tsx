@@ -22,9 +22,9 @@ describe("Poster component", () => {
 				isLoggedIn={true}
 				isAdmin={false}
 				poster={dummyPoster}
-				onDeletePoster={onDeletePosterMock}
-				onEditPoster={onEditPosterMock}
-				onAddToCart={onAddToCartMock}
+				deletePosterHandler={onDeletePosterMock}
+				editPosterHandler={onEditPosterMock}
+				addToCartHandler={onAddToCartMock}
 			/>
 		);
 	});

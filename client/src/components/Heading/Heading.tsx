@@ -12,7 +12,7 @@ function Heading(props: Props) {
 }
 
 const StyledHeading = styled.h2`
-	font-size: 2.5rem;
+	font-size: 2.8rem;
 	font-family: var(--font-script);
 	text-align: center;
 	color: var(--color-primary-dark);

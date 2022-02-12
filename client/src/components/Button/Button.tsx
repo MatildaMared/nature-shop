@@ -40,6 +40,10 @@ const PrimaryButton = styled.button`
 		background-color: hsla(0, 0%, 0%, 0.2);
 		cursor: default;
 	}
+
+	& svg {
+		margin-right: 0.5rem;
+	}
 `;
 
 export default Button;

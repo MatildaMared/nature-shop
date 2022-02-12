@@ -3,16 +3,17 @@ import Heading from "../components/Heading/Heading";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import AddPosterForm from "../components/Forms/AddPosterForm";
-import { NewPoster } from "../models/Poster";
+import { NewPoster, Poster } from "../models/Poster";
 import { getToken } from "../services/localStorageService";
 import { createPoster } from "../services/postersService";
 
 interface Props {
 	isAdmin: boolean;
+	setPosters: (posters: Poster[]) => void;
 }
 
 function AddPosterPage(props: Props) {
-	const { isAdmin } = props;
+	const { isAdmin, setPosters } = props;
 	const [errorMessage, setErrorMessage] = useState("");
 	const navigate = useNavigate();
 
@@ -35,6 +36,7 @@ function AddPosterPage(props: Props) {
 		if (data.success === false) {
 			displayErrorMessage(data.error);
 		} else {
+			setPosters(data.products);
 			navigate(`/posters/${data.product.id}`);
 		}
 	}

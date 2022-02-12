@@ -120,9 +120,12 @@ async function deleteProduct(req, res, next) {
 
 		await Product.findByIdAndDelete(id);
 
+		const products = await Product.find();
+
 		res.status(200).json({
 			success: true,
 			message: "Product deleted",
+			products,
 		});
 	} catch (err) {
 		next(err);

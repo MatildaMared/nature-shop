@@ -3,26 +3,46 @@ import { Poster as PosterInterface } from "../../models/Poster";
 import styled from "styled-components";
 import Heading from "../Heading/Heading";
 import Button from "../Button/Button";
-import { AlertOctagon } from "react-feather";
+import { AlertOctagon, ShoppingCart, Edit, XSquare } from "react-feather";
+import { NewCart } from "../../models/Cart";
 
 interface Props {
 	poster: PosterInterface;
 	isAdmin: boolean;
 	isLoggedIn: boolean;
-	onDeletePoster: (id: string) => void;
-	onEditPoster: (id: string) => void;
-	onAddToCart: (id: string) => void;
+	deletePosterHandler: (id: string) => void;
+	editPosterHandler: (id: string) => void;
+	addToCartHandler: (cartObj: NewCart) => void;
 }
 
 function Poster(props: Props) {
-	const { title, description, category, imageUrl, price, inStock } =
+	const { id, title, description, category, imageUrl, price, inStock } =
 		props.poster;
-	const { isAdmin, isLoggedIn, onDeletePoster, onEditPoster, onAddToCart } =
-		props;
+	const {
+		isAdmin,
+		isLoggedIn,
+		deletePosterHandler,
+		editPosterHandler,
+		addToCartHandler,
+	} = props;
 
 	const [frameColor, setFrameColor] = useState<"black" | "white">("black");
 	const [passerPartout, setPasserPartout] = useState<boolean>(true);
 	const [amount, setAmount] = useState<number>(1);
+
+	function onAddToCart() {
+		const cartObj = {
+			posterId: id,
+			title: title,
+			frame: frameColor,
+			passerPartout: passerPartout,
+			amount: amount,
+			price: price,
+			totalPrice: amount * price,
+		};
+
+		addToCartHandler(cartObj);
+	}
 
 	return (
 		<Wrapper>
@@ -51,20 +71,22 @@ function Poster(props: Props) {
 					<Choices>
 						<ChoiceWrapper>
 							<Title>Frame color</Title>
-							<label onClick={() => setFrameColor("black")}>
+							<label>
 								<input
 									type="radio"
 									value="black"
 									name="frame-color"
+									onChange={() => setFrameColor("black")}
 									checked={frameColor === "black"}
 								/>{" "}
 								Black
 							</label>
-							<label onClick={() => setFrameColor("white")}>
+							<label>
 								<input
 									type="radio"
 									value="black"
 									name="frame-color"
+									onChange={() => setFrameColor("white")}
 									checked={frameColor === "white"}
 								/>{" "}
 								White
@@ -72,20 +94,22 @@ function Poster(props: Props) {
 						</ChoiceWrapper>
 						<ChoiceWrapper>
 							<Title>Passerpartout</Title>
-							<label onClick={() => setPasserPartout(true)}>
+							<label>
 								<input
 									type="radio"
 									value="yes"
 									name="passerpartout"
+									onChange={() => setPasserPartout(true)}
 									checked={passerPartout}
 								/>{" "}
 								Yes
 							</label>
-							<label onClick={() => setPasserPartout(false)}>
+							<label>
 								<input
 									type="radio"
 									value="no"
 									name="passerpartout"
+									onChange={() => setPasserPartout(false)}
 									checked={!passerPartout}
 								/>{" "}
 								No
@@ -106,17 +130,31 @@ function Poster(props: Props) {
 					<Total>
 						Total: <span>{price * amount}:-</span>
 					</Total>
-					<Button type="button" disabled={!isLoggedIn}>
+					<Button type="button" disabled={!isLoggedIn} onClick={onAddToCart}>
+						<ShoppingCart size={14} />
 						Add to cart
 					</Button>
 					{!isLoggedIn && (
 						<Alert>
 							<AlertOctagon size={14} />
-							Please log in to add a poster to your cart
+							Please log in to add to cart
 						</Alert>
 					)}
 				</Content>
 			</ContentWrapper>
+			{isAdmin && (
+				<AdminActions>
+					<h3>Admin actions</h3>
+					<Button type="button" onClick={() => editPosterHandler(id)}>
+						<Edit size={14} />
+						Edit poster
+					</Button>
+					<Button type="button" onClick={() => deletePosterHandler(id)}>
+						<XSquare size={14} />
+						Delete poster
+					</Button>
+				</AdminActions>
+			)}
 		</Wrapper>
 	);
 }
@@ -125,6 +163,36 @@ const Wrapper = styled.section`
 	padding: 0 2rem;
 	max-width: 1000px;
 	margin: 0 auto;
+`;
+
+const AdminActions = styled.div`
+	border: 1px solid var(--color-primary-lightest);
+	padding: 1rem;
+	position: relative;
+	width: fit-content;
+	margin: 0 auto;
+	margin-top: 3rem;
+
+	h3 {
+		font-size: 0.8rem;
+		position: absolute;
+		top: -11px;
+		left: 1rem;
+		font-weight: 400;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		padding: 2px;
+		background-color: var(--color-white);
+		color: #7a7a7a;
+	}
+
+	& > button {
+		background-color: var(--color-primary-lightest);
+
+		&:not(:last-child) {
+			margin-bottom: 0.5rem;
+		}
+	}
 `;
 
 const ContentWrapper = styled.div`
@@ -140,7 +208,7 @@ const ImageWrapper = styled.div`
 	min-width: 400px;
 	max-width: 400px;
 	height: 550px;
-	margin-right: 2rem;
+	margin-right: 1rem;
 	align-self: center;
 	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
 	border: 6px solid;
@@ -172,9 +240,12 @@ const ImageWrapper = styled.div`
 const Image = styled.img`
 	width: 100%;
 	height: 100%;
+	object-fit: cover;
 `;
 
-const Content = styled.div``;
+const Content = styled.div`
+  margin-left: 1rem;
+`;
 
 const ChoiceWrapper = styled.div`
 	display: flex;
@@ -310,7 +381,7 @@ const Total = styled.p`
 const Alert = styled.p`
 	font-size: 0.8rem;
 	color: var(--color-error);
-	margin: 1rem 0;
+	margin: 0.5rem 0;
 	display: flex;
 	align-items: center;
 
