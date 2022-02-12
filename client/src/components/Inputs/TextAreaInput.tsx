@@ -12,6 +12,7 @@ interface Props {
 	label: string;
 	style?: React.CSSProperties;
 	compareValue?: string;
+	visible?: boolean;
 }
 
 const TextAreaInput = (props: Props) => {
@@ -25,9 +26,10 @@ const TextAreaInput = (props: Props) => {
 		setIsValid,
 		style,
 		compareValue,
+		visible
 	} = props;
 	const [isEmpty, setIsEmpty] = useState(true);
-	const [isVisited, setIsVisited] = useState(false);
+	const [isVisited, setIsVisited] = useState(visible ? true : false);
 	const [errorMessage, setErrorMessage] = useState("");
 
 	const onBlurHandler = () => {

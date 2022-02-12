@@ -13,6 +13,7 @@ interface Props {
 	label: string;
 	style?: React.CSSProperties;
 	compareValue?: string;
+	visible?: boolean;
 }
 
 const TextInput = (props: Props) => {
@@ -27,9 +28,10 @@ const TextInput = (props: Props) => {
 		setIsValid,
 		style,
 		compareValue,
+		visible,
 	} = props;
 	const [isEmpty, setIsEmpty] = useState(true);
-	const [isVisited, setIsVisited] = useState(false);
+	const [isVisited, setIsVisited] = useState(visible ? true : false);
 	const [errorMessage, setErrorMessage] = useState("");
 
 	const onBlurHandler = () => {
@@ -72,15 +74,15 @@ const TextInput = (props: Props) => {
 
 	return (
 		<Wrapper style={style}>
-				<Input
-					type={type}
-					name={name}
-					id={name}
-					value={value}
-					onBlur={onBlurHandler}
-					onChange={onChangeHandler}
-					className={inputClassName}
-				/>
+			<Input
+				type={type}
+				name={name}
+				id={name}
+				value={value}
+				onBlur={onBlurHandler}
+				onChange={onChangeHandler}
+				className={inputClassName}
+			/>
 			<Label htmlFor={name}>
 				{label}
 				{isVisited && !isEmpty && isValid && <CheckSquare size={12} />}

@@ -55,7 +55,7 @@ function SinglePosterPage(props: Props) {
 	}
 
 	async function onEditPoster(id: string) {
-		console.log("Will edit poster with id: " + id);
+		navigate(`/posters/${id}/edit`);
 	}
 
 	async function onAddToCart(cartObj: NewCart) {

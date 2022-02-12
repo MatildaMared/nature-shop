@@ -14,6 +14,7 @@ const dummyPoster = {
 	id: "1",
 	title: "Poster 1",
 	description: "This is a description",
+	category: "category",
 	imageUrl: "https://via.placeholder.com/300",
 	price: 100,
 	inStock: 10,

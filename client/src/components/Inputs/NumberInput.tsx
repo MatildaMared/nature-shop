@@ -12,7 +12,8 @@ interface Props {
 	label: string;
   style?: React.CSSProperties;
   min: string;
-  max: string;
+	max: string;
+	visible?: boolean;
 }
 
 const NumberInput = (props: Props) => {
@@ -26,10 +27,11 @@ const NumberInput = (props: Props) => {
 		setIsValid,
     style,
     min,
-    max
+		max,
+		visible
 	} = props;
 	const [isEmpty, setIsEmpty] = useState(true);
-	const [isVisited, setIsVisited] = useState(false);
+	const [isVisited, setIsVisited] = useState(visible ? true : false);
 	const [errorMessage, setErrorMessage] = useState("");
 
 	const onBlurHandler = () => {

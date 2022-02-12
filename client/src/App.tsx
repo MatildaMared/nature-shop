@@ -14,6 +14,7 @@ import { getAllPosters } from "./services/postersService";
 import { getUser } from "./services/userService";
 import { getToken } from "./services/localStorageService";
 import AddPosterPage from "./pages/AddPosterPage";
+import EditPosterPage from "./pages/EditPosterPage";
 
 function App() {
 	const [context, updateContext] = useContext(UserContext);
@@ -75,6 +76,10 @@ function App() {
 							setPosters={setPosters}
 						/>
 					}
+				/>
+				<Route
+					path="/posters/:id/edit"
+					element={<EditPosterPage isAdmin={isAdmin} setPosters={setPosters} />}
 				/>
 				<Route
 					path="/add"

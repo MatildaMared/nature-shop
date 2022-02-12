@@ -36,3 +36,20 @@ export async function deletePoster(id: string, token: string) {
 	const data = await response.json();
 	return data;
 }
+
+export async function editPoster(
+	id: string,
+	newPoster: NewPoster,
+	token: string
+) {
+	const response = await fetch(`/api/products/${id}`, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify(newPoster),
+	});
+	const data = await response.json();
+	return data;
+}

@@ -99,9 +99,12 @@ async function updateProduct(req, res, next) {
 			}
 		);
 
+		const products = await Product.find();
+
 		res.status(200).json({
 			success: true,
 			product: updatedProduct,
+			products,
 		});
 	} catch (err) {
 		next(err);
