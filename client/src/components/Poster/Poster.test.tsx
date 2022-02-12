@@ -11,8 +11,21 @@ const dummyPoster = {
 	inStock: 50,
 };
 
+const onDeletePosterMock = jest.fn();
+const onEditPosterMock = jest.fn();
+const onAddToCartMock = jest.fn();
+
 describe("Poster component", () => {
 	it("renders without crashing", () => {
-		render(<Poster poster={dummyPoster} />);
+		render(
+			<Poster
+				isLoggedIn={true}
+				isAdmin={false}
+				poster={dummyPoster}
+				onDeletePoster={onDeletePosterMock}
+				onEditPoster={onEditPosterMock}
+				onAddToCart={onAddToCartMock}
+			/>
+		);
 	});
 });

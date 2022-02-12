@@ -66,7 +66,7 @@ function App() {
 				<Route path="/posters" element={<PostersPage posters={posters} />} />
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/signup" element={<SignupPage />} />
-				<Route path="/posters/:id" element={<SinglePosterPage />} />
+				<Route path="/posters/:id" element={<SinglePosterPage isAdmin={isAdmin} isLoggedIn={isLoggedIn} />} />
 				<Route path="/add" element={<AddPosterPage isAdmin={isAdmin} />} />
 			</Routes>
 			<Footer />

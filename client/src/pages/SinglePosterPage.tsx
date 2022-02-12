@@ -5,12 +5,20 @@ import { Poster as PosterInterface } from "../models/Poster";
 import { getPoster } from "../services/postersService";
 import Poster from "../components/Poster/Poster";
 
-function SinglePosterPage() {
+interface Props {
+	isAdmin: boolean;
+	isLoggedIn: boolean;
+}
+
+function SinglePosterPage(props: Props) {
+	// Variables
+	const { isAdmin, isLoggedIn } = props;
 	const { id } = useParams();
 	const [isLoading, setIsLoading] = useState(true);
 	const [loadingMessage, setLoadingMessage] = useState("Loading...");
 	const [poster, setPoster] = useState<PosterInterface | null>(null);
 
+	// Functions
 	async function getData() {
 		if (id) {
 			const data = await getPoster(id);
@@ -25,6 +33,19 @@ function SinglePosterPage() {
 		}
 	}
 
+	async function onDeletePoster(id: string) {
+		console.log("Will delete poster with id: " + id);
+	}
+
+	async function onEditPoster(id: string) {
+		console.log("Will edit poster with id: " + id);
+	}
+
+	async function onAddToCart(id: string) {
+		console.log("Will add to cart");
+	}
+
+	// Effects
 	useEffect(() => {
 		getData();
 	}, []);
@@ -32,7 +53,16 @@ function SinglePosterPage() {
 	return (
 		<Wrapper>
 			{isLoading && <LoadingMessage>{loadingMessage}</LoadingMessage>}
-			{!isLoading && poster && <Poster poster={poster} />}
+			{!isLoading && poster && (
+				<Poster
+					poster={poster}
+					isAdmin={isAdmin}
+					isLoggedIn={isLoggedIn}
+					onDeletePoster={onDeletePoster}
+					onEditPoster={onEditPoster}
+					onAddToCart={onAddToCart}
+				/>
+			)}
 		</Wrapper>
 	);
 }

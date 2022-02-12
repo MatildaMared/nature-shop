@@ -3,14 +3,22 @@ import { Poster as PosterInterface } from "../../models/Poster";
 import styled from "styled-components";
 import Heading from "../Heading/Heading";
 import Button from "../Button/Button";
+import { AlertOctagon } from "react-feather";
 
 interface Props {
 	poster: PosterInterface;
+	isAdmin: boolean;
+	isLoggedIn: boolean;
+	onDeletePoster: (id: string) => void;
+	onEditPoster: (id: string) => void;
+	onAddToCart: (id: string) => void;
 }
 
 function Poster(props: Props) {
 	const { title, description, category, imageUrl, price, inStock } =
 		props.poster;
+	const { isAdmin, isLoggedIn, onDeletePoster, onEditPoster, onAddToCart } =
+		props;
 
 	const [frameColor, setFrameColor] = useState<"black" | "white">("black");
 	const [passerPartout, setPasserPartout] = useState<boolean>(true);
@@ -98,7 +106,15 @@ function Poster(props: Props) {
 					<Total>
 						Total: <span>{price * amount}:-</span>
 					</Total>
-					<Button type="button">Add to cart</Button>
+					<Button type="button" disabled={!isLoggedIn}>
+						Add to cart
+					</Button>
+					{!isLoggedIn && (
+						<Alert>
+							<AlertOctagon size={14} />
+							Please log in to add a poster to your cart
+						</Alert>
+					)}
 				</Content>
 			</ContentWrapper>
 		</Wrapper>
@@ -181,7 +197,7 @@ const Title = styled.h3`
 	background-color: var(--color-white);
 	padding: 2px;
 	color: #7a7a7a;
-  letter-spacing: 1px;
+	letter-spacing: 1px;
 `;
 
 const Description = styled.p`
@@ -189,7 +205,23 @@ const Description = styled.p`
 `;
 
 const InformationWrapper = styled.div`
+	border: 1px solid var(--color-primary-lightest);
+	width: fit-content;
 	margin-bottom: 2rem;
+	padding: 1rem 1rem 0.5rem 1rem;
+	position: relative;
+
+	&:after {
+		content: "Details";
+		position: absolute;
+		top: -11px;
+		font-size: 0.8rem;
+		background-color: var(--color-white);
+		padding: 2px;
+		color: #7a7a7a;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+	}
 
 	& > div {
 		display: flex;
@@ -222,7 +254,7 @@ const InfoText = styled.span`
 
 const AmountWrapper = styled.div`
 	position: relative;
-  margin-bottom: 1rem;
+	margin-bottom: 1rem;
 `;
 
 const Input = styled.input`
@@ -252,9 +284,9 @@ const Label = styled.label`
 	display: flex;
 	align-items: center;
 	position: absolute;
-  font-size: .8rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	letter-spacing: 1px;
 	left: 8px;
 	top: -8px;
 	background-color: var(--color-white);
@@ -272,6 +304,19 @@ const Total = styled.p`
 
 	& span {
 		font-weight: 300;
+	}
+`;
+
+const Alert = styled.p`
+	font-size: 0.8rem;
+	color: var(--color-error);
+	margin: 1rem 0;
+	display: flex;
+	align-items: center;
+
+	& > svg {
+		margin-right: 0.25rem;
+		stroke: var(--color-error);
 	}
 `;
 
