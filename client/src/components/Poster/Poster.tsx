@@ -36,9 +36,6 @@ function Poster(props: Props) {
 							<InfoText>70x100cm</InfoText>
 						</div>
 						<div>
-							<InfoTitle>Price: </InfoTitle> <InfoText>{price}:-</InfoText>
-						</div>
-						<div>
 							<InfoTitle>Left in stock: </InfoTitle>{" "}
 							<InfoText>{inStock}</InfoText>
 						</div>
