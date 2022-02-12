@@ -26,7 +26,25 @@ Coming soon...
 
 ## User stories 👩🏼‍⚕️👩🏼‍🎤👷🏽‍♀️
 
-Coming soon...
+* As a guest I would like to be able to browse posters so that I can find something I'm interested in buying.
+
+* As a guest I would like to be able to search the posters by title so that I can find what I'm looking for.
+
+* As a guest I would like to be able to sort posters by category so that I can look for posters that suits my taste.
+
+* As a guest I would like to be able to register as a user so that I can make purchases.
+
+* As a user I would like to be able to log in so that I can make purchases.
+
+* As a logged in user I would like to add products to a cart so that I can use the cart to place an order.
+
+* As a logged in user I would like to be able to log out so that I can leave my computer feeling safe about my personal data.
+
+* As an admin I would like to be able to add new posters so that I can update my supply with new products.
+
+* As an admin I would like to be able to delete posters so that I can remove posters that I no longer want to sell.
+
+* As an admin I would like to be able to update posters so that I can give the correct information to the customers.
 
 ---
 
