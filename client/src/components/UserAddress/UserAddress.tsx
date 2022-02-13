@@ -16,7 +16,7 @@ function UserAddress(props: Props) {
 
 	return (
 		<Wrapper>
-			<Heading>Shipping Address</Heading>
+			<Heading>Shipping Information</Heading>
 			<p>{name}</p>
 			<p>{street}</p>
 			<p>
@@ -30,7 +30,7 @@ const Wrapper = styled.div`
 	min-width: 300px;
 	border: 1px solid var(--color-primary-lightest);
 	position: relative;
-	padding: 2rem;
+	padding: 1.5rem 2rem;
 
 	& p:not(:last-child) {
 		margin-bottom: .5rem;

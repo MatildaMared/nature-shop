@@ -93,17 +93,7 @@ function App() {
 					path="/add"
 					element={<AddPosterPage isAdmin={isAdmin} setPosters={setPosters} />}
 				/>
-				<Route
-					path="/cart"
-					element={
-						<CartPage
-							isLoggedIn={isLoggedIn}
-							cart={context.cart}
-							user={context.user}
-							updateContext={updateContext}
-						/>
-					}
-				/>
+				<Route path="/cart" element={<CartPage />} />
 			</Routes>
 			<Footer />
 		</Router>

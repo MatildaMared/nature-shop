@@ -1,24 +1,18 @@
-import { userInfo } from "os";
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import Heading from "../components/Heading/Heading";
 import UserAddress from "../components/UserAddress/UserAddress";
-import { CartItem } from "../models/Cart";
-import { User } from "../models/User";
+import { UserContext } from "../context/UserContext";
+import Cart from "../components/Cart/Cart";
 
-interface Props {
-	isLoggedIn: boolean;
-	cart: CartItem[] | [];
-	user: User;
-	updateContext: () => void;
-}
-
-function CartPage(props: Props) {
-	const { isLoggedIn, cart, user, updateContext } = props;
+function CartPage() {
+	const [context, updateContext] = useContext(UserContext);
+	const { isLoggedIn, cart, user } = context;
 
 	return (
 		<Wrapper>
-			<Heading>Cart</Heading>
+      <Heading>Cart</Heading>
+      <Cart cart={cart} />
 			{isLoggedIn && (
 				<>
 					<UserAddress address={user.address} name={user.name} />
