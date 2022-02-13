@@ -16,7 +16,7 @@ interface Props {
 
 function SinglePosterPage(props: Props) {
 	// Variables
-	const { isAdmin, isLoggedIn, setPosters, updateContext } = props;
+	const { isAdmin, setPosters, updateContext } = props;
 	const { id } = useParams();
 	const [isLoading, setIsLoading] = useState(true);
 	const [loadingMessage, setLoadingMessage] = useState("Loading...");

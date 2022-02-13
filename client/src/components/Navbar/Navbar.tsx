@@ -63,7 +63,7 @@ function Navbar(props: Props) {
 							</Link>
 						</Item>
 					)}
-					{cart.length > 0 && (
+					{cart && cart.length > 0 && (
 						<Item>
 							<Amount>{cart.length + 1}</Amount>
 							<Button onClick={cartClickHandler} type="button">

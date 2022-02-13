@@ -15,6 +15,7 @@ import { getUser } from "./services/userService";
 import { getToken, getCart } from "./services/localStorageService";
 import AddPosterPage from "./pages/AddPosterPage";
 import EditPosterPage from "./pages/EditPosterPage";
+import CartPage from "./pages/CartPage";
 
 function App() {
 	const [context, updateContext] = useContext(UserContext);
@@ -91,6 +92,17 @@ function App() {
 				<Route
 					path="/add"
 					element={<AddPosterPage isAdmin={isAdmin} setPosters={setPosters} />}
+				/>
+				<Route
+					path="/cart"
+					element={
+						<CartPage
+							isLoggedIn={isLoggedIn}
+							cart={context.cart}
+							user={context.user}
+							updateContext={updateContext}
+						/>
+					}
 				/>
 			</Routes>
 			<Footer />
