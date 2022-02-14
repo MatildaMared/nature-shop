@@ -13,7 +13,7 @@ const cartData = [
 		title: "Title",
 		frame: "black",
 		passerPartout: false,
-		amount: 2,
+		amount: 3,
 		price: 199,
 		inStock: 12,
 	},
@@ -235,5 +235,22 @@ describe("Navbar component", () => {
 		const link = screen.queryByText(/Cart/i);
 
 		expect(link).not.toBeInTheDocument();
+	});
+
+	it("displays the correct number of items in the cart", () => {
+		render(
+			<MemoryRouter>
+				<Navbar
+					cart={cartData}
+					isLoggedIn={false}
+					isAdmin={false}
+					updateContext={updateContextMock}
+				/>
+			</MemoryRouter>
+		);
+
+		const cartAmount = screen.getByText(/4/i);
+
+		expect(cartAmount).toBeInTheDocument();
 	});
 });

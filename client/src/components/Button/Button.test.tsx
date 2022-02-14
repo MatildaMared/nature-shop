@@ -34,6 +34,17 @@ describe("Button component", () => {
 		expect(button).toHaveTextContent("CorrectText");
 	});
 
+	it("displays the correct type of button", () => {
+		render(
+			<Button type="submit" onClick={onClickMock}>
+				Button
+			</Button>
+		);
+
+		const button = screen.getByRole("button");
+		expect(button).toHaveAttribute("type", "submit");
+	});
+
 	it("calls the onClick handler when clicked", () => {
 		render(
 			<Button type="button" onClick={onClickMock}>
