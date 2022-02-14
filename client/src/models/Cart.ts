@@ -5,6 +5,7 @@ export interface NewCartItem {
 	passerPartout: boolean;
 	amount: number;
 	price: number;
+	inStock: number;
 }
 
 export interface CartItem {
@@ -15,4 +16,5 @@ export interface CartItem {
 	passerPartout: boolean;
 	amount: number;
 	price: number;
+	inStock: number;
 }

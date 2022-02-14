@@ -36,6 +36,7 @@ function Poster(props: Props) {
 			passerPartout: passerPartout,
 			amount: amount,
 			price: price,
+			inStock: inStock,
 		};
 
 		addToCartHandler(cartObj);

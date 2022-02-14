@@ -11,6 +11,7 @@ const cart: CartItem[] = [
 		amount: 1,
 		frame: "black",
 		passerPartout: false,
+		inStock: 10,
 	},
 	{
 		id: "2",
@@ -20,11 +21,21 @@ const cart: CartItem[] = [
 		amount: 2,
 		frame: "white",
 		passerPartout: true,
+		inStock: 5,
 	},
 ];
 
+const removeFromCartHandlerMock = jest.fn();
+const updateItemInCartHandlerMock = jest.fn();
+
 describe("Cart component", () => {
 	it("renders without crashing", () => {
-		render(<Cart cart={cart} />);
+		render(
+			<Cart
+				updateItemInCartHandler={updateItemInCartHandlerMock}
+				removeFromCartHandler={removeFromCartHandlerMock}
+				cart={cart}
+			/>
+		);
 	});
 });
