@@ -13,7 +13,7 @@ function CartItem(props: Props) {
 	const { removeFromCartHandler, updateItemInCartHandler, item } = props;
 	const [isEditing, setIsEditing] = useState<boolean>(false);
 	const [amount, setAmount] = useState<number>(item.amount);
-	const [frame, setFrame] = useState<"black" | "white">(item.frame);
+	const [frame, setFrame] = useState<string>(item.frame);
 	const [passerPartout, setPasserPartout] = useState<boolean>(
 		item.passerPartout
 	);
@@ -234,7 +234,7 @@ const Inputs = styled.div`
 		& > *:not(:last-child) {
 			border-right: none;
 			border-bottom: 1px solid var(--color-primary-lightest);
-      padding-bottom: 1rem;
+			padding-bottom: 1rem;
 		}
 	}
 `;
@@ -274,7 +274,7 @@ const Button = styled.button`
 
 const Input = styled.input`
 	padding: 4px 0.5rem;
-	font-size: .9rem;
+	font-size: 0.9rem;
 	color: inherit;
 	background: transparent;
 	border: none;
