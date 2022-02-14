@@ -41,6 +41,9 @@ function App() {
 						isLoggedIn: true,
 						isAdmin: userResponse.user.role === "admin",
 					});
+				} else {
+					localStorage.removeItem("token");
+					updateContext({ isLoggedIn: false });
 				}
 			}
 		}

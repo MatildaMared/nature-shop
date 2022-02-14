@@ -66,6 +66,7 @@ const ImageWrapper = styled.div`
 	max-height: 450px;
 	transition: all 0.25s;
 	position: relative;
+	box-shadow: 0px 0.5rem 1rem rgba(0, 0, 0, 0.1);
 `;
 
 const LinkText = styled.p`
@@ -86,11 +87,11 @@ const LinkText = styled.p`
 
 const Content = styled.div`
 	height: 100%;
-	width: fit-content;
 	max-width: 320px;
 	width: 100%;
 	margin: 0 auto;
 	position: relative;
+	height: 520px;
 
 	cursor: pointer;
 	transition: all 0.3s;
@@ -119,7 +120,6 @@ const Content = styled.div`
 
 const Wrapper = styled.article`
 	padding: 1rem;
-	height: 100%;
 `;
 
 const Image = styled.img`
@@ -138,7 +138,8 @@ const Title = styled.h3`
 `;
 
 const Details = styled.div`
-	margin-top: 0.25rem;
+	height: auto;
+	margin: 0.25rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;

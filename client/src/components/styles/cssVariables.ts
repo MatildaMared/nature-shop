@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 export const CssVariables = createGlobalStyle`
   :root {
-    --max-width: 1200px;
+    --max-width: 1400px;
 
     --color-primary-dark: hsla(90, 9%, 15%, 1.0);
     --color-primary-dark-transparent: hsla(90, 9%, 15%, .85);

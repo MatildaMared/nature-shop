@@ -36,13 +36,7 @@ const userSchema = new mongoose.Schema({
 			required: [true, "Please enter a postal code"],
 		},
 	},
-	cart: {
-		type: Array,
-	},
 	orders: {
-		type: Array,
-	},
-	favorites: {
 		type: Array,
 	},
 	role: {

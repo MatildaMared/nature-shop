@@ -22,7 +22,7 @@ const Wrapper = styled.header`
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-	border-bottom: 1px solid hsla(0, 0%, 100%, 0.25);
+	border-bottom: 1px solid var(--color-primary-dark);
 `;
 
 const HeadingWrapper = styled.div`

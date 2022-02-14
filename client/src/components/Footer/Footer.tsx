@@ -6,23 +6,23 @@ function Footer() {
 	return (
 		<Wrapper>
 			<Content>
-				<Copy>Design and code by Matilda Mared 2022 &copy;</Copy>
+				<Copy>&copy; Matilda Mared 2022</Copy>
 				<Nav>
-					<NavItem href="https://github.com/MatildaMared" target="_blank">
-						<GitHub size={24} strokeWidth={1} aria-hidden="true" />
-						<span>GitHub</span>
-					</NavItem>
-					<NavItem href="mailto:matildamared@live.se">
-						<Mail size={24} strokeWidth={1} aria-hidden="true" />
-						<span>Mail</span>
-					</NavItem>
-					<NavItem
-						href="https://www.linkedin.com/in/matilda-mared"
-						target="_blank"
-					>
-						<Linkedin size={24} strokeWidth={1} aria-hidden="true" />
-						<span>LinkedIn</span>
-					</NavItem>
+						<NavItem href="https://github.com/MatildaMared" target="_blank">
+							<GitHub size={24} strokeWidth={1} aria-hidden="true" />
+							<span>GitHub</span>
+						</NavItem>
+						<NavItem href="mailto:matildamared@live.se">
+							<Mail size={24} strokeWidth={1} aria-hidden="true" />
+							<span>Mail</span>
+						</NavItem>
+						<NavItem
+							href="https://www.linkedin.com/in/matilda-mared"
+							target="_blank"
+						>
+							<Linkedin size={24} strokeWidth={1} aria-hidden="true" />
+							<span>LinkedIn</span>
+						</NavItem>
 				</Nav>
 			</Content>
 		</Wrapper>
@@ -30,12 +30,12 @@ function Footer() {
 }
 
 const Wrapper = styled.footer`
-	background-color: hsla(90, 9%, 65%, 0.03);
-	border-top: 1px solid hsla(90, 9%, 65%, 0.25);
+	background-color: var(--color-primary-dark);
+	border-top: 1px solid var(--color-primary-dark);
 `;
 
 const Content = styled.div`
-	padding: 1rem;
+	padding: 2rem 1rem;
 	max-width: var(--max-width);
 	margin: 0 auto;
 	display: flex;
@@ -44,8 +44,10 @@ const Content = styled.div`
 `;
 
 const Copy = styled.p`
-	font-size: 0.9rem;
+	font-size: 0.8rem;
 	color: hsla(90, 9%, 85%, 0.55);
+	text-transform: uppercase;
+	letter-spacing: 1px;
 `;
 
 const Nav = styled.nav`
@@ -75,7 +77,7 @@ const NavItem = styled.a`
 	}
 
 	&:not(:last-child) {
-		margin-right: 0.5rem;
+		margin-right: 0.75rem;
 	}
 `;
 

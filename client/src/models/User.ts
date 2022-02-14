@@ -18,8 +18,6 @@ export interface User {
 		postalCode: string;
 		city: string;
 	};
-	favorites: [];
-	cart: [];
 	orders: [];
 	role: string;
 }

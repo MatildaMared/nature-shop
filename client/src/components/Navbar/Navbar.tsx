@@ -83,7 +83,7 @@ const Nav = styled.nav`
 	left: 0;
 	width: 100%;
 	padding: 0.5rem 1rem;
-	border-bottom: 1px solid hsla(90, 9%, 65%, 0.2);
+	border-bottom: 1px solid var(--color-primary-dark);
 	backdrop-filter: blur(3px);
 `;
 
