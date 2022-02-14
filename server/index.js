@@ -25,10 +25,10 @@ app.use("/api/products", productsRoutes);
 app.use("/api/users", usersRoutes);
 
 // Serve static files from client build
-app.use(express.static(path.join(__dirname, "../client/build")));
+app.use(express.static(path.join(__dirname, "./../client/build")));
 
 app.get("/*", function (req, res) {
-	res.sendFile(path.join(__dirname + "../client/build/index.html"));
+	res.sendFile(path.join(__dirname + "./../client/build/index.html"));
 });
 
 // Start server
