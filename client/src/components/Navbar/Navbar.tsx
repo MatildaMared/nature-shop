@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { CartItem } from "../../models/Cart";
@@ -9,12 +9,13 @@ interface Props {
 	isLoggedIn: boolean;
 	isAdmin: boolean;
 	updateContext: (context: any) => void;
-	cart: CartItem[] | [];
+	cart: CartItem[];
 }
 
 function Navbar(props: Props) {
 	const { isLoggedIn, isAdmin, updateContext, cart } = props;
 	const navigate = useNavigate();
+	const [numberOfItems, setNumberOfItems] = useState(0);
 
 	function logoutHandler() {
 		localStorage.removeItem("token");
@@ -29,6 +30,12 @@ function Navbar(props: Props) {
 	function cartClickHandler() {
 		navigate("/cart");
 	}
+
+	useEffect(() => {
+		if (cart && cart.length > 0) {
+			setNumberOfItems(cart.reduce((acc, cur) => acc + cur.amount, 0));
+		}
+	}, [cart]);
 
 	return (
 		<Nav>
@@ -62,7 +69,7 @@ function Navbar(props: Props) {
 					)}
 					{cart && cart.length > 0 && (
 						<Item>
-							<Amount>{cart.length}</Amount>
+							<Amount>{numberOfItems}</Amount>
 							<Button onClick={cartClickHandler} type="button">
 								<ShoppingCart size={14} />
 								Cart
