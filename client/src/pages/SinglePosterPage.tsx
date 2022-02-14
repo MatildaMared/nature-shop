@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 import styled from "styled-components";
 import { Poster as PosterInterface } from "../models/Poster";
 import { getPoster, deletePoster } from "../services/postersService";
@@ -8,15 +9,14 @@ import { CartItem, NewCartItem } from "../models/Cart";
 import { getToken, addToCart, getCart } from "../services/localStorageService";
 
 interface Props {
-	isAdmin: boolean;
-	isLoggedIn: boolean;
 	setPosters: (posters: PosterInterface[]) => void;
-	updateContext: (context: any) => void;
 }
 
 function SinglePosterPage(props: Props) {
 	// Variables
-	const { isAdmin, setPosters, updateContext } = props;
+	const [context, updateContext] = useContext(UserContext);
+	const { isAdmin } = context;
+	const { setPosters } = props;
 	const { id } = useParams();
 	const [isLoading, setIsLoading] = useState(true);
 	const [loadingMessage, setLoadingMessage] = useState("Loading...");

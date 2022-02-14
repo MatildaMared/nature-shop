@@ -32,9 +32,12 @@ async function createProduct(req, res, next) {
 
 		const newProduct = await Product.create(product);
 
+		const products = await Product.find();
+
 		res.status(201).json({
 			success: true,
 			product: newProduct,
+			products,
 		});
 	} catch (err) {
 		next(err);

@@ -13,7 +13,6 @@ export async function getPoster(id: string) {
 }
 
 export async function createPoster(newPoster: NewPoster, token: string) {
-	console.log("newPoster in fetch", newPoster);
 	const response = await fetch("/api/products", {
 		method: "POST",
 		headers: {

@@ -36,9 +36,6 @@ function Navbar(props: Props) {
 				<Logo>WP</Logo>
 				<List>
 					<Item>
-						<Link to="/">Home</Link>
-					</Item>
-					<Item>
 						<Link to="/posters">Posters</Link>
 					</Item>
 					{!isLoggedIn && (

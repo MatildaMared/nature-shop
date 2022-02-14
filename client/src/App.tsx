@@ -3,7 +3,6 @@ import { UserContext } from "./context/UserContext";
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
 import PostersPage from "./pages/PostersPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
@@ -26,7 +25,9 @@ function App() {
 	const initializeData = async () => {
 		updateContext({ isLoading: true });
 
+		console.log("Fetching posters...");
 		const postersResponse = await getAllPosters();
+		console.log(postersResponse);
 		setPosters(postersResponse.products);
 
 		if (!isLoggedIn) {
@@ -67,23 +68,13 @@ function App() {
 			)}
 			<Header />
 			<Routes>
-				<Route
-					path="/"
-					element={<HomePage user={context.user} isLoggedIn={isLoggedIn} />}
-				/>
+				<Route path="/" element={<PostersPage posters={posters} />} />
 				<Route path="/posters" element={<PostersPage posters={posters} />} />
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/signup" element={<SignupPage />} />
 				<Route
 					path="/posters/:id"
-					element={
-						<SinglePosterPage
-							isAdmin={isAdmin}
-							isLoggedIn={isLoggedIn}
-							setPosters={setPosters}
-							updateContext={updateContext}
-						/>
-					}
+					element={<SinglePosterPage setPosters={setPosters} />}
 				/>
 				<Route
 					path="/posters/:id/edit"

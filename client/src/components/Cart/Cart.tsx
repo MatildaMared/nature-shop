@@ -37,7 +37,7 @@ function Cart(props: Props) {
 const Wrapper = styled.div`
 	border: 1px solid var(--color-primary-lightest);
 	padding: 1rem;
-	margin-bottom: 3rem;
+	margin-bottom: 2rem;
 	width: 100%;
 	max-width: 700px;
 `;
