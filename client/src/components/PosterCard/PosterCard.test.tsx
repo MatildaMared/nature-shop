@@ -9,6 +9,8 @@ jest.mock("react-router-dom", () => ({
 	useNavigate: () => mockedNavigator,
 }));
 
+const onFavoriteClickMock = jest.fn();
+
 // Dummy data
 const dummyPoster = {
 	id: "1",
@@ -23,11 +25,19 @@ const dummyPoster = {
 // Actual tests
 describe("PosterCard component", () => {
 	it("renders properly", () => {
-		render(<PosterCard poster={dummyPoster} />);
+		render(
+			<PosterCard poster={dummyPoster} onFavoriteClick={onFavoriteClickMock} favorites={[]} />
+		);
 	});
 
 	it("displays a title", () => {
-		render(<PosterCard poster={dummyPoster} />);
+		render(
+			<PosterCard
+				poster={dummyPoster}
+				onFavoriteClick={onFavoriteClickMock}
+				favorites={[]}
+			/>
+		);
 
 		const title = screen.getByText(dummyPoster.title);
 
@@ -35,7 +45,13 @@ describe("PosterCard component", () => {
 	});
 
 	it("displays an image", () => {
-		render(<PosterCard poster={dummyPoster} />);
+		render(
+			<PosterCard
+				poster={dummyPoster}
+				onFavoriteClick={onFavoriteClickMock}
+				favorites={[]}
+			/>
+		);
 
 		const image = screen.getByAltText(dummyPoster.title);
 
@@ -44,7 +60,13 @@ describe("PosterCard component", () => {
 	});
 
 	it("displays a price", () => {
-		render(<PosterCard poster={dummyPoster} />);
+		render(
+			<PosterCard
+				poster={dummyPoster}
+				onFavoriteClick={onFavoriteClickMock}
+				favorites={[]}
+			/>
+		);
 
 		const price = screen.getByText(`${dummyPoster.price}:-`);
 
@@ -52,7 +74,13 @@ describe("PosterCard component", () => {
 	});
 
 	it("redirects user to the correct page if clicking the card", () => {
-		render(<PosterCard poster={dummyPoster} />);
+		render(
+			<PosterCard
+				poster={dummyPoster}
+				onFavoriteClick={onFavoriteClickMock}
+				favorites={[]}
+			/>
+		);
 
 		const card = screen.getByTestId("poster-card");
 

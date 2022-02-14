@@ -69,3 +69,35 @@ export function updateCart(id: string, updates: {}) {
 
 	return [];
 }
+
+export function getFavorites(): string[] | undefined {
+	const favorites = localStorage.getItem("favorites");
+	if (favorites) {
+		return JSON.parse(favorites);
+	}
+	return undefined;
+}
+
+export function addToFavorites(id: string): string[] {
+	const favorites = getFavorites();
+
+	if (favorites && favorites.length > 0) {
+		const newFavorites = [...favorites, id];
+		localStorage.setItem("favorites", JSON.stringify(newFavorites));
+		return newFavorites;
+	} else {
+		const newFavorites = [id];
+		localStorage.setItem("favorites", JSON.stringify(newFavorites));
+		return newFavorites;
+	}
+}
+
+export function removeFromFavorites(id: string): string[] {
+	const favorites = getFavorites();
+	if (favorites && favorites.length > 0) {
+		const newFavorites = favorites.filter((item) => item !== id);
+		localStorage.setItem("favorites", JSON.stringify(newFavorites));
+		return newFavorites;
+	}
+	return [];
+}

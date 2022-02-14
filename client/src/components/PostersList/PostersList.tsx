@@ -5,15 +5,24 @@ import PosterCard from "../PosterCard/PosterCard";
 
 interface Props {
 	posters: Poster[] | null | [];
+	onFavoriteClick: (id: string) => void;
+	favorites: string[];
 }
 
 function PostersList(props: Props) {
-	const { posters } = props;
+	const { posters, onFavoriteClick, favorites } = props;
 
 	return (
 		<Grid>
 			{posters &&
-				posters.map((poster) => <PosterCard key={poster.id} poster={poster} />)}
+				posters.map((poster) => (
+					<PosterCard
+						favorites={favorites}
+						onFavoriteClick={onFavoriteClick}
+						key={poster.id}
+						poster={poster}
+					/>
+				))}
 			{posters && posters.length === 0 && (
 				<Message>No posters found...</Message>
 			)}

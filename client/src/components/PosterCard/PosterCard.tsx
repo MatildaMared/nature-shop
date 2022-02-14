@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Poster } from "../../models/Poster";
 import styled from "styled-components";
 import { Heart } from "react-feather";
@@ -6,15 +6,31 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
 	poster: Poster;
+	onFavoriteClick: (id: string) => void;
+	favorites: string[];
 }
 
 function PosterCard(props: Props) {
-	const { poster } = props;
+	const [likeBtnClassName, setLikeBtnClassName] = useState<string>("");
+	const { poster, onFavoriteClick, favorites } = props;
 	const navigate = useNavigate();
 
 	function redirectToPosterPage() {
 		navigate(`/posters/${poster.id}`);
 	}
+
+	function likeButtonClickHandler(e: React.MouseEvent<HTMLButtonElement>) {
+		e.stopPropagation();
+		onFavoriteClick(poster.id);
+	}
+
+	useEffect(() => {
+		if (favorites && favorites.includes(poster.id)) {
+			setLikeBtnClassName("favorite");
+		} else {
+			setLikeBtnClassName("");
+		}
+	}, [favorites]);
 
 	return (
 		<Wrapper key={poster.id}>
@@ -28,7 +44,10 @@ function PosterCard(props: Props) {
 					<div>
 						<Price>{poster.price}:-</Price>
 					</div>
-					<LikeButton>
+					<LikeButton
+						onClick={likeButtonClickHandler}
+						className={likeBtnClassName}
+					>
 						<Heart size={22} strokeWidth={1} />
 					</LikeButton>
 				</Details>
@@ -134,9 +153,25 @@ const LikeButton = styled.button`
 	background: none;
 	cursor: pointer;
 
-	&:hover {
+	& svg {
+		transition: all 0.3s;
+	}
+
+	&.favorite {
 		& svg {
 			fill: var(--color-primary-dark);
+		}
+
+		&:hover {
+			& svg {
+				fill: var(--color-primary);
+			}
+		}
+	}
+	&:hover {
+		& svg {
+			fill: var(--color-primary);
+			color: var(--color-primary);
 		}
 	}
 `;
