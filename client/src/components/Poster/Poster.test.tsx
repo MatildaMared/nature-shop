@@ -140,12 +140,80 @@ describe("Poster component", () => {
 
 		const amountInput = screen.getByLabelText(/amount/i);
 		userEvent.click(amountInput);
-		userEvent.type(amountInput, "{selectall}{backspace}");
+		userEvent.type(amountInput, "{selectall}");
 		userEvent.type(amountInput, "2");
 
 		const newTotalPrice = dummyPoster.price * 2;
 		expect(
 			screen.getByText(`${newTotalPrice.toString()}:-`)
 		).toBeInTheDocument();
+	});
+
+	it("changes the value for the frame color when user clicks the different radio buttons", () => {
+		render(
+			<Poster
+				isAdmin={false}
+				poster={dummyPoster}
+				deletePosterHandler={onDeletePosterMock}
+				editPosterHandler={onEditPosterMock}
+				addToCartHandler={onAddToCartMock}
+			/>
+		);
+
+		const frameColorBlack = screen.getByLabelText(/black/i);
+		userEvent.click(frameColorBlack);
+		expect(frameColorBlack).toBeChecked();
+
+		const frameColorWhite = screen.getByLabelText(/white/i);
+		userEvent.click(frameColorWhite);
+		expect(frameColorWhite).toBeChecked();
+	});
+
+	it("changes the value for the passerpartout choice when user clicks the different radio buttons", () => {
+		render(
+			<Poster
+				isAdmin={false}
+				poster={dummyPoster}
+				deletePosterHandler={onDeletePosterMock}
+				editPosterHandler={onEditPosterMock}
+				addToCartHandler={onAddToCartMock}
+			/>
+		);
+
+		const passerpartoutYes = screen.getByLabelText(/yes/i);
+		userEvent.click(passerpartoutYes);
+		expect(passerpartoutYes).toBeChecked();
+
+		const passerpartoutNo = screen.getByLabelText(/no/i);
+		userEvent.click(passerpartoutNo);
+		expect(passerpartoutNo).toBeChecked();
+	});
+
+	it("calls the addToCartHandler when the add to cart button is clicked", () => {
+		render(
+			<Poster
+				isAdmin={false}
+				poster={dummyPoster}
+				deletePosterHandler={onDeletePosterMock}
+				editPosterHandler={onEditPosterMock}
+				addToCartHandler={onAddToCartMock}
+			/>
+		);
+
+		const button = screen.getByText(/Add to cart/i);
+
+		userEvent.click(button);
+
+		expect(onAddToCartMock).toHaveBeenCalledTimes(1);
+
+		expect(onAddToCartMock).toHaveBeenCalledWith({
+			posterId: dummyPoster.id,
+			title: dummyPoster.title,
+			price: dummyPoster.price,
+			amount: 1,
+			frame: "black",
+			inStock: dummyPoster.inStock,
+			passerPartout: true,
+		});
 	});
 });
