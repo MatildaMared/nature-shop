@@ -157,6 +157,14 @@ This app is using icons from https://feathericons.com/
 
 ---
 
+## Photos 🏞
+
+All the poster images are from https://www.unsplash.com
+
+The header image is bought and licensed to me through https://www.istockphoto.com/
+
+---
+
 ## Author 👩‍💻
 
 **Matilda Mared**
