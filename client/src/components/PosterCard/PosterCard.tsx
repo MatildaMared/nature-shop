@@ -85,7 +85,7 @@ const LinkText = styled.p`
 	width: fit-content;
 `;
 
-const Content = styled.div`
+const Content = styled.li`
 	height: 100%;
 	max-width: 320px;
 	width: 100%;

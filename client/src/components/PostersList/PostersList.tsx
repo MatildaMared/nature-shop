@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Poster } from "../../models/Poster";
 import styled from "styled-components";
 import PosterCard from "../PosterCard/PosterCard";
@@ -30,7 +30,9 @@ function PostersList(props: Props) {
 	);
 }
 
-const Grid = styled.section`
+const Grid = styled.ul`
+	padding: 0;
+	list-style: none;
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(336px, 1fr));
 	grid-gap: 1rem;
