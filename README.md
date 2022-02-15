@@ -14,7 +14,7 @@
 
 ## Screenshots 📸
 
-<img alt="Screenshot of Wild Posters" src="https://user-images.githubusercontent.com/43721548/154129306-06ae5520-1ad2-414b-8fe4-66ddcc793fd4.png">
+<img alt="Screenshot of Wild Posters" src="https://user-images.githubusercontent.com/43721548/154129663-c3d48a7d-4558-4829-ae8b-533e2c97da49.png">
 
 ---
 
