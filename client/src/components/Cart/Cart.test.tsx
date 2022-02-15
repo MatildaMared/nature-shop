@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Cart from "./Cart";
 import { CartItem } from "../../models/Cart";
 
@@ -37,5 +37,36 @@ describe("Cart component", () => {
 				cart={cart}
 			/>
 		);
+	});
+
+	it("renders the correct amount of list items", () => {
+		render(
+			<Cart
+				updateItemInCartHandler={updateItemInCartHandlerMock}
+				removeFromCartHandler={removeFromCartHandlerMock}
+				cart={cart}
+			/>
+		);
+
+		const cartItems = screen.getAllByRole("listitem");
+		expect(cartItems.length).toBe(cart.length);
+	});
+
+	it("displays the correct total price", () => {
+		render(
+			<Cart
+				updateItemInCartHandler={updateItemInCartHandlerMock}
+				removeFromCartHandler={removeFromCartHandlerMock}
+				cart={cart}
+			/>
+		);
+
+		const totalPrice = cart.reduce(
+			(acc, cur) => acc + cur.price * cur.amount,
+			0
+		);
+
+		const totalPriceElem = screen.getByText(`${totalPrice}:-`);
+		expect(totalPriceElem).toBeInTheDocument();
 	});
 });

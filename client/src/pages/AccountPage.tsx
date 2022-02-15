@@ -67,6 +67,4 @@ const AlertText = styled.p`
 	text-align: center;
 `;
 
-const ShippingInformation = styled.section``;
-
 export default AccountPage;
