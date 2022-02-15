@@ -17,12 +17,8 @@ interface Props {
 function Poster(props: Props) {
 	const { id, title, description, category, imageUrl, price, inStock } =
 		props.poster;
-	const {
-		isAdmin,
-		deletePosterHandler,
-		editPosterHandler,
-		addToCartHandler,
-	} = props;
+	const { isAdmin, deletePosterHandler, editPosterHandler, addToCartHandler } =
+		props;
 
 	const [frameColor, setFrameColor] = useState<"black" | "white">("black");
 	const [passerPartout, setPasserPartout] = useState<boolean>(true);
@@ -121,6 +117,7 @@ function Poster(props: Props) {
 							value={amount}
 							onChange={(e) => setAmount(parseInt(e.target.value))}
 							name="amount"
+							id="amount"
 							min="1"
 							max={inStock.toString()}
 						/>

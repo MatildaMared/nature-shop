@@ -2,13 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 interface Props {
-	orders: [
-		{
-			id: string;
-			createdAt: Date;
-			totalPrice: number;
-		}
-	];
+	orders: {
+		id: string;
+		createdAt: Date;
+		totalPrice: number;
+	}[];
 }
 
 function OrderHistory(props: Props) {
