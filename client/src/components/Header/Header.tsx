@@ -36,6 +36,14 @@ const Heading = styled.h1`
 	font-size: 5rem;
 	text-shadow: 0 0 1rem hsla(0, 0%, 0%, 0.7);
 	user-select: none;
+
+	@media (max-width: 768px) {
+		font-size: 3.5rem;
+	}
+
+	@media (max-width: 500px) {
+		font-size: 2.5rem;
+	}
 `;
 
 const SubHeading = styled.h2`
@@ -46,6 +54,16 @@ const SubHeading = styled.h2`
 	font-size: 3rem;
 	text-align: right;
 	user-select: none;
+
+	@media (max-width: 768px) {
+		margin-top: -40px;
+		font-size: 2rem;
+	}
+
+	@media (max-width: 768px) {
+		margin-top: -30px;
+		font-size: 1.6rem;
+	}
 `;
 
 export default Header;

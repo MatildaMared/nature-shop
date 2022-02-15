@@ -110,6 +110,34 @@ describe("CartItem component", () => {
 		expect(screen.getAllByRole("spinbutton").length).toBe(1);
 	});
 
+	it("updates the values correctly when clicking the radioinputs", () => {
+		render(
+			<CartItem
+				item={item}
+				removeFromCartHandler={removeFromCartHandlerMock}
+				updateItemInCartHandler={updateItemInCartHandlerMock}
+			/>
+		);
+
+		userEvent.click(screen.getByText(/Edit/i));
+
+		const blackRadioBtn = screen.getByLabelText("Black");
+		userEvent.click(blackRadioBtn);
+		expect(blackRadioBtn).toBeChecked();
+
+		const whiteRadioBtn = screen.getByLabelText("White");
+		userEvent.click(whiteRadioBtn);
+		expect(whiteRadioBtn).toBeChecked();
+
+		const passerPartoutRadioBtn = screen.getByLabelText("Yes");
+		userEvent.click(passerPartoutRadioBtn);
+		expect(passerPartoutRadioBtn).toBeChecked();
+
+		const noPasserPartoutRadioBtn = screen.getByLabelText("No");
+		userEvent.click(noPasserPartoutRadioBtn);
+		expect(noPasserPartoutRadioBtn).toBeChecked();
+	});
+
 	it("updates the cart item when user clicks save changes after editing", () => {
 		render(
 			<CartItem
