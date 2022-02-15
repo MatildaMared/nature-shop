@@ -25,7 +25,7 @@ export function cityValidator(city: string): [boolean, string] {
 	if (city.length === 0) {
 		return [false, "Please enter a city"];
 	} else if (city.length < 3) {
-		return [false, "Please enter a valid city"];
+		return [false, "Please enter a city with more than two characters"];
 	}
 	return [true, ""];
 }
@@ -36,7 +36,7 @@ export function passwordValidator(password: string): [boolean, string] {
 	}
 	const isValid = password.length >= 5;
 	if (!isValid) {
-		return [false, "Password must be at least 5 characters"];
+		return [false, "Password must have at least five characters"];
 	} else {
 		return [true, ""];
 	}
@@ -49,7 +49,7 @@ export function passwordConfirmValidator(
 	if (password?.length === 0) {
 		return [false, "Please confirm password"];
 	} else if (passwordConfirm.length < 5) {
-		return [false, "Password must be at least 5 characters"];
+		return [false, "Password must have at least five characters"];
 	}
 	const isValid = password === passwordConfirm;
 	if (!isValid) {
@@ -60,24 +60,30 @@ export function passwordConfirmValidator(
 }
 
 export function nameValidator(name: string): [boolean, string] {
-	if (name.length < 3) {
+	if (name.length === 0) {
 		return [false, "Please enter a name"];
+	} else if (name.length < 2) {
+		return [false, "Please enter a name with more than one character"];
 	}
 
 	return [true, ""];
 }
 
 export function streetValidator(street: string): [boolean, string] {
-	if (street.length < 3) {
+	if (street.length === 0) {
 		return [false, "Please enter a street"];
+	} else if (street.length < 3) {
+		return [false, "Please enter a street with more than two characters"];
 	}
 
 	return [true, ""];
 }
 
 export function posterTitleValidator(title: string): [boolean, string] {
-	if (title.length < 3) {
+	if (title.length === 0) {
 		return [false, "Please enter a title"];
+	} else if (title.length < 3) {
+		return [false, "Please enter a title with more than two characters"];
 	}
 
 	return [true, ""];
@@ -86,16 +92,20 @@ export function posterTitleValidator(title: string): [boolean, string] {
 export function posterDescriptionValidator(
 	description: string
 ): [boolean, string] {
-	if (description.length < 3) {
+	if (description.length === 0) {
 		return [false, "Please enter a description"];
+	} else if (description.length < 3) {
+		return [false, "Please enter a description with more than two characters"];
 	}
 
 	return [true, ""];
 }
 
 export function posterCategoryValidator(category: string): [boolean, string] {
-	if (category.length < 3) {
+	if (category.length === 0) {
 		return [false, "Please enter a category"];
+	} else if (category.length < 3) {
+		return [false, "Please enter a category with more than two characters"];
 	}
 
 	const isValid = /^[a-zA-Z0-9_]+$/.test(category);
