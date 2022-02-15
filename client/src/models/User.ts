@@ -10,7 +10,7 @@ export interface NewUser {
 }
 
 export interface User {
-	id: number;
+	id: string;
 	name: string;
 	email: string;
 	address: {
