@@ -61,11 +61,16 @@ function Navbar(props: Props) {
 						</Item>
 					)}
 					{isLoggedIn && (
-						<Item>
-							<Link to="" onClick={logoutHandler}>
-								Log out
-							</Link>
-						</Item>
+						<>
+							<Item>
+								<Link to="/account">Account</Link>
+							</Item>
+							<Item>
+								<Link to="" onClick={logoutHandler}>
+									Log out
+								</Link>
+							</Item>
+						</>
 					)}
 					{cart && cart.length > 0 && (
 						<Item>

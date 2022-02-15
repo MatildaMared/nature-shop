@@ -20,6 +20,7 @@ import AddPosterPage from "./pages/AddPosterPage";
 import EditPosterPage from "./pages/EditPosterPage";
 import CartPage from "./pages/CartPage";
 import PurchasePage from "./pages/PurchasePage";
+import AccountPage from "./pages/AccountPage";
 
 function App() {
 	const [context, updateContext] = useContext(UserContext);
@@ -97,6 +98,7 @@ function App() {
 				/>
 				<Route path="/cart" element={<CartPage />} />
 				<Route path="/purchase" element={<PurchasePage />} />
+				<Route path="/account" element={<AccountPage />} />
 			</Routes>
 			<Footer />
 		</Router>

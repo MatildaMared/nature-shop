@@ -34,3 +34,16 @@ export async function signup(newUser: NewUser) {
 	const data = await response.json();
 	return data;
 }
+
+export async function updateUser(updates: {}, id: string, token: string) {
+	const response = await fetch(`/api/users/${id}`, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify(updates),
+	});
+	const data = await response.json();
+	return data;
+}

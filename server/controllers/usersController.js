@@ -105,6 +105,7 @@ async function updateUser(req, res, next) {
 		}
 
 		const updatedUser = await user.save();
+		await updatedUser.populate("orders");
 
 		res.status(200).json({
 			success: true,
