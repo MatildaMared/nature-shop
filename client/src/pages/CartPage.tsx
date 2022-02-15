@@ -23,13 +23,8 @@ function CartPage() {
 		updateContext({ cart: updatedCart });
 	}
 
-	function onPurchaseHandler() {
-		window.alert("Thank you for your purchase!");
-
-		localStorage.removeItem("cart");
-		updateContext({ cart: [] });
-
-		navigate("/");
+	function onProceedToPurchaseHandler() {
+		navigate("/purchase");
 	}
 
 	return (
@@ -43,7 +38,7 @@ function CartPage() {
 			<Button
 				type="button"
 				disabled={!context.isLoggedIn}
-				onClick={onPurchaseHandler}
+				onClick={onProceedToPurchaseHandler}
 			>
 				Proceed to purchase
 			</Button>
