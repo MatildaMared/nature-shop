@@ -253,4 +253,44 @@ describe("Navbar component", () => {
 
 		expect(cartAmount).toBeInTheDocument();
 	});
+
+	it("displays an 'Account' link when user is logged in", () => {
+		const history = createMemoryHistory();
+
+		render(
+			<Router location={history.location} navigator={history}>
+				<Navbar
+					cart={[]}
+					isLoggedIn={true}
+					isAdmin={false}
+					updateContext={updateContextMock}
+				/>
+			</Router>
+		);
+
+		const link = screen.getByText(/Account/i);
+
+		expect(link).toBeInTheDocument();
+
+		userEvent.click(link);
+
+		expect(history.location.pathname).toBe("/account");
+	});
+
+	it("does not display an 'Account' link when user is not logged in", () => {
+		render(
+			<MemoryRouter>
+				<Navbar
+					cart={[]}
+					isLoggedIn={false}
+					isAdmin={false}
+					updateContext={updateContextMock}
+				/>
+			</MemoryRouter>
+		);
+
+		const link = screen.queryByText(/Account/i);
+
+		expect(link).not.toBeInTheDocument();
+	});
 });

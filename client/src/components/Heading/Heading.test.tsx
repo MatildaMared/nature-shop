@@ -11,7 +11,7 @@ describe("Heading component", () => {
 		expect(screen.getByRole("heading")).toBeInTheDocument();
 	});
 
-	it("displays the text provided", () => {
+	it("displays the correct text", () => {
 		const title = "Title";
 
 		render(<Heading>{title}</Heading>);
