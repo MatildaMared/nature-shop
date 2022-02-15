@@ -188,6 +188,7 @@ const Search = styled.section`
 	margin-bottom: 1rem;
 	width: fit-content;
 	min-width: 225px;
+	max-width: 225px;
 
 	& label {
 		position: absolute;

@@ -36,9 +36,12 @@ const userSchema = new mongoose.Schema({
 			required: [true, "Please enter a postal code"],
 		},
 	},
-	orders: {
-		type: Array,
-	},
+	orders: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Order",
+		},
+	],
 	role: {
 		type: String,
 		enum: ["user", "admin"],

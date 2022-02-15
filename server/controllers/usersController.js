@@ -48,6 +48,8 @@ async function loginUser(req, res, next) {
 			return next(new ErrorResponse("Invalid credentials", 401));
 		}
 
+		await user.populate("orders");
+
 		res.status(200).json({
 			success: true,
 			user,
@@ -68,6 +70,8 @@ async function getSingleUser(req, res, next) {
 		if (!user) {
 			return next(new ErrorResponse("User not found", 404));
 		}
+
+		await user.populate("orders");
 
 		res.status(200).json({
 			success: true,
@@ -95,16 +99,9 @@ async function updateUser(req, res, next) {
 		user.name = req.body.name || user.name;
 		user.email = req.body.email || user.email;
 		user.password = req.body.password || user.password;
-		user.cart = req.body.cart || user.cart;
 
 		if (req.body.address) {
 			user.address = { ...user.address, ...req.body.address };
-		}
-		if (req.body.orders) {
-			user.orders = [...user.orders, ...req.body.orders];
-		}
-		if (req.body.favorites) {
-			user.favorites = [...user.favorites, ...req.body.favorites];
 		}
 
 		const updatedUser = await user.save();
@@ -143,4 +140,10 @@ async function deleteUser(req, res, next) {
 	}
 }
 
-module.exports = { createUser, getSingleUser, updateUser, deleteUser, loginUser };
+module.exports = {
+	createUser,
+	getSingleUser,
+	updateUser,
+	deleteUser,
+	loginUser,
+};
