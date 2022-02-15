@@ -26,7 +26,11 @@ const dummyPoster = {
 describe("PosterCard component", () => {
 	it("renders properly", () => {
 		render(
-			<PosterCard poster={dummyPoster} onFavoriteClick={onFavoriteClickMock} favorites={[]} />
+			<PosterCard
+				poster={dummyPoster}
+				onFavoriteClick={onFavoriteClickMock}
+				favorites={[]}
+			/>
 		);
 	});
 
@@ -87,5 +91,50 @@ describe("PosterCard component", () => {
 		userEvent.click(card);
 
 		expect(mockedNavigator).toHaveBeenCalledWith(`/posters/${dummyPoster.id}`);
+	});
+
+	it("calls the onFavoriteClick function when user clicks the heart icon", () => {
+		render(
+			<PosterCard
+				poster={dummyPoster}
+				onFavoriteClick={onFavoriteClickMock}
+				favorites={[]}
+			/>
+		);
+
+		const likeButton = screen.getByRole("button");
+
+		userEvent.click(likeButton);
+
+		expect(onFavoriteClickMock).toHaveBeenCalledTimes(1);
+		expect(onFavoriteClickMock).toHaveBeenCalledWith(dummyPoster.id);
+	});
+
+	it("applies the correct css class if the poster has been marked as a favorite", () => {
+		render(
+			<PosterCard
+				poster={dummyPoster}
+				onFavoriteClick={onFavoriteClickMock}
+				favorites={[dummyPoster.id]}
+			/>
+		);
+
+		const likeButton = screen.getByRole("button");
+
+		expect(likeButton).toHaveClass("favorite");
+	});
+
+	it("does not apply the favorite css class if the poster is not markes as a favorite", () => {
+		render(
+			<PosterCard
+				poster={dummyPoster}
+				onFavoriteClick={onFavoriteClickMock}
+				favorites={[]}
+			/>
+		);
+
+		const likeButton = screen.getByRole("button");
+
+		expect(likeButton).not.toHaveClass("favorite");
 	});
 });
