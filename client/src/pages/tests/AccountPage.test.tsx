@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import AccountPage from "./AccountPage";
-import { UserContext } from "../context/UserContext";
+import AccountPage from "../AccountPage";
+import { UserContext } from "../../context/UserContext";
 
 const context = {};
 
@@ -17,6 +17,17 @@ const contextWithData = {
 			city: "Anytown",
 			postalCody: "123 45",
 		},
+		orders: [
+			{
+				id: "fdg4",
+				products: [
+					{
+						id: "sdje4",
+						title: "Product 1",
+					},
+				],
+			},
+		],
 	},
 };
 
