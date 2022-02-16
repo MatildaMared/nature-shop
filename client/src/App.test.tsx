@@ -1,11 +1,9 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import App from "./App";
 import { UserContext } from "./context/UserContext";
 
-const context = {
-	name: "Matilda",
-};
+const context = {};
 
 const updateContext = jest.fn();
 
@@ -18,5 +16,14 @@ describe("App component", () => {
 				<App />
 			</UserContext.Provider>
 		);
+	});
+
+	it("renders the correct title initially", () => {
+		render(
+			<UserContext.Provider value={dummyContext}>
+				<App />
+			</UserContext.Provider>
+		);
+		expect(screen.getByText("Posters")).toBeInTheDocument();
 	});
 });
