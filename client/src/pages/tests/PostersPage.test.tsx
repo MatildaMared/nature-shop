@@ -9,7 +9,7 @@ const updateContext = jest.fn();
 
 const dummyContext = [context, updateContext];
 
-describe("LoginPage component", () => {
+describe("PosterPage component", () => {
 	it("renders without crashing", () => {
 		render(
 			<UserContext.Provider value={dummyContext}>
