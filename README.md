@@ -42,7 +42,7 @@ Wild posters is a fictionary webshop that sells nature themed posters. 🌿 A gu
 
 8. As a user I would like to be able to log in so that I can make purchases.
 
-9 As a logged in user I would like to be able to log out so that I can leave my computer feeling safe about my personal data.
+9. As a logged in user I would like to be able to log out so that I can leave my computer feeling safe about my personal data.
 
 10. As a logged in user I would like to be able to place an order with the items in my cart so that I can buy the posters I want.
 
@@ -171,7 +171,7 @@ The header image is bought and licensed to me through https://www.istockphoto.co
 
 - [GitHub Profile](https://github.com/MatildaMared "MatildaMared")
 - [LinkedIn Profile](https://www.linkedin.com/in/matilda-mared "MatildaMared")
-- [Email](mailto:rohitjain19060@gmail.com?subject=Hi "Hi!")
+- [Email](mailto:matildamared@live.se "Hi!")
 
 ---
 
