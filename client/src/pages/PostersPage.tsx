@@ -186,9 +186,7 @@ const Search = styled.section`
 	position: relative;
 	margin-top: -1rem;
 	margin-bottom: 1rem;
-	width: fit-content;
-	min-width: 225px;
-	max-width: 225px;
+	width: 225px;
 
 	& label {
 		position: absolute;
@@ -204,6 +202,7 @@ const Search = styled.section`
 	}
 
 	& input {
+		max-width: 100%;
 		border-radius: 4px;
 		font: inherit;
 		padding: 16px;
@@ -221,6 +220,9 @@ const Search = styled.section`
 
 const Side = styled.section`
 	padding-top: 4rem;
+	width: 100%;
+	max-width: 225px;
+	padding-right: 2rem;
 
 	@media (max-width: 650px) {
 		padding: 2rem 0;

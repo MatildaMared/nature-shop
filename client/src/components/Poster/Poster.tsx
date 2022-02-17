@@ -3,7 +3,7 @@ import { Poster as PosterInterface } from "../../models/Poster";
 import styled from "styled-components";
 import Heading from "../Heading/Heading";
 import Button from "../Button/Button";
-import { ShoppingCart, Edit, XSquare } from "react-feather";
+import { ShoppingCart, Edit, XSquare, AlertOctagon } from "react-feather";
 import { NewCartItem } from "../../models/Cart";
 
 interface Props {
@@ -22,7 +22,7 @@ function Poster(props: Props) {
 
 	const [frameColor, setFrameColor] = useState<"black" | "white">("black");
 	const [passerPartout, setPasserPartout] = useState<boolean>(true);
-	const [amount, setAmount] = useState<number>(1);
+	const [amount, setAmount] = useState<number>(inStock > 0 ? 1 : 0);
 
 	function onAddToCart() {
 		const cartObj = {
@@ -118,17 +118,22 @@ function Poster(props: Props) {
 							onChange={(e) => setAmount(parseInt(e.target.value))}
 							name="amount"
 							id="amount"
-							min="1"
+							min="0"
 							max={inStock.toString()}
 						/>
 					</AmountWrapper>
 					<Total>
 						Total: <span>{price * amount}:-</span>
 					</Total>
-					<Button type="button" onClick={onAddToCart}>
+					<Button type="button" onClick={onAddToCart} disabled={inStock < 1}>
 						<ShoppingCart size={14} />
 						Add to cart
 					</Button>
+					{inStock < 1 && (
+						<Alert>
+							<AlertOctagon size={14} /> This product is out of stock
+						</Alert>
+					)}
 				</Content>
 			</ContentWrapper>
 			{isAdmin && (
